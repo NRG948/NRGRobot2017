@@ -1,5 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -22,4 +24,5 @@ public class RobotMap {
 	public static Victor motorFrontRight = new Victor(2);
 	public static Victor motorBackLeft = new Victor(3);
 	public static Victor motorBackRight = new Victor(4);
+	public static AHRSGyro driveGyro = new AHRSGyro();
 }
