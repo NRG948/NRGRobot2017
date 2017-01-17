@@ -37,8 +37,4 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	public static Victor motorFrontLeft = new Victor(1);
-	public static Victor motorFrontRight = new Victor(2);
-	public static Victor motorBackLeft = new Victor(3);
-	public static Victor motorBackRight = new Victor(4);
 }
