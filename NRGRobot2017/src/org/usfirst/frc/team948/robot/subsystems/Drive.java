@@ -10,6 +10,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Drive extends Subsystem implements PIDOutput {
 
+	public static final double driveP = 1;
+	public static final double driveI = 1;
+	public static final double driveD = 1;
+	public static final double turnP = 1;
+	public static final double turnI = 1;
+	public static final double turnD = 1;
+
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
