@@ -1,0 +1,8 @@
+*.class
+/bin/
+.classpath
+
+/build/*
+/dist/*
+*.prefs
+NRGRobot2017/.classpath
