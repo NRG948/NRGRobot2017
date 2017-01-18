@@ -41,5 +41,11 @@ public class Drive extends Subsystem implements PIDOutput {
 		// TODO Auto-generated method stub
 		
 	}
+	public void rawStop() {
+		RobotMap.motorFrontLeft.disable();
+		RobotMap.motorBackLeft.disable();
+		RobotMap.motorBackRight.disable();
+		RobotMap.motorFrontRight.disable();
+	}
 }
 
