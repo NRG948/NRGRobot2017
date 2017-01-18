@@ -6,6 +6,9 @@ import org.usfirst.frc.team948.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ManualDrive extends Command {
+	public ManualDrive(){
+		this.requires(Robot.drive);
+	}
 
 	@Override
 	protected boolean isFinished() {
@@ -17,12 +20,12 @@ public class ManualDrive extends Command {
 	protected void execute() {
 		double leftJoystick = Robot.oi.leftJoystick.getY();
 		double rightJoystick = Robot.oi.rightJoystick.getY();
+		Robot.drive.tankDrive(leftJoystick, rightJoystick);
 	}
 
 	@Override
 	protected void end() {
-		Drive.rawStop();
-		Drive.setDesiredHeadingFromGyro(); 
+		Robot.drive.stop();
 	}
 
 	@Override

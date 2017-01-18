@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.robot.commands.ManualDrive;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -13,10 +14,9 @@ public class Drive extends Subsystem {
     // here. Call these from Commands.
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ManualDrive());
     }
-    public void tankDrive(int leftPower, int rightPower){
+    public void tankDrive(double leftPower, double rightPower){
     	RobotMap.motorFrontLeft.set(leftPower);
     	RobotMap.motorFrontRight.set(rightPower*-1);
     	RobotMap.motorBackLeft.set(leftPower);
