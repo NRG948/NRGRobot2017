@@ -7,9 +7,12 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public enum PIDE {
-	turn("turn"),drive("drive");
+public class PIDE {
 	private PIDController controler;
+	private double PIDOutput = 0;
+	private double endValue;
+	private double prevError;
+	private double error;
 	private double p = 1;
 	private double i = 1;
 	private double d = 1;
@@ -23,7 +26,7 @@ public enum PIDE {
 	private PIDSource source;
 	private PIDOutput system;
 	
-	private PIDE(String S,double P,double I, double D, double C, double R){
+	public PIDE(String S,double P,double I, double D, double C, double R){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
 			system = Robot.drive;
@@ -41,7 +44,7 @@ public enum PIDE {
 		controler = new PIDController(p, i, d, source, system);
 	}
 	
-	private PIDE(String S,double P,double I, double D){
+	public PIDE(String S,double P,double I, double D){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
 			system = Robot.drive;
@@ -59,7 +62,7 @@ public enum PIDE {
 		controler = new PIDController(p, i, d, source, system);
 	}
 	
-	private PIDE(String S,double C,double R){
+	public PIDE(String S,double C,double R){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
 			system = Robot.drive;
@@ -77,7 +80,7 @@ public enum PIDE {
 		controler = new PIDController(p, i, d, source, system);
 	}
 	
-	private PIDE(String S){
+	public PIDE(String S){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
 			system = Robot.drive;
@@ -112,6 +115,31 @@ public enum PIDE {
 	
 	public PIDOutput getSystem(){
 		return system;
+	}
+	
+	public double PIDOut(){
+		return PIDOutput;
+	}
+	
+	public double targetValue(){
+		return endValue;
+	}
+	
+	public void setTargetValue(double value){
+		endValue = value;
+	}
+	
+	public double getPreviosError(){
+		return prevError;
+	}
+	
+	public double getError(){
+		return error;
+	}
+	
+	public void setError(double e){
+		prevError = error;
+		error = e;
 	}
 	
 	public void clean(){
