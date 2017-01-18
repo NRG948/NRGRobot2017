@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Drive extends Subsystem implements PIDOutput {
-	private static PIDController drivePID;
-	
+	private static PIDE sPIDE;
+	private static PIDController sPID;
+	public static double desiredAngle;
 	public static final double driveP = 1;
 	public static final double driveI = 1;
 	public static final double driveD = 1;
@@ -24,10 +25,19 @@ public class Drive extends Subsystem implements PIDOutput {
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	
+	public void initTurnPIDE(){
+		sPIDE = new PIDE("turn", turnP, turnI, turnD);
+		sPID = sPIDE.con();
+	}
+	
+	public void initDrivePIDE(){
+		sPIDE = new PIDE("drive", driveP, driveI, driveD);
+		sPID = sPIDE.con();
+	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        
     }
     public void tankDrive(int leftPower, int rightPower){
     	RobotMap.motorFrontLeft.set(leftPower);
