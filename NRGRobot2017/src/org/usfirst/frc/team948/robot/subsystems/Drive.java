@@ -22,5 +22,11 @@ public class Drive extends Subsystem {
     	RobotMap.motorBackLeft.set(leftPower);
     	RobotMap.motorBackRight.set(rightPower*-1);
     }
+    public void stop() {
+    	RobotMap.motorBackLeft.disable();
+    	RobotMap.motorBackRight.disable();
+    	RobotMap.motorFrontLeft.disable();
+    	RobotMap.motorFrontRight.disable();
+    }
 }
 
