@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -29,4 +30,7 @@ public class RobotMap {
 	public static Victor motorFrontRight = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorFrontRight, defualtmotorFrontRight));
 	public static Victor motorBackLeft = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorBackLeft, defualtmotorBackLeft));
 	public static Victor motorBackRight = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorBackRight, defualtmotorBackRight));
+	
+	//Change this to be the gyro class when done
+	public static Encoder driveGyro;
 }

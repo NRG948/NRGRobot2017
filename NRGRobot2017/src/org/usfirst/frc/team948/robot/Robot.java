@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team948.robot.subsystems.Drive;;
+import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.commands.ExampleCommand;
 import org.usfirst.frc.team948.robot.subsystems.ExampleSubsystem;
 
