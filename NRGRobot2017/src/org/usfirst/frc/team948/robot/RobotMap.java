@@ -1,8 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
-import org.usfirst.frc.team948.utilities.PreferenceKeys;
+import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -12,11 +11,6 @@ import edu.wpi.first.wpilibj.Victor;
  * floating around.
  */
 public class RobotMap {
-	
-	public static final int defualtmotorFrontLeft = 0;
-	public static final int defualtmotorFrontRight = 1;
-	public static final int defualtmotorBackLeft = 2;
-	public static final int defualtmotorBackRight = 3;
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
@@ -26,11 +20,9 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	public static Victor motorFrontLeft = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorFrontLeft, defualtmotorFrontLeft));
-	public static Victor motorFrontRight = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorFrontRight, defualtmotorFrontRight));
-	public static Victor motorBackLeft = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorBackLeft, defualtmotorBackLeft));
-	public static Victor motorBackRight = new Victor(Robot.preferences.getInt(PreferenceKeys.defualtmotorBackRight, defualtmotorBackRight));
-	
-	//Change this to be the gyro class when done
-	public static Encoder driveGyro;
+	public static Victor motorFrontLeft = new Victor(1);
+	public static Victor motorFrontRight = new Victor(2);
+	public static Victor motorBackLeft = new Victor(3);
+	public static Victor motorBackRight = new Victor(4);
+
 }

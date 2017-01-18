@@ -2,14 +2,14 @@
 package org.usfirst.frc.team948.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team948.robot.subsystems.Drive;
+
 import org.usfirst.frc.team948.robot.commands.ExampleCommand;
+import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.ExampleSubsystem;
 
 /**
@@ -23,8 +23,7 @@ public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
-	public static Drive drive = new Drive();
-	public static Preferences preferences = Preferences.getInstance();
+	public static final Drive drive = new Drive();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
