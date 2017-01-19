@@ -5,7 +5,6 @@ import org.usfirst.frc.team948.robot.RobotMap;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class PIDE {
 	private PIDController controler;
@@ -29,80 +28,68 @@ public class PIDE {
 	public PIDE(String S,double P,double I, double D, double C, double R){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
-			system = Robot.drive;
+			system = (PIDOutput) Robot.drive;
 		}
-		prefP = S + prefP;
-		prefI = S + prefI;
-		prefD = S + prefD;
-		prefC = S + prefC;
-		prefR = S + prefR;
+		stringSet(S);
 		p = Robot.preferences.getDouble(prefP, P);
 		i = Robot.preferences.getDouble(prefI, I);
 		d = Robot.preferences.getDouble(prefD, D);
 		c = Robot.preferences.getDouble(prefC, C);
 		r = Robot.preferences.getDouble(prefR, R);
 		controler = new PIDController(p, i, d, source, system);
+		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
 	}
 	
 	public PIDE(String S,double P,double I, double D){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
-			system = Robot.drive;
+			system = (PIDOutput) Robot.drive;
 		}
-		prefP = S + prefP;
-		prefI = S + prefI;
-		prefD = S + prefD;
-		prefC = S + prefC;
-		prefR = S + prefR;
+		stringSet(S);
 		p = Robot.preferences.getDouble(prefP, P);
 		i = Robot.preferences.getDouble(prefI, I);
 		d = Robot.preferences.getDouble(prefD, D);
 		c = Robot.preferences.getDouble(prefC, c);
 		r = Robot.preferences.getDouble(prefR, r);
 		controler = new PIDController(p, i, d, source, system);
+		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
 	}
 	
 	public PIDE(String S,double C,double R){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
-			system = Robot.drive;
+			system = (PIDOutput) Robot.drive;
 		}
-		prefP = S + prefP;
-		prefI = S + prefI;
-		prefD = S + prefD;
-		prefC = S + prefC;
-		prefR = S + prefR;
+		stringSet(S);
 		p = Robot.preferences.getDouble(prefP, p);
 		i = Robot.preferences.getDouble(prefI, i);
 		d = Robot.preferences.getDouble(prefD, d);
 		c = Robot.preferences.getDouble(prefC, C);
 		r = Robot.preferences.getDouble(prefR, R);
 		controler = new PIDController(p, i, d, source, system);
+		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
 	}
 	
 	public PIDE(String S){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
-			system = Robot.drive;
+			system = (PIDOutput) Robot.drive;
 		}
-		prefP = S + prefP;
-		prefI = S + prefI;
-		prefD = S + prefD;
-		prefC = S + prefC;
-		prefR = S + prefR;
+		stringSet(S);
 		p = Robot.preferences.getDouble(prefP, p);
 		i = Robot.preferences.getDouble(prefI, i);
 		d = Robot.preferences.getDouble(prefD, d);
 		c = Robot.preferences.getDouble(prefC, c);
 		r = Robot.preferences.getDouble(prefR, r);
 		controler = new PIDController(p, i, d, source, system);
-	}
-	
-	public PIDController set(){
-		controler.reset();
 		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
-		controler.enable();
-		return controler;
+	}
+	private void stringSet(String S){
+		prefP = S + prefP;
+		prefI = S + prefI;
+		prefD = S + prefD;
+		prefC = S + prefC;
+		prefR = S + prefR;
 	}
 	
 	public PIDController con(){
