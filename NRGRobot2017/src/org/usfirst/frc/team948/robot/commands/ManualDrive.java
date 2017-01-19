@@ -5,7 +5,7 @@ import org.usfirst.frc.team948.robot.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ManualDrive extends Command {
+public class ManualDrive extends CommandBase {
 	public ManualDrive(){
 		this.requires(Robot.drive);
 	}
