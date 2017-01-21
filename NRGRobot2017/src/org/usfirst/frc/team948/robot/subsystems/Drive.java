@@ -19,13 +19,13 @@ public class Drive extends Subsystem {
     public void initDefaultCommand() {
         setDefaultCommand(new ManualDrive());
     }
-    public void tankDrive(double leftPower, double rightPower){
+    public void rawTankDrive(double leftPower, double rightPower){
     	RobotMap.motorFrontLeft.set(leftPower);
     	RobotMap.motorFrontRight.set(-rightPower);
     	RobotMap.motorBackLeft.set(leftPower);
     	RobotMap.motorBackRight.set(-rightPower);
     }
-    public void stop() {
+    public void rawStop() {
     	RobotMap.motorBackLeft.disable();
     	RobotMap.motorBackRight.disable();
     	RobotMap.motorFrontLeft.disable();
