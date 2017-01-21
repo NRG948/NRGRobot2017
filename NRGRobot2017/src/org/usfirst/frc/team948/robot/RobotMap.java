@@ -1,10 +1,12 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.utilities.AHRSGyro;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
 
 /**
@@ -22,6 +24,8 @@ public class RobotMap {
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
 	// public static int rightMotor = 2;
+	
+	public static AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
@@ -32,6 +36,6 @@ public class RobotMap {
 	public static Victor motorBackLeft = new Victor(Robot.preferences.getInt(PreferenceKeys.motorBackLeft, defualtmotorBackLeft));
 	public static Victor motorBackRight = new Victor(Robot.preferences.getInt(PreferenceKeys.motorBackRight, defualtmotorBackRight));
 	
-	public static Encoder driveGyro;
+	public static AHRSGyro driveGyro;
 
 }
