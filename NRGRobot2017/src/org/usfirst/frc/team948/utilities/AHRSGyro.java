@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 public class AHRSGyro extends GyroBase implements PIDSource, Gyro, LiveWindowSendable {
 
 	private static AHRS ahrs = RobotMap.ahrs;
-	private static double prevAngle = 0;
-	private static int rots = 0;
+	private double prevAngle = 0;
+	private int rots = 0;
 	
 	@Override
 	public void calibrate() {
@@ -25,7 +25,9 @@ public class AHRSGyro extends GyroBase implements PIDSource, Gyro, LiveWindowSen
 	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
-		
+		ahrs.zeroYaw();
+		prevAngle = 0;
+		rots = 0;
 	}
 
 	@Override
