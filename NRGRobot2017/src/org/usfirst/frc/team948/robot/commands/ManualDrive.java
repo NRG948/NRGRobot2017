@@ -20,12 +20,12 @@ public class ManualDrive extends CommandBase {
 	protected void execute() {
 		double leftJoystick = Robot.oi.leftJoystick.getY();
 		double rightJoystick = Robot.oi.rightJoystick.getY();
-		Robot.drive.tankDrive(leftJoystick, rightJoystick);
+		Robot.drive.rawTankDrive(leftJoystick, rightJoystick);
 	}
 
 	@Override
 	protected void end() {
-		Robot.drive.stop();
+		Robot.drive.rawStop();
 	}
 
 	@Override

@@ -41,5 +41,9 @@ public class Drive extends Subsystem {
        	sPIDE = new PIDE("drive");
     	sPID = sPIDE.con();
     }
+	public void setHeading(double heading) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
