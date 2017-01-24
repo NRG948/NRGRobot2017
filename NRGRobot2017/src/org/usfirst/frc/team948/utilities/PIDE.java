@@ -15,17 +15,15 @@ public class PIDE {
 	private double p = 1;
 	private double i = 1;
 	private double d = 1;
-	private double c = 0;
 	private double r = 2;
 	private String prefP = "P";
 	private String prefI = "I";
 	private String prefD = "D";
-	private String prefC = "C";
 	private String prefR = "R";
 	private PIDSource source;
 	private PIDOutput system;
 	
-	public PIDE(String S,double P,double I, double D, double C, double R){
+	public PIDE(String S,double P,double I, double D, double R){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
 			system = (PIDOutput) Robot.drive;
@@ -34,10 +32,9 @@ public class PIDE {
 		p = Robot.preferences.getDouble(prefP, P);
 		i = Robot.preferences.getDouble(prefI, I);
 		d = Robot.preferences.getDouble(prefD, D);
-		c = Robot.preferences.getDouble(prefC, C);
 		r = Robot.preferences.getDouble(prefR, R);
 		controler = new PIDController(p, i, d, source, system);
-		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
+		controler.setOutputRange(-Math.abs(r),Math.abs(r));
 	}
 	
 	public PIDE(String S,double P,double I, double D){
@@ -49,13 +46,12 @@ public class PIDE {
 		p = Robot.preferences.getDouble(prefP, P);
 		i = Robot.preferences.getDouble(prefI, I);
 		d = Robot.preferences.getDouble(prefD, D);
-		c = Robot.preferences.getDouble(prefC, c);
 		r = Robot.preferences.getDouble(prefR, r);
 		controler = new PIDController(p, i, d, source, system);
-		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
+		controler.setOutputRange(-Math.abs(r),Math.abs(r));
 	}
 	
-	public PIDE(String S,double C,double R){
+	public PIDE(String S,double R){
 		if(S.equals("turn") || S.equals("drive")){
 			source = (PIDSource) RobotMap.driveGyro;
 			system = (PIDOutput) Robot.drive;
@@ -64,10 +60,9 @@ public class PIDE {
 		p = Robot.preferences.getDouble(prefP, p);
 		i = Robot.preferences.getDouble(prefI, i);
 		d = Robot.preferences.getDouble(prefD, d);
-		c = Robot.preferences.getDouble(prefC, C);
 		r = Robot.preferences.getDouble(prefR, R);
 		controler = new PIDController(p, i, d, source, system);
-		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
+		controler.setOutputRange(-Math.abs(r),Math.abs(r));
 	}
 	
 	public PIDE(String S){
@@ -79,16 +74,14 @@ public class PIDE {
 		p = Robot.preferences.getDouble(prefP, p);
 		i = Robot.preferences.getDouble(prefI, i);
 		d = Robot.preferences.getDouble(prefD, d);
-		c = Robot.preferences.getDouble(prefC, c);
 		r = Robot.preferences.getDouble(prefR, r);
 		controler = new PIDController(p, i, d, source, system);
-		controler.setOutputRange(c-Math.abs(r),c+Math.abs(r));
+		controler.setOutputRange(Math.abs(r),Math.abs(r));
 	}
 	private void stringSet(String S){
 		prefP = S + prefP;
 		prefI = S + prefI;
 		prefD = S + prefD;
-		prefC = S + prefC;
 		prefR = S + prefR;
 	}
 	
