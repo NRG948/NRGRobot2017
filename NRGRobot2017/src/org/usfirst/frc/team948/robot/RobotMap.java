@@ -1,11 +1,8 @@
 package org.usfirst.frc.team948.robot;
 
-import org.usfirst.frc.team948.utilities.AHRSGyro;
-import org.usfirst.frc.team948.utilities.PreferenceKeys;
-
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -16,26 +13,29 @@ import edu.wpi.first.wpilibj.Victor;
  * floating around.
  */
 public class RobotMap {
-	private static int defualtmotorFrontLeft = 0;
-	private static int defualtmotorFrontRight = 1;
-	private static int defualtmotorBackLeft = 2;
-	private static int defualtmotorBackRight = 3;
+
+	public static final double STRAIGHT_KP = 0.06;
+	public static final double STRAIGHT_KI = 0.003;
+	public static final double STRAIGHT_KD = 0.3;
+
+	// table of values to store on the roborio and possibly modify on the
+	// smartdashboard
+	public static Preferences prefs = Preferences.getInstance();
+
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
 	// public static int rightMotor = 2;
-	
-	public static AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	public static Victor motorFrontLeft = new Victor(Robot.preferences.getInt(PreferenceKeys.motorFrontLeft, defualtmotorFrontLeft));
-	public static Victor motorFrontRight = new Victor(Robot.preferences.getInt(PreferenceKeys.motorFrontRight, defualtmotorFrontRight));
-	public static Victor motorBackLeft = new Victor(Robot.preferences.getInt(PreferenceKeys.motorBackLeft, defualtmotorBackLeft));
-	public static Victor motorBackRight = new Victor(Robot.preferences.getInt(PreferenceKeys.motorBackRight, defualtmotorBackRight));
-	
-	public static AHRSGyro driveGyro;
+	public static Victor motorFrontLeft = new Victor(2);
+	public static Victor motorFrontRight = new Victor(0);
+	public static Victor motorBackLeft = new Victor(3);
+	public static Victor motorBackRight = new Victor(1);
+
+	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 
 }

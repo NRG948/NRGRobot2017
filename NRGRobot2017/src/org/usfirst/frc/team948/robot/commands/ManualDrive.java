@@ -5,8 +5,8 @@ import org.usfirst.frc.team948.robot.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ManualDrive extends CommandBase {
-	public ManualDrive(){
+public class ManualDrive extends Command {
+	public ManualDrive() {
 		this.requires(Robot.drive);
 	}
 
@@ -20,18 +20,23 @@ public class ManualDrive extends CommandBase {
 	protected void execute() {
 		double leftJoystick = Robot.oi.leftJoystick.getY();
 		double rightJoystick = Robot.oi.rightJoystick.getY();
-		Robot.drive.rawTankDrive(leftJoystick, rightJoystick);
+		Robot.drive.tankDrive(leftJoystick, rightJoystick);
 	}
 
 	@Override
 	protected void end() {
-		Robot.drive.rawStop();
+		Robot.drive.stop();
 	}
 
 	@Override
 	protected void interrupted() {
 		end();
 	}
-	
+
+	@Override
+	protected void initialize() {
+		// TODO Auto-generated method stub
+
+	}
 
 }
