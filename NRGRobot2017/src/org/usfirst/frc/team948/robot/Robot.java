@@ -22,7 +22,6 @@ import org.usfirst.frc.team948.robot.subsystems.ExampleSubsystem;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static Preferences preferences = Preferences.getInstance();
 	public static final Drive drive = new Drive();
