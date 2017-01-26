@@ -36,12 +36,20 @@ public class Drive extends Subsystem implements PIDOutput {
 	public void driveOnHeading(double power) {
 		// go straight but correct with the pidOutput
 		// given the pid output, rotate accordingly
+		double pFL = power - pidOutput;
+		double pFR = power + pidOutput;
+		double pBL = power + pidOutput;
+		double pBR = power - pidOutput;
 		double pL = power + pidOutput;
 		double pR = power - pidOutput;
 		double error = RobotMap.navx.getAngle() - drivePID.getSetpoint();
 		SmartDashboard.putNumber("heading error", error);
 		SmartDashboard.putNumber("Pid output", pidOutput);
 		SmartDashboard.putNumber("power straight drive", power);
+		RobotMap.motorFrontLeft.set(pFL);
+		RobotMap.motorFrontRight.set(pFR * -1);
+		RobotMap.motorBackLeft.set(pBL);
+		RobotMap.motorBackRight.set(pBR * -1);
 		tankDrive(pL, pR);
 	}
 
