@@ -1,4 +1,5 @@
 package org.usfirst.frc.team948.robot.commands;
+import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 
@@ -18,7 +19,7 @@ public class ManualDriveStraight extends Command{
 	
 	@Override 
 	protected void execute(){
-		Robot.drive.driveOnHeading(Robot.oi.leftJoystick.getY());
+		Robot.drive.driveOnHeading(OI.leftJoystick.getY());
 	}
 	
 	@Override

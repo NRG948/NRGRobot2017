@@ -1,5 +1,8 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
+import org.usfirst.frc.team948.robot.commands.ShiftGears;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -35,9 +38,15 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	public Joystick leftJoystick = new Joystick(1);
-	public Joystick rightJoystick = new Joystick(2);
-	
-	public JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1); 
-	
+	public static Joystick leftJoystick = new Joystick(1);
+	public static Joystick rightJoystick = new Joystick(2);
+
+	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
+	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
+
+	public static void buttonInit() {
+		leftTrigger.whileHeld(new ManualDriveStraight());
+		rightTrigger.whileHeld(new ShiftGears(true));
+		rightTrigger.whenReleased(new ShiftGears(false));
+	}
 }
