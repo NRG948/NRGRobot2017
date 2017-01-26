@@ -2,6 +2,8 @@ package org.usfirst.frc.team948.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
@@ -37,5 +39,9 @@ public class RobotMap {
 	public static Victor motorBackRight = new Victor(1);
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
+	
+	public static DoubleSolenoid solenoid = new DoubleSolenoid(1, 0);
+	public static Compressor compressor = new Compressor(1);
+	
 
 }

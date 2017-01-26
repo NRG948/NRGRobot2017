@@ -14,7 +14,7 @@ public class ManualDriveStraight extends Command{
 	@Override 
 	protected void initialize() {
 		Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle());
-	}
+	} 
 	
 	@Override 
 	protected void execute(){
