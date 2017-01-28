@@ -33,9 +33,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit(double heading) {
-		double kp = RobotMap.prefs.getDouble("Heading_P", RobotMap.STRAIGHT_KP);
-		double ki = RobotMap.prefs.getDouble("Heading_I", RobotMap.STRAIGHT_KI);
-		double kd = RobotMap.prefs.getDouble("Heading_D", RobotMap.STRAIGHT_KD);
+		double kp = RobotMap.prefs.getDouble("Heading_P", 0.06);
+		double ki = RobotMap.prefs.getDouble("Heading_I", 0.003);
+		double kd = RobotMap.prefs.getDouble("Heading_D", 0.3);
 		SmartDashboard.putString("kp, ki, kd", kp + ", " + ki + ", " + kd);
 		drivePID = new PIDController(kp, ki, kd, RobotMap.navx, this);
 		drivePID.setSetpoint(heading);
@@ -84,9 +84,9 @@ public class Drive extends Subsystem implements PIDOutput {
 		RobotMap.motorFrontRight.disable();
 	}
 	public void turnToHeadingInit(){
-		double tP = RobotMap.prefs.getDouble("Turn P",RobotMap.TURN_P );
-		double tI = RobotMap.prefs.getDouble("Turn I", RobotMap.TURN_I);
-		double tD = RobotMap.prefs.getDouble("Turn D", RobotMap.TURN_D);
+		double tP = RobotMap.prefs.getDouble("Turn P", 0);
+		double tI = RobotMap.prefs.getDouble("Turn I", 0);
+		double tD = RobotMap.prefs.getDouble("Turn D", 0);
 		turnPID = new PIDController(tP,tI,tD, (PIDSource)RobotMap.gyro,this);
 		turnPID.setSetpoint(desiredHeading);
 		turnPID.setAbsoluteTolerance(tolerance);
