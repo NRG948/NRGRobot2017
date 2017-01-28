@@ -20,7 +20,6 @@ public class ManualDriveStraight extends Command{
 	@Override 
 	protected void execute(){
 		Robot.drive.driveOnHeading(OI.leftJoystick.getY());
-		Robot.drive.driveOnHeading(OI.rightJoystick.getY());
 	}
 	
 	@Override

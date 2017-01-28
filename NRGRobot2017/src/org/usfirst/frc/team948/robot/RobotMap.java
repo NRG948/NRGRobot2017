@@ -20,9 +20,9 @@ public class RobotMap {
 	// public static final double STRAIGHT_KP = 0.06;
 	// public static final double STRAIGHT_KI = 0.003;
 	// public static final double STRAIGHT_KD = 0.3;
-	// public static final double 	TURN_P;
-	// public static final double TURN_I;
-	// public static final double TURN_D;
+//	 public static final double TURN_P;
+//	 public static final double TURN_I;
+//	 public static final double TURN_D;
 
 	// table of values to store on the roborio and possibly modify on the
 	// smartdashboard
