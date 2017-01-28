@@ -119,5 +119,6 @@ public class Robot extends IterativeRobot {
 
 	public void periodicAll() {
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getAngle());
+		SmartDashboard.putNumber("right meme", OI.rightJoystick.);
 	}
 }
