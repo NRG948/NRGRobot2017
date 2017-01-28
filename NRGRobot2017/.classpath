@@ -15,5 +15,6 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/NRG948/navx-mxp/java/docs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
