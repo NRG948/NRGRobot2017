@@ -101,7 +101,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	public void turnToHeading(int desiredHeading,double power){
 		periodic.teleopPeriodic();
 		double currentError = turnPID.getError();
-		SmartDashboard.putNumber("TurnPID ouput", PIDOutput );
+		SmartDashboard.putNumber("TurnPID ouput", pidOutput );
 		
 	}
 	public void turnToHeadingEnd(){
