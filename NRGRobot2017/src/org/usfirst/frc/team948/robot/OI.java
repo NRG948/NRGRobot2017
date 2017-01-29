@@ -45,7 +45,7 @@ public class OI {
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
 	public static void buttonInit() {
-		leftTrigger.whileHeld(new ManualDriveStraight());
+		//leftTrigger.whileHeld(new ManualDriveStraight());
 		rightTrigger.whileHeld(new ShiftGears(true));
 		rightTrigger.whenReleased(new ShiftGears(false));
 	}
