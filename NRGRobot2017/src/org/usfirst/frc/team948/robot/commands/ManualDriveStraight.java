@@ -5,19 +5,21 @@ import org.usfirst.frc.team948.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ManualDriveStraight extends CommandBase {
+public class ManualDriveStraight extends Command{
+	
+	
 	public ManualDriveStraight() {
-		requires(drive);
+		requires(Robot.drive);
 	}
 
 	@Override 
 	protected void initialize() {
-		drive.driveOnHeadingInit(RobotMap.navx.getAngle());
+		Robot.drive.driveOnHeadingInit(RobotMap.navx.getAngle());
 	} 
 	
 	@Override 
 	protected void execute(){
-		drive.driveOnHeading(OI.leftJoystick.getY());
+		Robot.drive.driveOnHeading(OI.leftJoystick.getY());
 	}
 	
 	@Override
