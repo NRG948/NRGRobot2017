@@ -56,8 +56,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		SmartDashboard.putNumber("power straight drive", power);
 		SmartDashboard.putNumber("power left", pL);
 		SmartDashboard.putNumber("power right", pR);
-		SmartDashboard.putNumber("Left Drive Straight output", pL);
-		SmartDashboard.putNumber("Right Drive Straight output", pR);
+		SmartDashboard.putNumber("Left Drive on heading output", pL);
+		SmartDashboard.putNumber("Right Drive on heading output", pR);
 	
 		tankDrive(pL, pR);
 	}
