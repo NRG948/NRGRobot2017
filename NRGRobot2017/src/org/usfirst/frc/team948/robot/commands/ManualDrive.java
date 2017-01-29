@@ -5,9 +5,9 @@ import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ManualDrive extends Command {
+public class ManualDrive extends CommandBase {
 	public ManualDrive() {
-		this.requires(Robot.drive);
+		this.requires(drive);
 	}
 
 	@Override
