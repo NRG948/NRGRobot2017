@@ -1,5 +1,6 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 
@@ -45,7 +46,8 @@ public class OI {
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
 	public static void buttonInit() {
-		//leftTrigger.whileHeld(new ManualDriveStraight());
+		leftTrigger.whileHeld(new ManualDriveStraight());
+		leftTrigger.whenReleased(new ManualDrive());
 		rightTrigger.whileHeld(new ShiftGears(true));
 		rightTrigger.whenReleased(new ShiftGears(false));
 	}

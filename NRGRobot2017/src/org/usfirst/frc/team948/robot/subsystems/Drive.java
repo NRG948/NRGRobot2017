@@ -2,7 +2,7 @@ package org.usfirst.frc.team948.robot.subsystems;
 
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
-import org.usfirst.frc.team948.utilities.PreferenceKeys;
+import org.usfirst.frc.team948.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
@@ -17,59 +17,79 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive extends Subsystem implements PIDOutput {
 
 	private PIDController drivePID;
-	private double pidOutput;
+	private double PIDOutput;
 	private PIDController turnPID;
 	public IterativeRobot periodic = new IterativeRobot();
 	private double desiredHeading;
 	private double tolerance;
 	private int prevError;
 	private int counter;
-	
-	
+
+	private final double PID_MIN_OUTPUT = 0.05;
+	private final double PID_MAX_OUTPUT = 0.5;
+
+	public void initDefaultCommand() {
+		setDefaultCommand(new ManualDrive());
+	}
 
 	@Override
 	public void pidWrite(double output) {
-		pidOutput = output;
+		PIDOutput = output;
+	}
+
+	public double drivePIDInit(double p, double i, double d) {
+		drivePID = new PIDController(p, i, d, RobotMap.navx, this);
+		drivePID.reset();
+		drivePID.setOutputRange(-0.5, 0.5);
+		PIDOutput = 0;
+		drivePID.enable();
+		return RobotMap.navx.getAngle();
 	}
 
 	public void driveOnHeadingInit(double heading) {
 		double kp = RobotMap.prefs.getDouble("Heading_P", 0.06);
 		double ki = RobotMap.prefs.getDouble("Heading_I", 0.003);
 		double kd = RobotMap.prefs.getDouble("Heading_D", 0.3);
-		SmartDashboard.putString("kp, ki, kd", kp + ", " + ki + ", " + kd);
-		drivePID = new PIDController(kp, ki, kd, RobotMap.navx, this);
+		drivePIDInit(kp, ki, kd);
 		drivePID.setSetpoint(heading);
-		drivePID.setOutputRange(-0.5, 0.5);
-		drivePID.enable();
-		SmartDashboard.putNumber("set point ", drivePID.getSetpoint());
+
+		SmartDashboard.putString("kp, ki, kd", kp + ", " + ki + ", " + kd);
+		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
 	}
 
-	public void driveOnHeading(double power) {
+	public void driveOnHeading(double power, double heading) {
 		// go straight but correct with the pidOutput
 		// given the pid output, rotate accordingly
-		double pL = power + pidOutput;
-		double pR = power - pidOutput;
-		double error = RobotMap.navx.getAngle() - drivePID.getSetpoint();
-		SmartDashboard.putNumber("heading error", error);
-		SmartDashboard.putNumber("pid heading error", drivePID.getError());
-		SmartDashboard.putNumber("Pid output", pidOutput);
-		SmartDashboard.putNumber("power straight drive", power);
-		SmartDashboard.putNumber("power left", pL);
-		SmartDashboard.putNumber("power right", pR);
+		drivePID.setSetpoint(heading);
+		double error = drivePID.getSetpoint() - RobotMap.navx.getAngle();
+		double outputRange = MathUtil.clampM(
+				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
+		drivePID.setOutputRange(-outputRange, outputRange);
+		double currentPIDOutput = MathUtil.clampM(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
+		SmartDashboard.putNumber("Pid output", PIDOutput);
+		SmartDashboard.putNumber("driveOnHeading error", error);
+		double pL = power;
+		double pR = power;
+
+		if (currentPIDOutput > 0) {
+			pR -= currentPIDOutput;
+		} else {
+			pL += currentPIDOutput;
+		}
+
+		SmartDashboard.putNumber("Left Drive Straight output", pL);
+		SmartDashboard.putNumber("Right Drive Straight output", pR);
 		tankDrive(pL, pR);
 	}
 
 	public void driveOnHeadingEnd() {
 		drivePID.reset();
 		drivePID.free();
-		pidOutput = 0;
+		PIDOutput = 0;
 		stop();
 	}
 
-	public void initDefaultCommand() {
-		setDefaultCommand(new ManualDrive());
-	}
-
+	// turning in progress
 	public void tankDrive(double leftPower, double rightPower) {
 		RobotMap.motorFrontLeft.set(-leftPower);
 		RobotMap.motorBackLeft.set(-leftPower);
@@ -83,28 +103,27 @@ public class Drive extends Subsystem implements PIDOutput {
 		RobotMap.motorBackRight.disable();
 		RobotMap.motorFrontRight.disable();
 	}
-	public void turnToHeadingInit(){
+
+	public void turnToHeadingInit() {
 		double tP = RobotMap.prefs.getDouble("Turn P", 0);
 		double tI = RobotMap.prefs.getDouble("Turn I", 0);
 		double tD = RobotMap.prefs.getDouble("Turn D", 0);
-		turnPID = new PIDController(tP,tI,tD, (PIDSource)RobotMap.gyro,this);
+		turnPID = new PIDController(tP, tI, tD, (PIDSource) RobotMap.gyro, this);
 		turnPID.setSetpoint(desiredHeading);
 		turnPID.setAbsoluteTolerance(tolerance);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
 		prevError = 0;
 		counter = 0;
-		
-		
-		
-		
 	}
-	public void turnToHeading(int desiredHeading,double power){
+
+	public void turnToHeading(int desiredHeading, double power) {
 		periodic.teleopPeriodic();
 		double currentError = turnPID.getError();
-		SmartDashboard.putNumber("TurnPID ouput", pidOutput );
-		
+		SmartDashboard.putNumber("TurnPID ouput", PIDOutput);
+
 	}
-	public void turnToHeadingEnd(){
+
+	public void turnToHeadingEnd() {
 		turnPID.reset();
 		stop();
 	}
