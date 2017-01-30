@@ -16,3 +16,6 @@ Welcome to the NRG 948 repository for our 2017 competition bot.
 * **If you're not on our team:**
   
   * Check out the [Wiki](https://github.com/NRG948/NRGRobot2017/wiki)!
+  
+  Mentors this year: Paul Davis, Ed Reed and Francois Lepeintre
+  Leadership: Mayank Motukuri, Chuwei Guo, Tejas Rangole, Avi Glozman and DJ Wadhwa
