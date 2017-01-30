@@ -123,5 +123,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getAngle());
 		SmartDashboard.putNumber("right joystick angle", OI.rightJoystick.getDirectionDegrees());
 		SmartDashboard.putNumber("right joystick throttle", OI.rightJoystick.getThrottle());
+		
 	}
 }

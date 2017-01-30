@@ -51,4 +51,5 @@ public class OI {
 		rightTrigger.whileHeld(new ShiftGears(true));
 		rightTrigger.whenReleased(new ShiftGears(false));
 	}
+	
 }

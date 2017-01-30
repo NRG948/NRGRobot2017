@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -49,12 +50,15 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit() {
-		double kp = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.06);
-		double ki = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.003);
-		double kd = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.3);
-		drivePIDInit(kp, ki, kd);
+		//double kp = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.025);
+		//double ki = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.01);
+		//double kd = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.02);
+		drivePIDInit(0.025, 0.01, 0.02);
 
-		SmartDashboard.putString("kp, ki, kd", kp + ", " + ki + ", " + kd);
+		//SmartDashboard.putNumber("kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
+		SmartDashboard.putNumber("kp", drivePID.getP());
+		SmartDashboard.putNumber("ki", drivePID.getI());
+		SmartDashboard.putNumber("kd", drivePID.getD());
 		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
 	}
 
