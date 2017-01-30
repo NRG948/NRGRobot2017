@@ -44,7 +44,8 @@ public class RobotMap {
 	public static int gyroChannel;
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
-	public static AnalogGyro gyro = new AnalogGyro(gyroChannel);
+	
+	
 	
 	public static DoubleSolenoid solenoid = new DoubleSolenoid(1, 0);
 	public static Compressor compressor = new Compressor(1);
