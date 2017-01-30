@@ -26,8 +26,6 @@ public class RobotMap {
 
 	// table of values to store on the roborio and possibly modify on the
 	// smartdashboard
-	public static Preferences prefs = Preferences.getInstance();
-
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;

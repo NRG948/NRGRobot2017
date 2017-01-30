@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.robot.commands.CommandBase;
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
@@ -48,9 +49,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit() {
-		double kp = RobotMap.prefs.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.06);
-		double ki = RobotMap.prefs.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.003);
-		double kd = RobotMap.prefs.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.3);
+		double kp = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.06);
+		double ki = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.003);
+		double kd = CommandBase.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.3);
 		drivePIDInit(kp, ki, kd);
 
 		SmartDashboard.putString("kp, ki, kd", kp + ", " + ki + ", " + kd);
@@ -105,9 +106,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void turnToHeadingInit() {
-		double tP = RobotMap.prefs.getDouble(PreferenceKeys.turnP, 0);
-		double tI = RobotMap.prefs.getDouble(PreferenceKeys.turnI, 0);
-		double tD = RobotMap.prefs.getDouble(PreferenceKeys.turnD, 0);
+		double tP = CommandBase.preferences.getDouble(PreferenceKeys.turnP, 0);
+		double tI = CommandBase.preferences.getDouble(PreferenceKeys.turnI, 0);
+		double tD = CommandBase.preferences.getDouble(PreferenceKeys.turnD, 0);
 		turnPID = new PIDController(tP, tI, tD, (PIDSource) RobotMap.gyro, this);
 		turnPID.setSetpoint(desiredHeading);
 		turnPID.setAbsoluteTolerance(tolerance);
