@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
@@ -41,6 +42,8 @@ public class RobotMap {
 	public static Victor motorFrontRight = new Victor(0);
 	public static Victor motorBackLeft = new Victor(3);
 	public static Victor motorBackRight = new Victor(1);
+	public static Encoder leftEncoder = new Encoder(0,1);
+	public static Encoder rightEncoder = new Encoder(2,3);
 	public static LiveWindowSendable gyroChannel;
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
@@ -56,6 +59,8 @@ public class RobotMap {
 		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Left Victor",(Victor) motorBackLeft);
 		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Right Victor",(Victor) motorBackRight);
 		
+		LiveWindow.addSensor("Drive Substem", "leftDriveEncoder", leftEncoder);
+		LiveWindow.addSensor("Drive Subsystem", "rightDriveEncoder", rightEncoder);
 		LiveWindow.addSensor("Drive Subsystem", "Gyro Channel", (LiveWindowSendable) gyroChannel);
 	}
 

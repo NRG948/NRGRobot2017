@@ -113,7 +113,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		double tP = CommandBase.preferences.getDouble(PreferenceKeys.turnP, 0);
 		double tI = CommandBase.preferences.getDouble(PreferenceKeys.turnI, 0);
 		double tD = CommandBase.preferences.getDouble(PreferenceKeys.turnD, 0);
-		turnPID = new PIDController(tP, tI, tD, (PIDSource) RobotMap.gyro, this);
+		turnPID = new PIDController(tP, tI, tD, RobotMap.navx, this);
 		turnPID.setSetpoint(desiredHeading);
 		turnPID.setAbsoluteTolerance(tolerance);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
