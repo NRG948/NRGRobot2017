@@ -22,7 +22,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private PIDController drivePID;
 	private double PIDOutput;
 	private PIDController turnPID;
-	public IterativeRobot periodic = new IterativeRobot();
+//	public IterativeRobot periodic = new IterativeRobot();
 	private double desiredHeading;
 	private double tolerance;
 	private int prevError;
@@ -122,7 +122,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void turnToHeading(int desiredHeading, double power) {
-		periodic.teleopPeriodic();
+//		periodic.teleopPeriodic();
 		double currentError = turnPID.getError();
 		SmartDashboard.putNumber("TurnPID ouput", PIDOutput);
 
