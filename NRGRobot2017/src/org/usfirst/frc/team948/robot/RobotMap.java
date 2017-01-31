@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -39,7 +41,7 @@ public class RobotMap {
 	public static Victor motorFrontRight = new Victor(0);
 	public static Victor motorBackLeft = new Victor(3);
 	public static Victor motorBackRight = new Victor(1);
-	public static int gyroChannel;
+	public static LiveWindowSendable gyroChannel;
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	
@@ -48,5 +50,13 @@ public class RobotMap {
 	public static DoubleSolenoid solenoid = new DoubleSolenoid(1, 0);
 	public static Compressor compressor = new Compressor(1);
 	
+	public static void init() {
+		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Front Left Victor",(Victor) motorFrontLeft);
+		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Front Right Victor",(Victor) motorFrontRight);
+		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Left Victor",(Victor) motorBackLeft);
+		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Right Victor",(Victor) motorBackRight);
+		
+		LiveWindow.addSensor("Drive Subsystem", "", gyroChannel);
+	}
 
 }
