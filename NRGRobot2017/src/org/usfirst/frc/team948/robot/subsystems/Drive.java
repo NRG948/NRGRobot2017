@@ -21,7 +21,6 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private PIDController drivePID;
 	private double PIDOutput;
-	private PIDController turnPID;
 //	public IterativeRobot periodic = new IterativeRobot();
 	private double desiredHeading;
 	private double tolerance;
@@ -113,9 +112,9 @@ public class Drive extends Subsystem implements PIDOutput {
 		double tP = CommandBase.preferences.getDouble(PreferenceKeys.turnP, 0);
 		double tI = CommandBase.preferences.getDouble(PreferenceKeys.turnI, 0);
 		double tD = CommandBase.preferences.getDouble(PreferenceKeys.turnD, 0);
-		turnPID = new PIDController(tP, tI, tD, RobotMap.navx, this);
-		turnPID.setSetpoint(desiredHeading);
-		turnPID.setAbsoluteTolerance(tolerance);
+		drivePID = new PIDController(tP, tI, tD, RobotMap.navx, this);
+		drivePID.setSetpoint(desiredHeading);
+		drivePID.setAbsoluteTolerance(tolerance);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
 		prevError = 0;
 		counter = 0;
@@ -123,13 +122,13 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void turnToHeading(int desiredHeading, double power) {
 //		periodic.teleopPeriodic();
-		double currentError = turnPID.getError();
+		double currentError = drivePID.getError();
 		SmartDashboard.putNumber("TurnPID ouput", PIDOutput);
 
 	}
 
 	public void turnToHeadingEnd() {
-		turnPID.reset();
+		drivePID.reset();
 		stop();
 	}
 }
