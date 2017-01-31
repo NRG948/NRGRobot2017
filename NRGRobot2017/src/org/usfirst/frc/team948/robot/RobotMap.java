@@ -56,7 +56,7 @@ public class RobotMap {
 		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Left Victor",(Victor) motorBackLeft);
 		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Right Victor",(Victor) motorBackRight);
 		
-		LiveWindow.addSensor("Drive Subsystem", "", gyroChannel);
+		LiveWindow.addSensor("Drive Subsystem", "Gyro Channel", (LiveWindowSendable) gyroChannel);
 	}
 
 }
