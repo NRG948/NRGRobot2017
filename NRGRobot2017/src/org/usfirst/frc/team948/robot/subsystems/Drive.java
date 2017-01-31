@@ -124,7 +124,7 @@ public class Drive extends Subsystem implements PIDOutput {
 //		periodic.teleopPeriodic();
 		double currentError = drivePID.getError();
 		SmartDashboard.putNumber("TurnPID ouput", PIDOutput);
-
+		tankDrive(MathUtil.clampM(currentError, -1.0, 1.0),-MathUtil.clampM(currentError, -1.0, 1.0));
 	}
 
 	public void turnToHeadingEnd() {
