@@ -41,7 +41,6 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	public static Joystick leftJoystick = new Joystick(1);
 	public static Joystick rightJoystick = new Joystick(2);
-
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
