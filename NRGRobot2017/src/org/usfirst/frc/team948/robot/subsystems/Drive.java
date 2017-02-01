@@ -50,6 +50,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit(double heading) {
+		double kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.081);
+		double ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.016);
+		double kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.072);
 		drivePIDInit(kp, ki, kd, heading);
 		SmartDashboard.putString("kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
 		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
