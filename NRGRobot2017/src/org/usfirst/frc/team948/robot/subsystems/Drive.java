@@ -1,16 +1,14 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
 import org.usfirst.frc.team948.robot.RobotMap;
-import org.usfirst.frc.team948.robot.commands.CommandBase;
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDController.NullTolerance;
+import edu.wpi.first.wpilibj.PIDController.Tolerance;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,21 +37,24 @@ public class Drive extends Subsystem implements PIDOutput {
 		PIDOutput = output;
 	}
 
-	public double drivePIDInit(double p, double i, double d, double setPoint) {
+	public void drivePIDInit(double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
 		drivePID = new PIDController(p, i, d, RobotMap.continuousGyro, this);
 		drivePID.reset();
 		drivePID.setOutputRange(-1, 1);
+		if (tolerance != 0.0) {
+			drivePID.setAbsoluteTolerance(tolerance);
+			drivePID.setToleranceBuffer(toleranceBuffLength);
+		}
 		drivePID.setSetpoint(setPoint);
 		PIDOutput = 0;
 		drivePID.enable();
-		return RobotMap.navx.getAngle();
 	}
 
 	public void driveOnHeadingInit(double heading) {
 		double kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.081);
 		double ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.016);
 		double kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.072);
-		drivePIDInit(kp, ki, kd, heading);
+		drivePIDInit(kp, ki, kd, heading, 0, 0);
 		SmartDashboard.putString("kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
 		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
 	}
@@ -109,27 +110,31 @@ public class Drive extends Subsystem implements PIDOutput {
 		RobotMap.motorFrontRight.disable();
 	}
 
-	public void turnToHeadingInit() {
+	public void turnToHeadingInit(double desiredHeading) {
 		double tP = RobotMap.preferences.getDouble(PreferenceKeys.turnP, 0);
 		double tI = RobotMap.preferences.getDouble(PreferenceKeys.turnI, 0);
 		double tD = RobotMap.preferences.getDouble(PreferenceKeys.turnD, 0);
-		drivePID = new PIDController(tP, tI, tD, RobotMap.navx, this);
-		drivePID.setSetpoint(desiredHeading);
-		drivePID.setAbsoluteTolerance(tolerance);
+		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.turnTolerance, 1.0);
+		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.turnToleranceBuffer, 6);
+		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
 		prevError = 0;
 		counter = 0;
 	}
 
-	public void turnToHeading(int desiredHeading, double power) {
-		// periodic.teleopPeriodic();
-		double currentError = drivePID.getError();
-		SmartDashboard.putNumber("TurnPID ouput", PIDOutput);
-		tankDrive(MathUtil.clampM(currentError, -1.0, 1.0),-MathUtil.clampM(currentError, -1.0, 1.0));
+	public void turnToHeading(double power) {
+		double currentPIDOutput = PIDOutput;
+		SmartDashboard.putNumber("TurnPID ouput", currentPIDOutput);
+		double scaledPower= currentPIDOutput*power;
+		tankDrive(scaledPower, -scaledPower);
 	}
 
 	public void turnToHeadingEnd() {
 		drivePID.reset();
 		stop();
+	}
+
+	public boolean isOnHeading() {
+		return drivePID.onTarget();
 	}
 }

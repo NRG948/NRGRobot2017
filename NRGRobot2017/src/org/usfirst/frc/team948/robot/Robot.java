@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 
@@ -35,7 +36,9 @@ public class Robot extends IterativeRobot {
 		OI.buttonInit();
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		// SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
+		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
+		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
 	}
 
 	/**
