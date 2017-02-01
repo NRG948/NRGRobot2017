@@ -2,7 +2,7 @@ package org.usfirst.frc.team948.utilities;
 
 public class MathUtil {
 	public static double deadband(double input, double range){
-		return (input < 0 ? -input : input) < range ? 0 : input;
+		return Math.abs(input) < range ? 0 : input;
 	}
 	
 	public static double clampR(double input, double center, double range){
