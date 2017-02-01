@@ -20,10 +20,12 @@ public class Climber extends Subsystem {
     
     public void rawTurn(double power){
     	
+    	//Climber wheels turn at the power of the input
     }
     
     public void rawStop(){
     	
+    	//Stop climbing or turning
     }
 }
 
