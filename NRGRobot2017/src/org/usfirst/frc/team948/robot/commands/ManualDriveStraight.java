@@ -4,20 +4,18 @@ import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 
 public class ManualDriveStraight extends CommandBase {
-	private double heading;
 	public ManualDriveStraight() {
 		requires(Robot.drive);
 	}
 
 	@Override 
 	protected void initialize() {
-		Robot.drive.driveOnHeadingInit();
-		heading = RobotMap.navx.getAngle();
+		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
 	} 
 	
 	@Override 
 	protected void execute(){
-		Robot.drive.driveOnHeading(OI.leftJoystick.getY(), heading);
+		Robot.drive.driveOnHeading(-OI.leftJoystick.getY());
 	}
 	
 	@Override

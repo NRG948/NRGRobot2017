@@ -46,8 +46,7 @@ public class OI {
 
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
-		leftTrigger.whenReleased(new ManualDrive());
-		rightTrigger.whileHeld(new ShiftGears(true));
+		rightTrigger.whenPressed(new ShiftGears(true));
 		rightTrigger.whenReleased(new ShiftGears(false));
 	}
 	

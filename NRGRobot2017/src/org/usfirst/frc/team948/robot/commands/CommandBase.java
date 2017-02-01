@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CommandBase extends Command {
 	public static Drive drive = Robot.drive;
 	public static Climber climb = Robot.climb;
-	public static Preferences preferences = Preferences.getInstance();
 	
 	@Override
 	protected boolean isFinished() {

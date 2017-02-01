@@ -1,5 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.utilities.ContinuousGyro;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -47,8 +49,9 @@ public class RobotMap {
 	public static LiveWindowSendable gyroChannel;
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
+	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
 	
-	
+	public static Preferences preferences = Preferences.getInstance();
 	
 	public static DoubleSolenoid solenoid = new DoubleSolenoid(1, 0);
 	public static Compressor compressor = new Compressor(1);
