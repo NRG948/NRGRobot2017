@@ -7,7 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavxTester {
-	private static AHRS ahrs = RobotMap.navx;
+	
 	
 	public static void display(){
 		SmartDashboard.putNumber("Raw gyro x-axis", RobotMap.navx.getRawGyroX());
