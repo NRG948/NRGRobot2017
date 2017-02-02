@@ -1,21 +1,24 @@
-**FRC STEAMWORKS 2017**
-
-Welcome to the NRG 948 repository for our 2017 competition bot.
-
-#**If you need help with a task, ask mentors and/or veterans for help. Highly recommended that you study and refer from, and ask questions about [last year's robot code.](https://github.com/NRG948/NRGRobot2016)**
+#**2017 FRC Steamworks Competition Robot Code**
 
 * **If you're on our team:**
-  
-  Get involved by:
-  * Installing GitHub for Desktop on your laptop.
-  * Cloning this repository.
-  * Importing the project into Eclipse.
-  * Installing the [plugins.]( http://first.wpi.edu/FRC/roborio/release/eclipse/)
-  * Working on the issues.
+  * **If you're part of leadership and need to make announcements, add them to this readme rather than creating a new issue**
+  * If you need help with a task, ask mentors and/or veterans for help. It is highly recommended that you study and refer from, and ask questions about [last year's robot code.](https://github.com/NRG948/NRGRobot2016)
+  * Make sure to write detailed descriptions for your commits
+  * Sync before making any changes to the code
 
-* **If you're not on our team:**
+* **Announcements:**
+  * "Insert announcement here"
+
+##**Check out the [Wiki](https://github.com/NRG948/NRGRobot2017/wiki) if you're not part of our team!**
   
-  * Check out the [Wiki](https://github.com/NRG948/NRGRobot2017/wiki)!
-  
-  Mentors this year: Paul Davis, Ed Reed and Francois Lepeintre
-  Leadership: Mayank Motukuri, Chuwei Guo, Tejas Rangole, Avi Glozman and DJ Wadhwa
+* Mentors:
+  * Paul Davis
+  * Ed Reed
+  * Francois Lepeintre
+
+* Programming leadership:
+  * Mayank Motukuri
+  * Chuwei Guo
+  * Tejas Rangole
+  * Avi Glozman
+  * DJ Wadhwa
