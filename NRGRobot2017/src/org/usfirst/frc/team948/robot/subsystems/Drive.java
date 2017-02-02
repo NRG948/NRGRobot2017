@@ -48,6 +48,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePID.setSetpoint(setPoint);
 		PIDOutput = 0;
 		drivePID.enable();
+		SmartDashboard.putString("kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
+		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
 	}
 
 	public void driveOnHeadingInit(double heading) {
@@ -55,8 +57,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		double ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.016);
 		double kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.072);
 		drivePIDInit(kp, ki, kd, heading, 0, 0);
-		SmartDashboard.putString("kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
-		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
+		
 	}
 
 	public void driveOnHeading(double power) {
@@ -111,9 +112,9 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void turnToHeadingInit(double desiredHeading) {
-		double tP = RobotMap.preferences.getDouble(PreferenceKeys.turnP, 0);
-		double tI = RobotMap.preferences.getDouble(PreferenceKeys.turnI, 0);
-		double tD = RobotMap.preferences.getDouble(PreferenceKeys.turnD, 0);
+		double tP = RobotMap.preferences.getDouble(PreferenceKeys.turnP, 0.084);
+		double tI = RobotMap.preferences.getDouble(PreferenceKeys.turnI, 0.0153);
+		double tD = RobotMap.preferences.getDouble(PreferenceKeys.turnD, 0.116);
 		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.turnTolerance, 1.0);
 		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.turnToleranceBuffer, 6);
 		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
@@ -124,8 +125,10 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void turnToHeading(double power) {
 		double currentPIDOutput = PIDOutput;
-		SmartDashboard.putNumber("TurnPID ouput", currentPIDOutput);
 		double scaledPower= currentPIDOutput*power;
+		SmartDashboard.putNumber("turnToHeading error", drivePID.getError());
+		SmartDashboard.putNumber("turnToHeading output", currentPIDOutput);
+		SmartDashboard.putNumber("turnToHeading scaledPower", scaledPower);
 		tankDrive(scaledPower, -scaledPower);
 	}
 
