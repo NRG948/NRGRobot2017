@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
+import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -43,11 +44,13 @@ public class OI {
 	public static Joystick rightJoystick = new Joystick(2);
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
+	public static JoystickButton leftButton11 = new JoystickButton(leftJoystick, 11);
 
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
 		rightTrigger.whenPressed(new ShiftGears(true));
 		rightTrigger.whenReleased(new ShiftGears(false));
+		leftButton11.whenPressed(new ResetSensors());
 	}
 	
 }
