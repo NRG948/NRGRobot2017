@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15,1.0));
 	}
 
 	/**
@@ -126,6 +128,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
 		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());
 		SmartDashboard.putNumber("right joystick y", OI.rightJoystick.getY());
-		SmartDashboard.putNumber("left joystick y", OI.leftJoystick.getY());		
+		SmartDashboard.putNumber("left joystick y", OI.leftJoystick.getY());
+		SmartDashboard.putNumber("left encoder", RobotMap.leftEncoder.get());
+		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
 	}
 }

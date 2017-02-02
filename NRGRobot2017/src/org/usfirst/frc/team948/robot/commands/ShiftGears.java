@@ -3,11 +3,12 @@ package org.usfirst.frc.team948.robot.commands;
 import org.usfirst.frc.team948.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ShiftGears extends CommandBase {
+public class ShiftGears extends Command {
 	private boolean highGear;
 	
     public ShiftGears(boolean highGear) {

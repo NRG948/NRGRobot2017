@@ -3,7 +3,9 @@ import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 
-public class ManualDriveStraight extends CommandBase {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class ManualDriveStraight extends Command {
 	public ManualDriveStraight() {
 		requires(Robot.drive);
 	}

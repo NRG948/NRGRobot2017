@@ -16,5 +16,5 @@ public class PreferenceKeys {
 	public static final String Drive_On_Heading_D = "DriveStraight_D";
 	public static final String turnTolerance = "TurnTolerance";	
 	public static final String turnToleranceBuffer = "TurnToleranceBuffer";
-
+	public static final String ticksPerFoot = "ticksPerFoot";
 }

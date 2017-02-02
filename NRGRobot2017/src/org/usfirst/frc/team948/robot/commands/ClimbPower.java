@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClimbPower extends CommandBase {
+public class ClimbPower extends Command {
 
 	final double power;
 	
     public ClimbPower(double power) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(climb);
+    	requires(Robot.climb);
     	this.power = power;
     }
 
