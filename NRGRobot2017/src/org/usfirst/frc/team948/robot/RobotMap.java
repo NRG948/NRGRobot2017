@@ -5,6 +5,7 @@ import org.usfirst.frc.team948.utilities.ContinuousGyro;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -47,7 +48,8 @@ public class RobotMap {
 	public static Encoder leftEncoder = new Encoder(0,1);
 	public static Encoder rightEncoder = new Encoder(2,3);
 	public static LiveWindowSendable gyroChannel;
-
+	public static AnalogInput ultrasound = new AnalogInput(0);
+	
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
 	

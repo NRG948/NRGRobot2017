@@ -52,7 +52,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		PIDOutput = output;
 	}
 
-	public void drivePIDInit(double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
+	public void drivePIDInit(
+			double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
 		drivePID = new PIDController(p, i, d, RobotMap.continuousGyro, this);
 		drivePID.reset();
 		drivePID.setOutputRange(-1, 1);
@@ -107,7 +108,6 @@ public class Drive extends Subsystem implements PIDOutput {
 		stop();
 	}
 
-	// turning in progress
 	public void tankDrive(double leftPower, double rightPower) {
 		RobotMap.motorFrontLeft.set(leftPower);
 		RobotMap.motorBackLeft.set(leftPower);

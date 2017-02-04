@@ -114,6 +114,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		periodicAll();
 		Scheduler.getInstance().run();
+	
+		
 	}
 
 	/**
@@ -132,5 +134,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("left joystick y", OI.leftJoystick.getY());
 		SmartDashboard.putNumber("left encoder", RobotMap.leftEncoder.get());
 		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
+		SmartDashboard.putNumber("Ultrasound", RobotMap.ultrasound.getVoltage());
 	}
 }

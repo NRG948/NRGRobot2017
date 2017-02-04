@@ -34,5 +34,4 @@ public class ManualDriveStraight extends Command {
 	protected void interrupted() {
 		end(); 
 	}
-
 }

@@ -4,6 +4,7 @@ import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualDrive extends Command {
 	public ManualDrive() {
@@ -11,16 +12,22 @@ public class ManualDrive extends Command {
 	}
 
 	@Override
+	protected void initialize() {
+	}
+
+	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void execute() {
-		double leftJoystick = OI.leftJoystick.getY();
-		double rightJoystick = OI.rightJoystick.getY();
-		Robot.drive.tankDrive(-leftJoystick, -rightJoystick);
+		double leftJoystick = -OI.leftJoystick.getY();
+		double rightJoystick = -OI.rightJoystick.getY();
+		Robot.drive.tankDrive(leftJoystick, rightJoystick);
+		
+		SmartDashboard.putNumber("Left Joystick", leftJoystick);
+		SmartDashboard.putNumber("Right Joystick", rightJoystick);
 	}
 
 	@Override
@@ -32,11 +39,4 @@ public class ManualDrive extends Command {
 	protected void interrupted() {
 		end();
 	}
-
-	@Override
-	protected void initialize() {
-		// TODO Auto-generated method stub
-
-	}
-
 }
