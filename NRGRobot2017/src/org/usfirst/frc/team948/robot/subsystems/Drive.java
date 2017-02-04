@@ -1,10 +1,12 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
+import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDController.NullTolerance;
 import edu.wpi.first.wpilibj.PIDController.Tolerance;
@@ -24,9 +26,22 @@ public class Drive extends Subsystem implements PIDOutput {
 	private double tolerance;
 	private int prevError;
 	private int counter;
+	private boolean inHighGear = false;
 
-	private final double PID_MIN_OUTPUT = 0.05;
-	private final double PID_MAX_OUTPUT = 0.5;
+	private static final double PID_MIN_OUTPUT = 0.05;
+	private static final double PID_MAX_OUTPUT = 0.5;
+	
+	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
+	private static final double DEFAULT_DRIVE_LOWGEAR_I = 0.016;
+	private static final double DEFAULT_DRIVE_LOWGEAR_D = 0.072;
+	
+	private static final double DEFAULT_DRIVE_HIGHGEAR_P = 0.081;
+	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
+	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0.072;
+	
+	private double kp;
+	private double ki;
+	private double kd;
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ManualDrive());
@@ -53,11 +68,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit(double heading) {
-		double kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_P, 0.081);
-		double ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_I, 0.016);
-		double kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_D, 0.072);
 		drivePIDInit(kp, ki, kd, heading, 0, 0);
-		
 	}
 
 	public void driveOnHeading(double power) {
@@ -140,4 +151,27 @@ public class Drive extends Subsystem implements PIDOutput {
 	public boolean isOnHeading() {
 		return drivePID.onTarget();
 	}
+	
+	public void setHighGear() {
+		RobotMap.solenoid.set(DoubleSolenoid.Value.kForward);
+		inHighGear = true;
+		kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
+		ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
+		kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
+		if(drivePID != null) {
+			drivePID.setPID(kp, ki, kd);
+		}
+	}
+	
+	public void setLowGear() {
+		RobotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+		inHighGear = false; 
+		kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
+		ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
+		kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
+		if(drivePID != null) {
+			drivePID.setPID(kp, ki, kd);
+		}
+	}
+	
 }

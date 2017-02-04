@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15,1.0));
+		drive.setLowGear();
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team948.utilities;
 
+import org.usfirst.frc.team948.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -10,11 +12,12 @@ public class AHRSGyro implements Gyro, PIDSource, LiveWindowSendable {
 	private double previousAngle;
 	private double currentAngle;
 	private double angleOffset; 
-	
+	//what is this meant for
 
 	@Override
 	public void initTable(ITable subtable) {
 		// TODO Auto-generated method stub
+		//what is this override method	
 		
 	}
 
@@ -22,6 +25,7 @@ public class AHRSGyro implements Gyro, PIDSource, LiveWindowSendable {
 	public ITable getTable() {
 		// TODO Auto-generated method stub
 		return null;
+		
 	}
 
 	@Override
@@ -95,5 +99,4 @@ public class AHRSGyro implements Gyro, PIDSource, LiveWindowSendable {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
