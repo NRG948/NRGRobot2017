@@ -1,6 +1,5 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
-import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
@@ -8,8 +7,6 @@ import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDController.NullTolerance;
-import edu.wpi.first.wpilibj.PIDController.Tolerance;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +18,6 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private PIDController drivePID;
 	private volatile double PIDOutput;
-	// public IterativeRobot periodic = new IterativeRobot();
 	private double desiredHeading;
 	private double tolerance;
 	private int prevError;
@@ -73,15 +69,25 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeading(double power) {
-		// go straight but correct with the pidOutput
-		// given the pid output, rotate accordingly
-		double currentPIDOutput = PIDOutput;
+		//Limits the PID output proportionally to the current error
+		//Prevents erratic corrections at high speed
+		double error = drivePID.getError();
+		double outputRange = MathUtil.clampM(PID_MIN_OUTPUT
+				+ (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT),
+				0, PID_MAX_OUTPUT);
+		drivePID.setOutputRange(-outputRange, outputRange);
+
+		double currentPIDOutput = MathUtil.clampM(PIDOutput, -PID_MAX_OUTPUT,
+				PID_MAX_OUTPUT);
 		SmartDashboard.putNumber("driveOnHeading error", drivePID.getError());
 		SmartDashboard.putNumber("driveOnHeading output", currentPIDOutput);
 		SmartDashboard.putNumber("driveOnHeading rawPower", power);
 		double pL = power;
 		double pR = power;
 
+		// go straight but correct with the pidOutput
+		// given the pid output, rotate accordingly
+		
 		if (power > 0) {
 			if (currentPIDOutput > 0) {
 				pR -= currentPIDOutput;

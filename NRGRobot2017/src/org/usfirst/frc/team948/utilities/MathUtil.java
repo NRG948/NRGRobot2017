@@ -12,5 +12,4 @@ public class MathUtil {
 	public static double clampM(double input, double min, double max){
 		return input > max ? max : input < min ? min : input;
 	}
-	//This is a test comment. You didn't see this - MAYANK
 }
