@@ -1,6 +1,12 @@
 package org.usfirst.frc.team948.utilities;
 
 public class PreferenceKeys {
+	/*
+	 * 
+	 * Variable format:
+	 * public static final String VARIABLE_NAME_HERE = "VariableNameHere";
+	 * 
+	 */
 	public static final String motorFrontLeft = "motorFrontLeft";
 	public static final String motorFrontRight = "motorFrontRight";
 	public static final String motorBackLeft = "motorBackLeft";
@@ -20,4 +26,5 @@ public class PreferenceKeys {
 	public static final String turnTolerance = "TurnTolerance";	
 	public static final String turnToleranceBuffer = "TurnToleranceBuffer";
 	public static final String ticksPerFoot = "ticksPerFoot";
+	public static final String ticksPerFootTolerance = "ticksPerFootTolerance";
 }
