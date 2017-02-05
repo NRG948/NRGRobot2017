@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15,1.0));
 		SmartDashboard.putData("High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Low Gear", new ShiftGears(false));
-		drive.setLowGear();
+		new ShiftGears(false);
 	}
 
 	/**
