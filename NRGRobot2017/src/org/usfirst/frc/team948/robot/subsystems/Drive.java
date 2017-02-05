@@ -51,6 +51,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void drivePIDInit(
 			double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
+		System.out.println("P = " + p + ", I = " + i + ", D = " + d);
 		drivePID = new PIDController(p, i, d, RobotMap.continuousGyro, this);
 		drivePID.reset();
 		drivePID.setOutputRange(-1, 1);
