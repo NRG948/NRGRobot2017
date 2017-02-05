@@ -8,6 +8,7 @@ import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -43,10 +44,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
-		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15,1.0));
-		SmartDashboard.putData("High Gear", new ShiftGears(true));
-		SmartDashboard.putData("Low Gear", new ShiftGears(false));
-		new ShiftGears(false);
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
+		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
+		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
+		// start in low gear
+		RobotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
+		// new ShiftGears(false);
 	}
 
 	/**
@@ -109,7 +112,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		
+
 	}
 
 	/**
@@ -119,8 +122,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		periodicAll();
 		Scheduler.getInstance().run();
-	
-		
+
 	}
 
 	/**
@@ -141,6 +143,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
 		SmartDashboard.putNumber("Ultrasound", RobotMap.ultrasound.getVoltage());
 		SmartDashboard.putNumber("Shooter", RobotMap.shooterEncoder.get());
-		
+		SmartDashboard.putBoolean("In High Gear", RobotMap.solenoid.get() == DoubleSolenoid.Value.kForward);
+		SmartDashboard.putString("Solenoid Value", RobotMap.solenoid.get().toString());
+
 	}
 }

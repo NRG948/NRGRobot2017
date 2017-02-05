@@ -5,6 +5,7 @@ import org.usfirst.frc.team948.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,12 +15,15 @@ public class ShiftGears extends Command {
 	
     public ShiftGears(boolean highGear) {
     	this.highGear = highGear;
+    	System.out.println("Constructor High Gear= "+highGear);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("Initialize High Gear= "+highGear);
     	Robot.drive.changeGearTracker(highGear);
     	RobotMap.solenoid.set(highGear ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run

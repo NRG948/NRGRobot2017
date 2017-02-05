@@ -27,15 +27,15 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
-	
+
 	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_LOWGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_LOWGEAR_D = 0.072;
-	
-	private static final double DEFAULT_DRIVE_HIGHGEAR_P = 0.081;
-	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
-	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0.072;
-	
+
+	private static final double DEFAULT_DRIVE_HIGHGEAR_P = 0.5;
+	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0;
+	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0;
+
 	private double kp;
 	private double ki;
 	private double kd;
@@ -49,8 +49,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		PIDOutput = output;
 	}
 
-	public void drivePIDInit(
-			double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
+	public void drivePIDInit(double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
 		System.out.println("P = " + p + ", I = " + i + ", D = " + d);
 		drivePID = new PIDController(p, i, d, RobotMap.continuousGyro, this);
 		drivePID.reset();
@@ -67,34 +66,32 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit(double heading) {
+		// if(gearChanged){
+		if (inHighGear) {
+			kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
+			ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
+			kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
+//			drivePID.setPID(kp, ki, kd);
+		} else {
+			kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
+			ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
+			kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
+//			drivePID.setPID(kp, ki, kd);
+		}
+		// gearChanged = false;
+		// }
 		drivePIDInit(kp, ki, kd, heading, 0, 0);
 	}
 
 	public void driveOnHeading(double power) {
-		if(gearChanged){
-			if(inHighGear){
-				kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
-				ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
-				kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
-				drivePID.setPID(kp, ki, kd);
-			}else{
-				kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
-				ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
-				kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
-				drivePID.setPID(kp, ki, kd);
-			}
-			gearChanged = false;
-		}
-		//Limits the PID output proportionally to the current error
-		//Prevents erratic corrections at high speed
+		// Limits the PID output proportionally to the current error
+		// Prevents erratic corrections at high speed
 		double error = drivePID.getError();
-		double outputRange = MathUtil.clampM(PID_MIN_OUTPUT
-				+ (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT),
-				0, PID_MAX_OUTPUT);
+		double outputRange = MathUtil.clampM(
+				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
 		drivePID.setOutputRange(-outputRange, outputRange);
 
-		double currentPIDOutput = MathUtil.clampM(PIDOutput, -PID_MAX_OUTPUT,
-				PID_MAX_OUTPUT);
+		double currentPIDOutput = MathUtil.clampM(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
 		SmartDashboard.putNumber("driveOnHeading error", drivePID.getError());
 		SmartDashboard.putNumber("driveOnHeading output", currentPIDOutput);
 		SmartDashboard.putNumber("driveOnHeading rawPower", power);
@@ -103,7 +100,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 		// go straight but correct with the pidOutput
 		// given the pid output, rotate accordingly
-		
+
 		if (power > 0) {
 			if (currentPIDOutput > 0) {
 				pR -= currentPIDOutput;
@@ -158,7 +155,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void turnToHeading(double power) {
 		double currentPIDOutput = PIDOutput;
-		double scaledPower= currentPIDOutput*power;
+		double scaledPower = currentPIDOutput * power;
 		SmartDashboard.putNumber("turnToHeading error", drivePID.getError());
 		SmartDashboard.putNumber("turnToHeading output", currentPIDOutput);
 		SmartDashboard.putNumber("turnToHeading scaledPower", scaledPower);
@@ -174,9 +171,9 @@ public class Drive extends Subsystem implements PIDOutput {
 		return drivePID.onTarget();
 	}
 
-	public void changeGearTracker(boolean gear){
+	public void changeGearTracker(boolean gear) {
 		gearChanged = gear == inHighGear ? false : true;
 		inHighGear = gear;
 	}
-	
+
 }
