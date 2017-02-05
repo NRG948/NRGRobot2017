@@ -44,12 +44,19 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
+<<<<<<< HEAD
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		// start in low gear
 		RobotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
 		// new ShiftGears(false);
+=======
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15,1.0));
+		SmartDashboard.putData("High Gear", new ShiftGears(true));
+		SmartDashboard.putData("Low Gear", new ShiftGears(false));
+		drive.changeGearTracker(false);
+>>>>>>> origin/master
 	}
 
 	/**
