@@ -1,5 +1,6 @@
 package org.usfirst.frc.team948.robot.commands;
 
+import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -17,6 +18,7 @@ public class ShiftGears extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drive.changeGearTracker(highGear);
     	RobotMap.solenoid.set(highGear ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 

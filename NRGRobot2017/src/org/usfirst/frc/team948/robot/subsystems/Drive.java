@@ -23,6 +23,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private int prevError;
 	private int counter;
 	private boolean inHighGear = false;
+	private boolean gearChanged = false;
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
@@ -69,6 +70,20 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeading(double power) {
+		if(gearChanged){
+			if(inHighGear){
+				kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
+				ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
+				kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
+				drivePID.setPID(kp, ki, kd);
+			}else{
+				kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
+				ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
+				kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
+				drivePID.setPID(kp, ki, kd);
+			}
+			gearChanged = false;
+		}
 		//Limits the PID output proportionally to the current error
 		//Prevents erratic corrections at high speed
 		double error = drivePID.getError();
@@ -157,27 +172,10 @@ public class Drive extends Subsystem implements PIDOutput {
 	public boolean isOnHeading() {
 		return drivePID.onTarget();
 	}
-	
-	public void setHighGear() {
-		RobotMap.solenoid.set(DoubleSolenoid.Value.kForward);
-		inHighGear = true;
-		kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
-		ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
-		kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
-		if(drivePID != null) {
-			drivePID.setPID(kp, ki, kd);
-		}
-	}
-	
-	public void setLowGear() {
-		RobotMap.solenoid.set(DoubleSolenoid.Value.kReverse);
-		inHighGear = false; 
-		kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
-		ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
-		kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
-		if(drivePID != null) {
-			drivePID.setPID(kp, ki, kd);
-		}
+
+	public void changeGearTracker(boolean gear){
+		gearChanged = gear == inHighGear ? false : true;
+		inHighGear = gear;
 	}
 	
 }
