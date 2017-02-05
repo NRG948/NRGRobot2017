@@ -6,6 +6,7 @@ import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
+import org.usfirst.frc.team948.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 
 	public static final Drive drive = new Drive();
 	public static final Climber climb = new Climber();
+	public static final Shooter shooter = new Shooter();
 
 	Command autonomousCommand;
 	SendableChooser chooser = new SendableChooser();
@@ -138,5 +140,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("left encoder", RobotMap.leftEncoder.get());
 		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
 		SmartDashboard.putNumber("Ultrasound", RobotMap.ultrasound.getVoltage());
+		SmartDashboard.putNumber("Shooter", RobotMap.shooterEncoder.get());
+		
 	}
 }

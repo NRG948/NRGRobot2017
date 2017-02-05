@@ -44,13 +44,11 @@ public class OI {
 	public static Joystick rightJoystick = new Joystick(2);
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
-	public static JoystickButton leftButton11 = new JoystickButton(leftJoystick, 11);
+	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
-		rightTrigger.whenPressed(new ShiftGears(true));
-		rightTrigger.whenReleased(new ShiftGears(false));
-		leftButton11.whenPressed(new ResetSensors());
+		resetSensorsButton.whenPressed(new ResetSensors());
 	}
 	
 }
