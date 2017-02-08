@@ -30,13 +30,6 @@ public class Drive extends Subsystem implements PIDOutput {
 	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_LOWGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_LOWGEAR_D = 0.072;
-<<<<<<< HEAD
-
-	private static final double DEFAULT_DRIVE_HIGHGEAR_P = 0.5;
-	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0;
-	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0;
-
-=======
 	
 	private static final double DEFAULT_DRIVE_HIGHGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
@@ -45,7 +38,6 @@ public class Drive extends Subsystem implements PIDOutput {
 	private static final double TICKS_PER_FOOT = RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot, 1480);
 	private static final double TICKS_PER_FOOT_TOLERANCE = RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot, 1480);
 	
->>>>>>> origin/master
 	private double kp;
 	private double ki;
 	private double kd;
@@ -97,11 +89,11 @@ public class Drive extends Subsystem implements PIDOutput {
 		// Limits the PID output proportionally to the current error
 		// Prevents erratic corrections at high speed
 		double error = drivePID.getError();
-		double outputRange = MathUtil.clampM(
+		double outputRange = MathUtil.clamp(
 				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
 		drivePID.setOutputRange(-outputRange, outputRange);
 
-		double currentPIDOutput = MathUtil.clampM(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
+		double currentPIDOutput = MathUtil.clamp(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
 		SmartDashboard.putNumber("driveOnHeading error", drivePID.getError());
 		SmartDashboard.putNumber("driveOnHeading output", currentPIDOutput);
 		SmartDashboard.putNumber("driveOnHeading rawPower", power);
@@ -185,9 +177,6 @@ public class Drive extends Subsystem implements PIDOutput {
 		gearChanged = gear == inHighGear ? false : true;
 		inHighGear = gear;
 	}
-<<<<<<< HEAD
-
-=======
 	
 	public double getFeetFromUltrasoundVolts()
 	{
@@ -213,5 +202,4 @@ public class Drive extends Subsystem implements PIDOutput {
 	{
 		return TICKS_PER_FOOT_TOLERANCE;
 	}
->>>>>>> origin/master
 }
