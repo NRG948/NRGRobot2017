@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ShiftGears extends Command {
 	private boolean highGear;
+	// distance from ground to base of feeder station = 3ft 1/2 in
 	
     public ShiftGears(boolean highGear) {
     	this.highGear = highGear;
