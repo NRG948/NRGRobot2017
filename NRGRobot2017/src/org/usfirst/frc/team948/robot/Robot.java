@@ -44,10 +44,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
-		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15,1.0));
-		SmartDashboard.putData("High Gear", new ShiftGears(true));
-		SmartDashboard.putData("Low Gear", new ShiftGears(false));
-		drive.changeGearTracker(false);
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
+		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
+		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
+		// Start in Low gear
+		RobotMap.solenoid.set(RobotMap.IN_LOW_GEAR);
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
 		SmartDashboard.putNumber("Ultrasound", RobotMap.ultrasound.getVoltage());
 		SmartDashboard.putNumber("Shooter", RobotMap.shooterEncoder.get());
-		SmartDashboard.putBoolean("In High Gear", RobotMap.solenoid.get() == DoubleSolenoid.Value.kForward);
+		SmartDashboard.putBoolean("In High Gear", RobotMap.solenoid.get() == RobotMap.IN_HIGH_GEAR);
 		SmartDashboard.putString("Solenoid Value", RobotMap.solenoid.get().toString());
 
 	}

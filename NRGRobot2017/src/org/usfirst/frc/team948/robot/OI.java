@@ -1,6 +1,5 @@
 package org.usfirst.frc.team948.robot;
 
-import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -45,10 +44,14 @@ public class OI {
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
+	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 10);
+	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 11);
 
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
 		resetSensorsButton.whenPressed(new ResetSensors());
+		switchHighGear.whenPressed(new ShiftGears(true));
+		switchLowGear.whenPressed(new ShiftGears(false));
 	}
 	
 }

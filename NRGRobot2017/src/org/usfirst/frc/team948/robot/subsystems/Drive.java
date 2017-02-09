@@ -5,6 +5,7 @@ import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,12 +18,12 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private PIDController drivePID;
 	private volatile double PIDOutput;
-	private double desiredHeading;
-	private double tolerance;
+	// private double desiredHeading;
+	// private double tolerance;
 	private int prevError;
 	private int counter;
-	private boolean inHighGear = false;
-	private boolean gearChanged = false;
+	// private boolean inHighGear = false;
+	// private boolean gearChanged = false;
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
@@ -30,14 +31,16 @@ public class Drive extends Subsystem implements PIDOutput {
 	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_LOWGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_LOWGEAR_D = 0.072;
-	
+
 	private static final double DEFAULT_DRIVE_HIGHGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0.072;
-	
-	private static final double TICKS_PER_FOOT = RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot, 1480);
-	private static final double TICKS_PER_FOOT_TOLERANCE = RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot, 1480);
-	
+
+	private static final double TICKS_PER_FOOT = 1480;// RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot,
+													// 1480);
+	private static final double TICKS_PER_FOOT_TOLERANCE = 1;// RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot,
+																// 1480);
+
 	private double kp;
 	private double ki;
 	private double kd;
@@ -69,16 +72,16 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void driveOnHeadingInit(double heading) {
 		// if(gearChanged){
-		if (inHighGear) {
+		if (RobotMap.solenoid.get() == RobotMap.IN_HIGH_GEAR) {
 			kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
 			ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
 			kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
-//			drivePID.setPID(kp, ki, kd);
+			// drivePID.setPID(kp, ki, kd);
 		} else {
 			kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
 			ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
 			kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
-//			drivePID.setPID(kp, ki, kd);
+			// drivePID.setPID(kp, ki, kd);
 		}
 		// gearChanged = false;
 		// }
@@ -173,33 +176,28 @@ public class Drive extends Subsystem implements PIDOutput {
 		return drivePID.onTarget();
 	}
 
-	public void changeGearTracker(boolean gear) {
-		gearChanged = gear == inHighGear ? false : true;
-		inHighGear = gear;
-	}
-	
-	public double getFeetFromUltrasoundVolts()
-	{
+	// public void changeGearTracker(boolean gear) {
+	// gearChanged = gear == inHighGear ? false : true;
+	// inHighGear = gear;
+	// }
+
+	public double getFeetFromUltrasoundVolts() {
 		return (RobotMap.ultrasound.getVoltage() - 0.0255) / (.0242 * 12);
 	}
-	
-	public double getUltrasoundVolts()
-	{
+
+	public double getUltrasoundVolts() {
 		return RobotMap.ultrasound.getVoltage();
 	}
-	
-	public double getTicksFromFeet(double feet)
-	{
+
+	public double getTicksFromFeet(double feet) {
 		return feet * RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot, 1480);
 	}
-	
-	public double getTicksPerFoot()
-	{
+
+	public double getTicksPerFoot() {
 		return TICKS_PER_FOOT;
 	}
-	
-	public double getTicksPerFootTolerance()
-	{
+
+	public double getTicksPerFootTolerance() {
 		return TICKS_PER_FOOT_TOLERANCE;
 	}
 }
