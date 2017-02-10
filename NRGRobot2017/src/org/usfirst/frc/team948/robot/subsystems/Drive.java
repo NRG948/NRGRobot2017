@@ -73,14 +73,14 @@ public class Drive extends Subsystem implements PIDOutput {
 	public void driveOnHeadingInit(double heading) {
 		// if(gearChanged){
 		if (RobotMap.solenoid.get() == RobotMap.IN_HIGH_GEAR) {
-			kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_P, DEFAULT_DRIVE_HIGHGEAR_P);
-			ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_I, DEFAULT_DRIVE_HIGHGEAR_I);
-			kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_HighGear_D, DEFAULT_DRIVE_HIGHGEAR_D);
+			kp = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_P, DEFAULT_DRIVE_HIGHGEAR_P);
+			ki = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_I, DEFAULT_DRIVE_HIGHGEAR_I);
+			kd = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_D, DEFAULT_DRIVE_HIGHGEAR_D);
 			// drivePID.setPID(kp, ki, kd);
 		} else {
-			kp = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_P, DEFAULT_DRIVE_LOWGEAR_P);
-			ki = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_I, DEFAULT_DRIVE_LOWGEAR_I);
-			kd = RobotMap.preferences.getDouble(PreferenceKeys.Drive_On_Heading_LowGear_D, DEFAULT_DRIVE_LOWGEAR_D);
+			kp = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_P, DEFAULT_DRIVE_LOWGEAR_P);
+			ki = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_I, DEFAULT_DRIVE_LOWGEAR_I);
+			kd = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_D, DEFAULT_DRIVE_LOWGEAR_D);
 			// drivePID.setPID(kp, ki, kd);
 		}
 		// gearChanged = false;
@@ -147,11 +147,11 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void turnToHeadingInit(double desiredHeading) {
-		double tP = RobotMap.preferences.getDouble(PreferenceKeys.turnP, 0.084);
-		double tI = RobotMap.preferences.getDouble(PreferenceKeys.turnI, 0.0153);
-		double tD = RobotMap.preferences.getDouble(PreferenceKeys.turnD, 0.116);
-		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.turnTolerance, 1.0);
-		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.turnToleranceBuffer, 6);
+		double tP = RobotMap.preferences.getDouble(PreferenceKeys.TURN_P, 0.084);
+		double tI = RobotMap.preferences.getDouble(PreferenceKeys.TURN_I, 0.0153);
+		double tD = RobotMap.preferences.getDouble(PreferenceKeys.TURN_D, 0.116);
+		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
+		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
 		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
 		prevError = 0;
@@ -190,7 +190,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public double getTicksFromFeet(double feet) {
-		return feet * RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot, 1480);
+		return feet * RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT, 1480);
 	}
 
 	public double getTicksPerFoot() {

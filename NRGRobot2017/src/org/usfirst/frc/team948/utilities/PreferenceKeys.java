@@ -3,28 +3,25 @@ package org.usfirst.frc.team948.utilities;
 public class PreferenceKeys {
 	/*
 	 * 
-	 * Variable format:
-	 * public static final String VARIABLE_NAME_HERE = "VariableNameHere";
+	 * Variable format: public static final String VARIABLE_NAME_HERE =
+	 * "Variable_Name_Here";
 	 * 
 	 */
-	public static final String MOTOR_FRONT_LEFT = "motorFrontLeft";
-	public static final String MOTOR_FRONT_RIGHT = "motorFrontRight";
-	public static final String MOTOR_BACK_LEFT = "motorBackLeft";
-	public static final String MOTOR_BACK_RIGHT = "motorBackRight";
-//	public static final String driveP = "driveP";
-//	public static final String driveI = "driveI";
-//	public static final String driveD = "driveD";
-	public static final String TURN_P = "turnP";
-	public static final String TURN_I = "turnI";
-	public static final String TURN_D = "turnD";
-	public static final String Drive_On_Heading_LowGear_P = "DriveStraight_LowGear_P";
-	public static final String Drive_On_Heading_LowGear_I = "DriveStraight_LowGear_I";
-	public static final String Drive_On_Heading_LowGear_D = "DriveStraight_LowGear_D";
-	public static final String Drive_On_Heading_HighGear_P = "DriveStraight_HighGear_P";
-	public static final String Drive_On_Heading_HighGear_I = "DriveStraight_HighGear_I";
-	public static final String Drive_On_Heading_HighGear_D = "DriveStraight_HighGear_D";
-	public static final String Turn_Tolerance = "TurnTolerance";	
-	public static final String Turn_ToleranceBuffer = "TurnToleranceBuffer";
-	public static final String Ticks_PerFoot = "ticksPerFoot";
-	public static final String Ticks_PerFoot_Tolerance = "ticksPerFootTolerance";
+	public static final String TURN_P = "Turn_P";
+	public static final String TURN_I = "Turn_I";
+	public static final String TURN_D = "Turn_D";
+
+	public static final String DRIVE_ON_HEADING_LOW_GEAR_P = "Drive_Straight_Low_Gear_P";
+	public static final String DRIVE_ON_HEADING_LOW_GEAR_I = "Drive_Straight_Low_Gear_I";
+	public static final String DRIVE_ON_HEADING_LOW_GEAR_D = "Drive_Straight_Low_Gear_D";
+
+	public static final String DRIVE_ON_HEADING_HIGH_GEAR_P = "Drive_Straight_High_Gear_P";
+	public static final String DRIVE_ON_HEADING_HIGH_GEAR_I = "Drive_Straight_High_Gear_I";
+	public static final String DRIVE_ON_HEADING_HIGH_GEAR_D = "Drive_Straight_High_Gear_D";
+
+	public static final String TURN_TOLERANCE = "Turn_Tolerance";
+	public static final String TURN_TOLERANCE_BUFFER = "Turn_Tolerance_Buffer";
+
+	public static final String TICKS_PER_FOOT = "Ticks_Per_Foot";
+	public static final String TICKS_PER_FOOT_TOLERANCE = "Ticks_Per_Foot_Tolerance";
 }
