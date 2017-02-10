@@ -25,7 +25,7 @@ public class ClimbPower extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.climb.rawTurn(power);
+    	Robot.climb.rawClimb(power);
     }
 
     // Make this return true when this Command no longer needs to run execute()

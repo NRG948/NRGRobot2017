@@ -18,7 +18,7 @@ public class Climber extends Subsystem {
     	setDefaultCommand(new ClimbPower(0.0));
     }
     
-    public void rawTurn(double power){
+    public void rawClimb(double power){
     	
     	//Climber wheels turn at the power of the input
     }
