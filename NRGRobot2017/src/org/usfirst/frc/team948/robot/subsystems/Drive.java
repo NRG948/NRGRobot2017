@@ -36,10 +36,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0.072;
 
-	private static final double TICKS_PER_FOOT = 1480;// RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot,
-													// 1480);
-	private static final double TICKS_PER_FOOT_TOLERANCE = 1;// RobotMap.preferences.getDouble(PreferenceKeys.ticksPerFoot,
-																// 1480);
+	private static final double DEFAULT_TICKS_PER_FOOT = 1480;
+	private static final double DEFAULT_TICKS_PER_FOOT_TOLERANCE = DEFAULT_TICKS_PER_FOOT / 12;
 
 	private double kp;
 	private double ki;
@@ -190,14 +188,15 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public double getTicksFromFeet(double feet) {
-		return feet * RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT, 1480);
+		return feet * RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT, DEFAULT_TICKS_PER_FOOT);
 	}
 
 	public double getTicksPerFoot() {
-		return TICKS_PER_FOOT;
+		return RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT, DEFAULT_TICKS_PER_FOOT);
 	}
 
 	public double getTicksPerFootTolerance() {
-		return TICKS_PER_FOOT_TOLERANCE;
+		return RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT_TOLERANCE,
+				DEFAULT_TICKS_PER_FOOT_TOLERANCE);
 	}
 }

@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commandgroups.AutonomousTest;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
@@ -41,7 +42,9 @@ public class Robot extends IterativeRobot {
 		OI.buttonInit();
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putData(this.drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
+		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
@@ -81,7 +84,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// autonomousCommand = chooser.getSelected();
-
+		autonomousCommand = new AutonomousTest();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

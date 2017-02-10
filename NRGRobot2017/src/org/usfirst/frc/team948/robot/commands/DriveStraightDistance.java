@@ -6,6 +6,7 @@ import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraightDistance extends Command {
 	private double power;
@@ -29,6 +30,7 @@ public class DriveStraightDistance extends Command {
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
 		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
+
 	}
 
 	@Override
@@ -42,7 +44,9 @@ public class DriveStraightDistance extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Math.abs(ticksTraveled - ticksToTravel) <= Robot.drive.getTicksPerFootTolerance();
+		double ticksRemaining = Math.abs(ticksTraveled - ticksToTravel);
+		boolean isDone = ticksRemaining <= Robot.drive.getTicksPerFootTolerance();
+		return isDone;
 	}
 
 	@Override
