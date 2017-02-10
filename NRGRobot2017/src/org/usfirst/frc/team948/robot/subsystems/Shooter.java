@@ -14,7 +14,7 @@ public class Shooter extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new Shoot());
+		//setDefaultCommand(new Shoot());
 	}
 	
 	//Put methods for controlling this subsystem
