@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousTest;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -37,12 +38,24 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+	
+	public enum AutoPosition
+	{
+		POSITION_ONE,
+		POSITION_TWO,
+		POSITION_THREE,
+		POSITION_FOUR,
+		POSITION_FIVE,
+		POSITION_SIX,
+		POSITION_SEVEN;
+	}
 	@Override
 	public void robotInit() {
 		OI.buttonInit();
 		chooser = new SendableChooser<Command>();
 		chooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
 		chooser.addObject("Drive 10 feet", new AutonomousTest(10.0));
+		chooser.addObject("Position Two Routine", new AutonomousRoutines(AutoPosition.POSITION_TWO));
 		SmartDashboard.putData("Autonomous command", chooser);
 		SmartDashboard.putData(this.drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
