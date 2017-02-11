@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraightToDistanceFromWall extends Command {
 	private double power;
 	private double distanceFromWall;
+	//position 3 13ft 9-1/2 in
+	
 
 	private double encoderLeftStart;
 	private double encoderRightStart;
