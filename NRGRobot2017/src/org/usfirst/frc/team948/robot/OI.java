@@ -55,8 +55,8 @@ public class OI {
 		resetSensorsButton.whenPressed(new ResetSensors());
 		switchHighGear.whenPressed(new ShiftGears(true));
 		switchLowGear.whenPressed(new ShiftGears(false));
-		climberForwards.whileHeld(new ClimbPower(0.5));
-		climberReverse.whileHeld(new ClimbPower(-0.5));
+		climberForwards.whileHeld(new ClimbPower(0.50));
+		climberReverse.whileHeld(new ClimbPower(-0.35));
 	}
 	
 }
