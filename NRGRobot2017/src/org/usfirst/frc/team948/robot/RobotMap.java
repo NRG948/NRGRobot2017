@@ -64,12 +64,12 @@ public class RobotMap {
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;
 
 	static void init() {
-		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Front Left Victor", motorFrontLeft);
-		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Front Right Victor", motorFrontRight);
-		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Left Victor", motorBackLeft);
-		LiveWindow.addActuator("Drive Subsystem", "Speed Controller Back Right Victor", motorBackRight);
+		LiveWindow.addActuator("Drive Subsystem", "Front Left Victor", motorFrontLeft);
+		LiveWindow.addActuator("Drive Subsystem", "Front Right Victor", motorFrontRight);
+		LiveWindow.addActuator("Drive Subsystem", "Back Left Victor", motorBackLeft);
+		LiveWindow.addActuator("Drive Subsystem", "Back Right Victor", motorBackRight);
 
-		LiveWindow.addSensor("Drive Substem", "leftDriveEncoder", leftEncoder);
+		LiveWindow.addSensor("Drive Subsystem", "leftDriveEncoder", leftEncoder);
 		LiveWindow.addSensor("Drive Subsystem", "rightDriveEncoder", rightEncoder);
 		LiveWindow.addSensor("Drive Subsystem", "Gyro Channel", gyroChannel);
 	}
