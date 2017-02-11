@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 	public static final Shooter shooter = new Shooter();
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser;
+	SendableChooser chooser = new SendableChooser();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,10 +40,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		OI.buttonInit();
-		chooser = new SendableChooser<Command>();
-		chooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
-		chooser.addObject("Drive 10 feet", new AutonomousTest(10.0));
-		SmartDashboard.putData("Autonomous command", chooser);
+		// chooser.addDefault("Default Auto", new ExampleCommand());
+		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData(this.drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
@@ -85,7 +83,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		// autonomousCommand = chooser.getSelected();
+		autonomousCommand = new AutonomousTest();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
