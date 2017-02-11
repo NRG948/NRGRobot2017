@@ -1,12 +1,13 @@
 package org.usfirst.frc.team948.utilities;
 
 public class PreferenceKeys {
+
 	/*
 	 * 
-	 * Variable format: public static final String VARIABLE_NAME_HERE =
-	 * "Variable_Name_Here";
+	 * Variable format: public static final String VARIABLE_NAME_HERE = "Variable_Name_Here";
 	 * 
 	 */
+
 	public static final String TURN_P = "Turn_P";
 	public static final String TURN_I = "Turn_I";
 	public static final String TURN_D = "Turn_D";
