@@ -20,7 +20,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	private volatile double PIDOutput;
 	private int prevError;
 	private int counter;
-
+	private double autonomousHeading = 0;
+	
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
 
@@ -65,7 +66,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit(double heading) {
-		if (RobotMap.solenoid.get() == RobotMap.IN_HIGH_GEAR) {
+		if (RobotMap.gearboxSolenoid.get() == RobotMap.IN_HIGH_GEAR) {
 			kp = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_P, DEFAULT_DRIVE_HIGHGEAR_P);
 			ki = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_I, DEFAULT_DRIVE_HIGHGEAR_I);
 			kd = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_D, DEFAULT_DRIVE_HIGHGEAR_D);
@@ -183,5 +184,13 @@ public class Drive extends Subsystem implements PIDOutput {
 	public double getTicksPerFootTolerance() {
 		return RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT_TOLERANCE,
 				DEFAULT_TICKS_PER_FOOT_TOLERANCE);
+	}
+
+	public double getAutonomousHeading() {
+		return autonomousHeading;
+	}
+
+	public void setAutonomousHeading(double autonomousHeading) {
+		this.autonomousHeading = autonomousHeading;
 	}
 }

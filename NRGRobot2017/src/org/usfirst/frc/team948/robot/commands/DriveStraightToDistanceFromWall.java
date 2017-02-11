@@ -32,7 +32,7 @@ public class DriveStraightToDistanceFromWall extends Command {
 		ticksToTravel = Robot.drive.getTicksFromFeet(currentDistanceFromWall - distanceFromWall); //how far to move in terms of ticks
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
-		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
+		Robot.drive.driveOnHeadingInit(Robot.drive.getAutonomousHeading());
 	}
 
 	// Called repeatedly when this Command is scheduled to run

@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,21 +15,21 @@ public class ShiftGears extends Command {
 	private boolean highGear;
 
 	public ShiftGears(boolean highGear) {
+		requires(Robot.gearbox);
 		this.highGear = highGear;
-		System.out.println("Constructor High Gear= " + highGear);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		System.out.println("Initialize High Gear= " + highGear);
-		// Robot.drive.changeGearTracker(highGear);
-		RobotMap.solenoid.set(highGear ? RobotMap.IN_HIGH_GEAR : RobotMap.IN_LOW_GEAR);
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
+		if (highGear) {
+			Robot.gearbox.setHighGear();
+		} else {
+			Robot.gearbox.setLowGear();
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

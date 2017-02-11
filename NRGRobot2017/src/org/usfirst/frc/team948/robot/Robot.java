@@ -8,12 +8,14 @@ import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
+import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +32,7 @@ public class Robot extends IterativeRobot {
 	public static final Drive drive = new Drive();
 	public static final Climber climb = new Climber();
 	public static final Shooter shooter = new Shooter();
+	public static final Gearbox gearbox = new Gearbox();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser;
@@ -49,6 +52,7 @@ public class Robot extends IterativeRobot {
 		POSITION_SIX,
 		POSITION_SEVEN;
 	}
+	
 	@Override
 	public void robotInit() {
 		OI.buttonInit();
@@ -66,7 +70,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		// Start in Low gear
-		RobotMap.solenoid.set(RobotMap.IN_LOW_GEAR);
+		gearbox.setLowGear();
 	}
 
 	/**
@@ -159,8 +163,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
 		SmartDashboard.putNumber("Ultrasound", RobotMap.ultrasound.getVoltage());
 		SmartDashboard.putNumber("Shooter", RobotMap.shooterEncoder.get());
-		SmartDashboard.putBoolean("In High Gear", RobotMap.solenoid.get() == RobotMap.IN_HIGH_GEAR);
-		SmartDashboard.putString("Solenoid Value", RobotMap.solenoid.get().toString());
+		SmartDashboard.putBoolean("In High Gear", RobotMap.gearboxSolenoid.get() == RobotMap.IN_HIGH_GEAR);
+		SmartDashboard.putString("Solenoid Value", RobotMap.gearboxSolenoid.get().toString());
 
 	}
 }

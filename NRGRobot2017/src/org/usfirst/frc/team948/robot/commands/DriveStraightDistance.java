@@ -29,7 +29,7 @@ public class DriveStraightDistance extends Command {
 		ticksToTravel = Robot.drive.getTicksFromFeet(distance);
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
-		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
+		Robot.drive.driveOnHeadingInit(Robot.drive.getAutonomousHeading());
 
 	}
 

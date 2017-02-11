@@ -3,6 +3,7 @@ package org.usfirst.frc.team948.robot.commandgroups;
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
+import org.usfirst.frc.team948.robot.commands.ResetSensors;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -12,6 +13,8 @@ public class AutonomousRoutines extends CommandGroup {
 
 	public AutonomousRoutines(Robot.AutoPosition autoPosition) {
 		this.autoPosition = autoPosition;
+		
+		addSequential(new ResetSensors());
 		
 		switch (this.autoPosition) {
 			case POSITION_ONE:

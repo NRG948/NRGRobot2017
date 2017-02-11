@@ -57,7 +57,7 @@ public class RobotMap {
 
 	public static Preferences preferences = Preferences.getInstance();
 			
-	public static DoubleSolenoid solenoid = new DoubleSolenoid(6, 7);
+	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
 	public static Compressor compressor = new Compressor();
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;

@@ -37,6 +37,7 @@ public class TurnToHeading extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drive.turnToHeadingEnd();
+		Robot.drive.setAutonomousHeading(desiredHeading);
 	}
 
 	// Called when another command which requires one or more of the same
