@@ -15,13 +15,12 @@ public class Gearbox extends Subsystem {
 	public void setHighGear() {
 		RobotMap.gearboxSolenoid.set(RobotMap.IN_HIGH_GEAR);
 	}
-	
+
 	public void setLowGear() {
 		RobotMap.gearboxSolenoid.set(RobotMap.IN_LOW_GEAR);
 	}
-	
-	public boolean isHighGear()
-	{
+
+	public boolean isHighGear() {
 		return RobotMap.gearboxSolenoid.get() == RobotMap.IN_HIGH_GEAR;
 	}
 }
