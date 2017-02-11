@@ -41,23 +41,23 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	public static Victor motorFrontLeft = new Victor(2);
-	public static Victor motorFrontRight = new Victor(0);
-	public static Victor motorBackLeft = new Victor(3);
-	public static Victor motorBackRight = new Victor(1);
+	public static Victor motorFrontRight = new Victor(1);
+	public static Victor motorBackLeft = new Victor(0);
+	public static Victor motorBackRight = new Victor(4);
 	public static Encoder leftEncoder = new Encoder(0, 1);
 	public static Encoder rightEncoder = new Encoder(2, 3);
 	public static LiveWindowSendable gyroChannel;
 	public static AnalogInput ultrasound = new AnalogInput(0);
 	public static Victor shooterWheel = new Victor(4);
 	public static Encoder shooterEncoder = new Encoder(4, 5);
-	public static Victor climberMotor = new Victor(8);
-
+	public static Victor climberMotor = new Victor();
+	
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
 
 	public static Preferences preferences = Preferences.getInstance();
 
-	public static DoubleSolenoid solenoid = new DoubleSolenoid(1, 0);
+	public static DoubleSolenoid solenoid = new DoubleSolenoid(6, 7);
 	public static Compressor compressor = new Compressor(1);
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
