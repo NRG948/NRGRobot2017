@@ -50,6 +50,7 @@ public class RobotMap {
 	public static AnalogInput ultrasound = new AnalogInput(0);
 	public static Victor shooterWheel = new Victor(4);
 	public static Encoder shooterEncoder = new Encoder(4, 5);
+	public static Victor climberMotor = new Victor(8);
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);

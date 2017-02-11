@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ClimbPower extends Command {
 
-	final double power;
+	private double power;
 	
     public ClimbPower(double power) {
         // Use requires() here to declare subsystem dependencies
