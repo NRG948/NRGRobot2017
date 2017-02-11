@@ -18,12 +18,8 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private PIDController drivePID;
 	private volatile double PIDOutput;
-	// private double desiredHeading;
-	// private double tolerance;
 	private int prevError;
 	private int counter;
-	// private boolean inHighGear = false;
-	// private boolean gearChanged = false;
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
@@ -69,26 +65,19 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public void driveOnHeadingInit(double heading) {
-		// if(gearChanged){
 		if (RobotMap.solenoid.get() == RobotMap.IN_HIGH_GEAR) {
 			kp = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_P, DEFAULT_DRIVE_HIGHGEAR_P);
 			ki = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_I, DEFAULT_DRIVE_HIGHGEAR_I);
 			kd = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_HIGH_GEAR_D, DEFAULT_DRIVE_HIGHGEAR_D);
-			// drivePID.setPID(kp, ki, kd);
 		} else {
 			kp = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_P, DEFAULT_DRIVE_LOWGEAR_P);
 			ki = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_I, DEFAULT_DRIVE_LOWGEAR_I);
 			kd = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_D, DEFAULT_DRIVE_LOWGEAR_D);
-			// drivePID.setPID(kp, ki, kd);
 		}
-		// gearChanged = false;
-		// }
 		drivePIDInit(kp, ki, kd, heading, 0, 0);
 	}
 
 	public void driveOnHeading(double power) {
-		// Limits the PID output proportionally to the current error
-		// Prevents erratic corrections at high speed
 		double error = drivePID.getError();
 		double outputRange = MathUtil.clamp(
 				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
@@ -174,10 +163,6 @@ public class Drive extends Subsystem implements PIDOutput {
 		return drivePID.onTarget();
 	}
 
-	// public void changeGearTracker(boolean gear) {
-	// gearChanged = gear == inHighGear ? false : true;
-	// inHighGear = gear;
-	// }
 
 	public double getFeetFromUltrasoundVolts() {
 		return (RobotMap.ultrasound.getVoltage() - 0.0255) / (.0242 * 12);
