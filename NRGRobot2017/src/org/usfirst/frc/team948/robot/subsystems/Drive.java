@@ -65,8 +65,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePID.setSetpoint(setPoint);
 		PIDOutput = 0;
 		drivePID.enable();
-		SmartDashboard.putString("kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
-		SmartDashboard.putNumber("set point", drivePID.getSetpoint());
+		SmartDashboard.putString("Turn PID kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
+		SmartDashboard.putNumber("Turn PID setpoint", drivePID.getSetpoint());
 	}
 
 	public void driveOnHeadingInit(double heading) {
@@ -89,9 +89,11 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePID.setOutputRange(-outputRange, outputRange);
 
 		double currentPIDOutput = MathUtil.clamp(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
-		SmartDashboard.putNumber("driveOnHeading error", drivePID.getError());
-		SmartDashboard.putNumber("driveOnHeading output", currentPIDOutput);
+		
+		SmartDashboard.putNumber("driveOnHeading PID error", drivePID.getError());
+		SmartDashboard.putNumber("driveOnHeading PID output", currentPIDOutput);
 		SmartDashboard.putNumber("driveOnHeading rawPower", power);
+		
 		double pL = power;
 		double pR = power;
 
@@ -112,8 +114,8 @@ public class Drive extends Subsystem implements PIDOutput {
 			}
 		}
 
-		SmartDashboard.putNumber("Left Drive Straight output", pL);
-		SmartDashboard.putNumber("Right Drive Straight output", pR);
+		SmartDashboard.putNumber("Left driveOnHeading power", pL);
+		SmartDashboard.putNumber("Right driveOnHeading power", pR);
 		tankDrive(pL, pR);
 	}
 
@@ -145,7 +147,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
 		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
 		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
-		SmartDashboard.putNumber("desired heading", desiredHeading);
+		SmartDashboard.putNumber("turnToHeading desired heading", desiredHeading);
 		prevError = 0;
 		counter = 0;
 	}

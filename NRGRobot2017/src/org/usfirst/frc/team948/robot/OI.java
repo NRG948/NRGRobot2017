@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
+import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -49,7 +50,8 @@ public class OI {
 	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 11);
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
 	public static JoystickButton climberReverse = new JoystickButton(leftJoystick, 7);
-
+	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
+	
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
 		resetSensorsButton.whenPressed(new ResetSensors());
@@ -57,6 +59,7 @@ public class OI {
 		switchLowGear.whenPressed(new ShiftGears(false));
 		climberForwards.whileHeld(new ClimbPower(0.50));
 		climberReverse.whileHeld(new ClimbPower(-0.35));
+		cameraLightSwitch.whenPressed(new FlipCameraLight());
+		
 	}
-	
 }

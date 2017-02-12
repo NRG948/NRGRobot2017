@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
@@ -57,8 +58,10 @@ public class RobotMap {
 
 	public static Preferences preferences = Preferences.getInstance();
 			
-	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
 	public static Compressor compressor = new Compressor();
+
+	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
+	public static Solenoid cameraLight = new Solenoid(4);
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;

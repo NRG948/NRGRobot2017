@@ -7,12 +7,15 @@ import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
+import org.usfirst.frc.team948.robot.subsystems.CameraLight;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -34,6 +37,9 @@ public class Robot extends IterativeRobot {
 	public static final Climber climb = new Climber();
 	public static final Shooter shooter = new Shooter();
 	public static final Gearbox gearbox = new Gearbox();
+	public static final CameraLight cameraLight = new CameraLight();
+
+	UsbCamera targetCam;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser;
@@ -42,26 +48,23 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	
-	public enum AutoPosition
-	{
-		POSITION_ONE,
-		POSITION_TWO,
-		POSITION_THREE,
-		POSITION_FOUR,
-		POSITION_FIVE,
-		POSITION_SIX,
-		POSITION_SEVEN;
+
+	public enum AutoPosition {
+		POSITION_ONE, POSITION_TWO, POSITION_THREE, POSITION_FOUR, POSITION_FIVE, POSITION_SIX, POSITION_SEVEN;
 	}
-	
+
 	@Override
 	public void robotInit() {
+		targetCam = CameraServer.getInstance().startAutomaticCapture();
+		
+		targetCam.setExposureManual(-11);
+		targetCam.setWhiteBalanceHoldCurrent();
+		targetCam.setResolution(320, 240);
 		OI.buttonInit();
 		chooser = new SendableChooser<Command>();
 		chooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
 		chooser.addObject("Drive 10 feet", new AutonomousTest(10.0));
 		chooser.addObject("Position Two Routine", new AutonomousRoutines(AutoPosition.POSITION_TWO));
-		SmartDashboard.putData("Autonomous command", chooser);
 		SmartDashboard.putData(this.drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
@@ -161,14 +164,14 @@ public class Robot extends IterativeRobot {
 	public void periodicAll() {
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
 		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());
-		SmartDashboard.putNumber("right joystick y", OI.rightJoystick.getY());
-		SmartDashboard.putNumber("left joystick y", OI.leftJoystick.getY());
-		SmartDashboard.putNumber("left encoder", RobotMap.leftEncoder.get());
-		SmartDashboard.putNumber("right encoder", RobotMap.rightEncoder.get());
-		SmartDashboard.putNumber("Ultrasound", RobotMap.ultrasound.getVoltage());
-		SmartDashboard.putNumber("Shooter", RobotMap.shooterEncoder.get());
-		SmartDashboard.putBoolean("In High Gear", RobotMap.gearboxSolenoid.get() == RobotMap.IN_HIGH_GEAR);
-		SmartDashboard.putString("Solenoid Value", RobotMap.gearboxSolenoid.get().toString());
-
+		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
+		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
+		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
+		SmartDashboard.putNumber("Right encoder", RobotMap.rightEncoder.get());
+		SmartDashboard.putNumber("Ultrasound sensor", RobotMap.ultrasound.getVoltage());
+		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
+		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
+		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
+//		SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 	}
 }

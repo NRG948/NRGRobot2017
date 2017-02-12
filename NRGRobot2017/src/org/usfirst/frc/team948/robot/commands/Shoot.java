@@ -25,7 +25,7 @@ public class Shoot extends Command{
 	protected void execute() {
 		double shooterPower = OI.leftJoystick.getZ();
 		Robot.shooter.rawShoot(shooterPower);
-		SmartDashboard.putNumber("Left Joystick Power", shooterPower);
+		SmartDashboard.putNumber("Shooter power", shooterPower);
 	}
 
 	@Override

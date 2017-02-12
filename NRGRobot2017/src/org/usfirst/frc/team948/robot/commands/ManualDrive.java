@@ -25,9 +25,6 @@ public class ManualDrive extends Command {
 		double leftJoystick = -OI.leftJoystick.getY();
 		double rightJoystick = -OI.rightJoystick.getY();
 		Robot.drive.tankDrive(leftJoystick, rightJoystick);
-		
-		SmartDashboard.putNumber("Left Joystick", leftJoystick);
-		SmartDashboard.putNumber("Right Joystick", rightJoystick);
 	}
 
 	@Override
