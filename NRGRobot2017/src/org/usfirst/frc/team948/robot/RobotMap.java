@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
@@ -47,8 +46,8 @@ public class RobotMap {
 	public static Victor motorFrontRight = new Victor(0);
 	public static Victor motorBackLeft = new Victor(3);
 	public static Victor motorBackRight = new Victor(1);
-	public static Encoder leftEncoder = new Encoder(0, 1);
-	public static Encoder rightEncoder = new Encoder(2, 3);
+	public static Encoder leftEncoder = new Encoder(0, 1, true);
+	public static Encoder rightEncoder = new Encoder(2, 3, false);
 	public static LiveWindowSendable gyroChannel;
 	public static AnalogInput ultrasound = new AnalogInput(0);
 	public static Victor shooterWheel = new Victor(4);
