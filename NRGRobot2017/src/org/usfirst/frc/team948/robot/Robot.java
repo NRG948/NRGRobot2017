@@ -12,6 +12,7 @@ import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
+import org.usfirst.frc.team948.utilities.visionProc;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
 	public static final CameraLight cameraLight = new CameraLight();
 
 	UsbCamera targetCam;
+	visionProc VisionProccesor;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser;
@@ -58,6 +60,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		targetCam = CameraServer.getInstance().startAutomaticCapture();
 		targetCam.setResolution(640, 380);
+		targetCam.setExposureManual(-11);
+		cameraLight.turnOn();
+		VisionProccesor  = new visionProc();
 		OI.buttonInit();
 		chooser = new SendableChooser<Command>();
 		chooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
@@ -70,7 +75,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
 		SmartDashboard.putData("Turn -90", new Turn(-90, 0.5));
 		SmartDashboard.putData("Turn +90", new Turn(90, 0.5));
-		
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
