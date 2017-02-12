@@ -5,7 +5,7 @@ import org.usfirst.frc.team948.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Robot does a relative turn by a given angle 
+ * Robot does a relative turn by a given angle in degrees.
  * Positive is clockwise
  * Negative is counter clockwise
  */
@@ -13,10 +13,10 @@ public class Turn extends Command {
 	private double desiredHeading;
 	private double power;
 
-	public Turn(double angle, double power) {
+	public Turn(double degreesToTurn, double power) {
 		this.requires(Robot.drive);
 		this.power = power;
-		this.desiredHeading = Robot.drive.getAutonomousHeading() + angle;
+		this.desiredHeading = Robot.drive.getAutonomousHeading() + degreesToTurn;
 	}
 
 	// Called just before this Command runs the first time
@@ -40,7 +40,7 @@ public class Turn extends Command {
 	}
 
 	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
+	// subsystems is scheduled to run.
 	protected void interrupted() {
 		end();
 	}

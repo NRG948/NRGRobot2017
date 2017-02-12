@@ -25,6 +25,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
+	private static final double SLOW_DOWN_ERROR = 5.0;
 	private static final double MIN_POWER_TURN = 0.25;
 
 	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
@@ -173,20 +174,18 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void turnToHeadingInit2(double desiredHeading) {
 		setAutonomousHeading(desiredHeading);
-		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
+		turnError = desiredHeading - RobotMap.continuousGyro.getAngle();
 		turnTolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
-//		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
-//		counter = 0;
 	}
 
 	public void turnToHeading2(double power) {
 		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
-		double scaledPower = Math.abs(turnError) > 5.0 ? power : MIN_POWER_TURN;
-		SmartDashboard.putNumber("turnToHeading2 error", turnError);
-		SmartDashboard.putNumber("turnToHeading2 scaledPower", scaledPower);
-		scaledPower = Math.copySign(scaledPower, turnError);
-		tankDrive(scaledPower, -scaledPower);
+		double adjustedPower = Math.abs(turnError) > SLOW_DOWN_ERROR ? power : MIN_POWER_TURN;
+		SmartDashboard.putNumber("turnToHeading2 turnError", turnError);
+		SmartDashboard.putNumber("turnToHeading2 scaledPower", adjustedPower);
+		adjustedPower = Math.copySign(adjustedPower, turnError);
+		tankDrive(adjustedPower, -adjustedPower);
 	}
 
 	public void turnToHeadingEnd2(double newHeading) {
