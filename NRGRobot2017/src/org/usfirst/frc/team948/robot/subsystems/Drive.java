@@ -173,6 +173,7 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void turnToHeadingInit2(double desiredHeading) {
 		setAutonomousHeading(desiredHeading);
+		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
 		turnTolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
 //		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
