@@ -22,7 +22,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private int prevError;
 	private int counter;
 	private double autonomousHeading = 0;
-	
+
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
 
@@ -156,7 +156,8 @@ public class Drive extends Subsystem implements PIDOutput {
 		tankDrive(scaledPower, -scaledPower);
 	}
 
-	public void turnToHeadingEnd() {
+	public void turnToHeadingEnd(double newHeading) {
+		setAutonomousHeading(newHeading);
 		drivePID.reset();
 		stop();
 	}
@@ -164,7 +165,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	public boolean isOnHeading() {
 		return drivePID.onTarget();
 	}
-
+	
 
 	public double getFeetFromUltrasoundVolts() {
 		return (RobotMap.ultrasound.getVoltage() - 0.0255) / (.0242 * 12);

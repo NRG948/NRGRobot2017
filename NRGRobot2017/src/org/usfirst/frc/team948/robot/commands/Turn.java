@@ -5,18 +5,19 @@ import org.usfirst.frc.team948.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Turns the robot to face a specific heading
+ * Robot does a relative turn by a given angle 
+ * Positive is clockwise
+ * Negative is counter clockwise
  */
-public class TurnToHeading extends Command {
+public class Turn extends Command {
 	private double desiredHeading;
 	private double power;
 
-	public TurnToHeading(double desiredHeading, double power) {
+	public Turn(double angle, double power) {
 		this.requires(Robot.drive);
 		this.power = power;
-		this.desiredHeading = desiredHeading;
+		this.desiredHeading = Robot.drive.getAutonomousHeading() + angle;
 	}
-		
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
