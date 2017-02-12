@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,10 +57,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		targetCam = CameraServer.getInstance().startAutomaticCapture();
-		
-		targetCam.setExposureManual(-11);
-		targetCam.setWhiteBalanceHoldCurrent();
-		targetCam.setResolution(320, 240);
+		targetCam.setResolution(640, 380);
 		OI.buttonInit();
 		chooser = new SendableChooser<Command>();
 		chooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
@@ -160,7 +158,6 @@ public class Robot extends IterativeRobot {
 		periodicAll();
 		LiveWindow.run();
 	}
-
 	public void periodicAll() {
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
 		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());
@@ -172,6 +169,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
+		try {
+			SmartDashboard.putData("PDP", RobotMap.pdp);
+		} catch (Exception e) {
+		}
 //		SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 	}
 }
