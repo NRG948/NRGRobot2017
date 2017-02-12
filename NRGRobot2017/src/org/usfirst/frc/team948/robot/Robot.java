@@ -5,6 +5,7 @@ import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousTest;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
+import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
@@ -66,6 +67,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
+		SmartDashboard.putData("Turn -90", new Turn(-90, 0.5));
+		SmartDashboard.putData("Turn +90", new Turn(90, 0.5));
+		
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));

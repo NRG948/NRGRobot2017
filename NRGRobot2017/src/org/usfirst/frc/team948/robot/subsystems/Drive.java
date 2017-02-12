@@ -19,12 +19,13 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private PIDController drivePID;
 	private volatile double PIDOutput;
-	private int prevError;
+	private double prevError;
 	private int counter;
 	private double autonomousHeading = 0;
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
+	private static final double MIN_POWER_TURN = 0.25;
 
 	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_LOWGEAR_I = 0.016;
@@ -40,6 +41,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	private double kp;
 	private double ki;
 	private double kd;
+	private double turnError;
+	private double turnTolerance;
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ManualDrive());
@@ -165,7 +168,31 @@ public class Drive extends Subsystem implements PIDOutput {
 	public boolean isOnHeading() {
 		return drivePID.onTarget();
 	}
-	
+
+	public void turnToHeadingInit2(double desiredHeading) {
+		setAutonomousHeading(desiredHeading);
+		turnTolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
+//		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
+		SmartDashboard.putNumber("desired heading", desiredHeading);
+//		counter = 0;
+	}
+
+	public void turnToHeading2(double power) {
+		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
+		double scaledPower = Math.abs(turnError) > 5.0 ? power : MIN_POWER_TURN;
+		SmartDashboard.putNumber("turnToHeading2 error", turnError);
+		SmartDashboard.putNumber("turnToHeading2 scaledPower", scaledPower);
+		scaledPower = Math.copySign(scaledPower, turnError);
+		tankDrive(scaledPower, -scaledPower);
+	}
+
+	public void turnToHeadingEnd2(double newHeading) {
+		stop();
+	}
+
+	public boolean isOnHeading2() {
+		return turnError <= turnTolerance;
+	}
 
 	public double getFeetFromUltrasoundVolts() {
 		return (RobotMap.ultrasound.getVoltage() - 0.0255) / (.0242 * 12);
