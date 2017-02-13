@@ -24,7 +24,7 @@ public class DriveStraightDistance extends Command {
 
 	public DriveStraightDistance(double distance, double power) {
 		this.power = power;
-		this.distance = distance;
+		this.distance = Math.abs(distance);
 		requires(Robot.drive);
 	}
 
