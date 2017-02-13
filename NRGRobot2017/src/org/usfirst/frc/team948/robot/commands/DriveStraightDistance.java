@@ -7,7 +7,13 @@ import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+/**
+ * Robot drives straight using autonomousHeading.
+ * To go forward use positive distance and positive power.
+ * To go backwards use positive distance and negative power.
+ * 
+ * autonomousHeading() not working, so switched back to continuousGyro.getHeading()
+ */
 public class DriveStraightDistance extends Command {
 	private double power;
 	private double distance;
@@ -20,7 +26,7 @@ public class DriveStraightDistance extends Command {
 
 	public DriveStraightDistance(double distance, double power) {
 		this.power = power;
-		this.distance = distance;
+		this.distance = Math.abs(distance);
 		requires(Robot.drive);
 	}
 
