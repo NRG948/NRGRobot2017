@@ -2,33 +2,26 @@ package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.Robot;
-import org.usfirst.frc.team948.utilities.MathUtil;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ManualDrive extends Command {
-	public ManualDrive() {
+public class TestDrive extends Command {
+	private double power;
+
+	public TestDrive() {
 		this.requires(Robot.drive);
 	}
 
 	@Override
 	protected void initialize() {
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return false;
+		this.power = OI.rightJoystick.getZ();
 	}
 
 	@Override
 	protected void execute() {
-		if (OI.leftJoystick.getY() >=  0){
-			double leftJoystick = -OI.leftJoystick.getY();
-		}
-		double leftJoystick = MathUtil.deadband(-OI.leftJoystick.getY(), 0.1);
-		double rightJoystick = MathUtil.deadband(-OI.rightJoystick.getY(), 0.1);
-		Robot.drive.tankDrive(leftJoystick, rightJoystick);
+		SmartDashboard.putNumber("power for test",power);
+		Robot.drive.tankDrive(power, power);
 	}
 
 	@Override
@@ -40,4 +33,9 @@ public class ManualDrive extends Command {
 	protected void interrupted() {
 		end();
 	}
+
+	protected boolean isFinished() {
+		return false;
+	}
+
 }

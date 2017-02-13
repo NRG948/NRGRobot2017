@@ -29,15 +29,17 @@ public class DriveStraightDistance extends Command {
 		ticksToTravel = Robot.drive.getTicksFromFeet(distance);
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
-		Robot.drive.driveOnHeadingInit(Robot.drive.getAutonomousHeading());
-
+//		Robot.drive.driveOnHeadingInit(Robot.drive.getAutonomousHeading());
+		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
 	}
 
 	@Override
 	protected void execute() {
 		double leftTicks = Math.abs(RobotMap.leftEncoder.get() - encoderLeftStart);
 		double rightTicks = Math.abs(RobotMap.rightEncoder.get() - encoderRightStart);
-		ticksTraveled = Math.max(leftTicks, rightTicks);
+//		ticksTraveled = Math.max(leftTicks, rightTicks);
+		ticksTraveled = (leftTicks + rightTicks) / 2;
+		SmartDashboard.putNumber("DriveStraightDistance distance traveled", ticksTraveled / Robot.drive.getTicksPerFoot());
 		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerFoot());
 		Robot.drive.driveOnHeading(currentPower);
 	}

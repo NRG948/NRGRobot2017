@@ -66,8 +66,9 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePID.setSetpoint(setPoint);
 		PIDOutput = 0;
 		drivePID.enable();
-		SmartDashboard.putString("Turn PID kp, ki, kd", drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
-		SmartDashboard.putNumber("Turn PID setpoint", drivePID.getSetpoint());
+		SmartDashboard.putString("Current PID kp, ki, kd",
+				drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD());
+		SmartDashboard.putNumber("Current PID setpoint", drivePID.getSetpoint());
 	}
 
 	public void driveOnHeadingInit(double heading) {
@@ -85,32 +86,40 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	public void driveOnHeading(double power) {
 		double error = drivePID.getError();
-		double outputRange = MathUtil.clamp(
-				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
+		double outputRange = 1;
+//				MathUtil.clamp(
+//				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
 		drivePID.setOutputRange(-outputRange, outputRange);
 
 		double currentPIDOutput = MathUtil.clamp(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
-		
+
 		SmartDashboard.putNumber("driveOnHeading PID error", drivePID.getError());
 		SmartDashboard.putNumber("driveOnHeading PID output", currentPIDOutput);
 		SmartDashboard.putNumber("driveOnHeading rawPower", power);
-		
+
 		double pL = power;
 		double pR = power;
 
 		// go straight but correct with the pidOutput
 		// given the pid output, rotate accordingly
 
-		if (power > 0) {
+		if (power > 0) { // moving forward
 			if (currentPIDOutput > 0) {
+				// turning to the left because right is too high -> decrease
+				// right
 				pR -= currentPIDOutput;
 			} else {
+				// turning to the right because left is too high-> decrease left
 				pL += currentPIDOutput;
 			}
-		} else {
+		} else { // moving backward
 			if (currentPIDOutput > 0) {
+				// turning to the right because left is too high -> decrease
+				// left
 				pL += currentPIDOutput;
 			} else {
+				// turning to the left because right is too high -> decrease
+				// right
 				pR -= currentPIDOutput;
 			}
 		}

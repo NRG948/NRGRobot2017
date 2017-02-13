@@ -42,12 +42,15 @@ public class RobotMap {
 	// number and the module. For example you with a rangefinder:
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
-	public static Victor motorFrontLeft = new Victor(2);
-	public static Victor motorFrontRight = new Victor(0);
-	public static Victor motorBackLeft = new Victor(3);
-	public static Victor motorBackRight = new Victor(1);
+	public static Victor motorFrontLeft = new Victor(0);
+	public static Victor motorBackLeft = new Victor(1);
+	
+	public static Victor motorFrontRight = new Victor(2);
+	public static Victor motorBackRight = new Victor(3);
+	
 	public static Encoder leftEncoder = new Encoder(0, 1, true);
 	public static Encoder rightEncoder = new Encoder(2, 3, false);
+	
 	public static LiveWindowSendable gyroChannel;
 	public static AnalogInput ultrasound = new AnalogInput(0);
 	public static Victor shooterWheel = new Victor(4);

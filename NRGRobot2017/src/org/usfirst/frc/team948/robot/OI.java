@@ -5,6 +5,8 @@ import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
+import org.usfirst.frc.team948.robot.commands.StopTestDrive;
+import org.usfirst.frc.team948.robot.commands.TestDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -51,6 +53,8 @@ public class OI {
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
 	public static JoystickButton climberReverse = new JoystickButton(leftJoystick, 7);
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
+	public static JoystickButton startDriveButton = new JoystickButton(rightJoystick, 8);
+	public static JoystickButton stopDriveButton = new JoystickButton(rightJoystick, 9);
 	
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
@@ -60,6 +64,7 @@ public class OI {
 		climberForwards.whileHeld(new ClimbPower(0.50));
 		climberReverse.whileHeld(new ClimbPower(-0.35));
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
-		
+		startDriveButton.whenPressed(new TestDrive());
+		stopDriveButton.whenPressed(new StopTestDrive());
 	}
 }

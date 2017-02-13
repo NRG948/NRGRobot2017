@@ -19,22 +19,28 @@ public class AutonomousRoutines extends CommandGroup {
 		
 		switch (this.autoPosition) {
 			case POSITION_ONE:
+				addSequential(new PositionOne(0.5, 3));
 				break;
 			case POSITION_TWO:
 				addSequential(new PositionTwo(0.5, 3));
 				break;
 			case POSITION_THREE:
+				addSequential(new PositionThree(0.5, 3));
 				break;
 			case POSITION_FOUR:
+				addSequential(new PositionFour(0.5, 3));
 				break;
 			case POSITION_FIVE:
+				addSequential(new PositionFive(0.5, 3));
 				break;
 			case POSITION_SIX:
+				addSequential(new PositionSix(0.5, 3));
 				break;
 			case POSITION_SEVEN:
 				addSequential(new PositionSeven());
 				break;
 		}
+		
 	}
 	private class PositionOne extends CommandGroup {
 		private double power;

@@ -41,11 +41,11 @@ public class Robot extends IterativeRobot {
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
 
-	UsbCamera targetCam;
+	public static UsbCamera camera;
 	visionProc VisionProccesor;
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser;
+	SendableChooser<Command> autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,16 +58,17 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		targetCam = CameraServer.getInstance().startAutomaticCapture();
-		targetCam.setResolution(640, 380);
-		targetCam.setExposureManual(-11);
+		camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(640, 380);
+		camera.setExposureManual(-11);
 		cameraLight.turnOn();
 		VisionProccesor  = new visionProc();
 		OI.buttonInit();
-		chooser = new SendableChooser<Command>();
-		chooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
-		chooser.addObject("Drive 10 feet", new AutonomousTest(10.0));
-		chooser.addObject("Position Two Routine", new AutonomousRoutines(AutoPosition.POSITION_TWO));
+		autoChooser = new SendableChooser<Command>();
+		autoChooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
+		autoChooser.addObject("Drive 10 feet", new AutonomousTest(10.0));
+		autoChooser.addObject("Position Two Routine", new AutonomousRoutines(AutoPosition.POSITION_TWO));
+		SmartDashboard.putData("Choose autonomous routine", autoChooser);
 		SmartDashboard.putData(this.drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
@@ -76,6 +77,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn -90", new Turn(-90, 0.5));
 		SmartDashboard.putData("Turn +90", new Turn(90, 0.5));
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
+		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		// Start in Low gear
@@ -111,7 +113,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autoChooser.getSelected();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -177,6 +179,11 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("PDP", RobotMap.pdp);
 		} catch (Exception e) {
 		}
+		SmartDashboard.putNumber("Right joystick z", OI.rightJoystick.getZ() );
+		SmartDashboard.putNumber("FrontLeft", RobotMap.motorFrontLeft.get());
+		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());
+		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
+		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
 //		SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 	}
 }
