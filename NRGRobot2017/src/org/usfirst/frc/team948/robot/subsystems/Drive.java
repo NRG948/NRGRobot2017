@@ -181,14 +181,14 @@ public class Drive extends Subsystem implements PIDOutput {
 		return drivePID.onTarget();
 	}
 
-	public void turnToHeadingInit2(double desiredHeading) {
+	public void turnToHeadingInitNoPID(double desiredHeading) {
 		setAutonomousHeading(desiredHeading);
 		turnError = desiredHeading - RobotMap.continuousGyro.getAngle();
 		turnTolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
 	}
 
-	public void turnToHeading2(double power) {
+	public void turnToHeadingNoPID(double power) {
 		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
 		double adjustedPower = Math.abs(turnError) > SLOW_DOWN_ERROR ? power : MIN_POWER_TURN;
 		SmartDashboard.putNumber("turnToHeading2 turnError", turnError);
@@ -197,11 +197,11 @@ public class Drive extends Subsystem implements PIDOutput {
 		tankDrive(adjustedPower, -adjustedPower);
 	}
 
-	public void turnToHeadingEnd2(double newHeading) {
+	public void turnToHeadingEndNoPID(double newHeading) {
 		stop();
 	}
 
-	public boolean isOnHeading2() {
+	public boolean isOnHeadingNoPID() {
 		return turnError <= turnTolerance;
 	}
 
