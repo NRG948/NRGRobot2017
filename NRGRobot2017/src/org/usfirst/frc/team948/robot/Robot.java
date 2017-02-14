@@ -58,16 +58,28 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+
+		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(640, 380);
 		camera.setExposureManual(-11);
-		cameraLight.turnOn();
-		VisionProccesor  = new visionProc();
+		cameraLight.turnOff();
+		VisionProccesor = new visionProc();
+
+		// Driver Station
 		OI.buttonInit();
+
+		// Autonomous Routine
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addDefault("Drive 5 feet", new AutonomousTest(5.0));
-		autoChooser.addObject("Drive 10 feet", new AutonomousTest(10.0));
-		autoChooser.addObject("Position Two Routine", new AutonomousRoutines(AutoPosition.POSITION_TWO));
+		autoChooser.addObject("Red 1", new AutonomousRoutines(AutoPosition.POSITION_ONE));
+		autoChooser.addObject("Red 2 ", new AutonomousRoutines(AutoPosition.POSITION_TWO));
+		autoChooser.addObject("Red 3", new AutonomousRoutines(AutoPosition.POSITION_THREE));
+		autoChooser.addObject("Blue 1", new AutonomousRoutines(AutoPosition.POSITION_SIX));
+		autoChooser.addObject("Blue 2", new AutonomousRoutines(AutoPosition.POSITION_FIVE));
+		autoChooser.addObject("Blue 3", new AutonomousRoutines(AutoPosition.POSITION_FOUR));
+		autoChooser.addDefault("No Motion", new AutonomousRoutines(AutoPosition.POSITION_SEVEN));
+
+		// SmartDashboard for Drive SubSystem Commands
 		SmartDashboard.putData("Choose autonomous routine", autoChooser);
 		SmartDashboard.putData(this.drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
@@ -80,6 +92,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
+
 		// Start in Low gear
 		gearbox.setLowGear();
 	}
@@ -164,6 +177,7 @@ public class Robot extends IterativeRobot {
 		periodicAll();
 		LiveWindow.run();
 	}
+
 	public void periodicAll() {
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
 		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());
@@ -179,11 +193,11 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("PDP", RobotMap.pdp);
 		} catch (Exception e) {
 		}
-		SmartDashboard.putNumber("Right joystick z", OI.rightJoystick.getZ() );
+		SmartDashboard.putNumber("Right joystick z", OI.rightJoystick.getZ());
 		SmartDashboard.putNumber("FrontLeft", RobotMap.motorFrontLeft.get());
 		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());
 		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
 		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
-//		SmartDashboard.putNumber("Camera", targetCam.getBrightness());
+		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 	}
 }

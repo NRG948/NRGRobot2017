@@ -23,9 +23,6 @@ public class ManualDrive extends Command {
 
 	@Override
 	protected void execute() {
-		if (OI.leftJoystick.getY() >=  0){
-			double leftJoystick = -OI.leftJoystick.getY();
-		}
 		double leftJoystick = MathUtil.deadband(-OI.leftJoystick.getY(), 0.1);
 		double rightJoystick = MathUtil.deadband(-OI.rightJoystick.getY(), 0.1);
 		Robot.drive.tankDrive(leftJoystick, rightJoystick);
