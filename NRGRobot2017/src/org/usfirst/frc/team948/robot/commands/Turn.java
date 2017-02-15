@@ -5,22 +5,23 @@ import org.usfirst.frc.team948.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Robot does a relative turn by a given angle in degrees.
- * Positive is clockwise
+ * Robot does a relative turn by a given angle in degrees. Positive is clockwise
  * Negative is counter clockwise
  */
 public class Turn extends Command {
 	private double desiredHeading;
 	private double power;
+	private double degreesToTurn;
 
-	public Turn(double degreesToTurn, double power) {
+	public Turn(double power, double degreesToTurn) {
 		this.requires(Robot.drive);
 		this.power = power;
-		this.desiredHeading = Robot.drive.getAutonomousHeading() + degreesToTurn;
+		this.degreesToTurn = degreesToTurn;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		this.desiredHeading = Robot.drive.getAutonomousHeading() + degreesToTurn;
 		Robot.drive.turnToHeadingInitNoPID(desiredHeading);
 	}
 

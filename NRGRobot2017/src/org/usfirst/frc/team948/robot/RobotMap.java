@@ -47,16 +47,21 @@ public class RobotMap {
 	
 	public static Victor motorFrontRight = new Victor(2);
 	public static Victor motorBackRight = new Victor(3);
+
+	public static Victor climberMotor = new Victor(8);
+	
+	public static Victor ballCollectorMotor = new Victor(5);
+	
+	public static Victor shooterWheel = new Victor(4);
 	
 	public static Encoder leftEncoder = new Encoder(0, 1, true);
 	public static Encoder rightEncoder = new Encoder(2, 3, false);
 	
 	public static LiveWindowSendable gyroChannel;
 	public static AnalogInput ultrasound = new AnalogInput(0);
-	public static Victor shooterWheel = new Victor(4);
-	public static Encoder shooterEncoder = new Encoder(4, 5);
-	public static Victor climberMotor = new Victor(8);
 	
+	public static Encoder shooterEncoder = new Encoder(4, 5);
+
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
 
@@ -70,6 +75,7 @@ public class RobotMap {
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+
 	static void init() {
 		LiveWindow.addActuator("Drive Subsystem", "Front Left Victor", motorFrontLeft);
 		LiveWindow.addActuator("Drive Subsystem", "Front Right Victor", motorFrontRight);

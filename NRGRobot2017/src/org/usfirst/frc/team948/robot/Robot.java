@@ -2,11 +2,11 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
-import org.usfirst.frc.team948.robot.commandgroups.AutonomousTest;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
+import org.usfirst.frc.team948.robot.subsystems.BallCollector;
 import org.usfirst.frc.team948.robot.subsystems.CameraLight;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
@@ -15,13 +15,10 @@ import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.visionProc;
 
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +37,7 @@ public class Robot extends IterativeRobot {
 	public static final Shooter shooter = new Shooter();
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
+	public static final BallCollector ballCollector= new BallCollector();
 
 	public static UsbCamera camera;
 	visionProc VisionProccesor;
@@ -193,6 +191,11 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("PDP", RobotMap.pdp);
 		} catch (Exception e) {
 		}
+		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
+		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
+		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));
+		SmartDashboard.putNumber("Channel 0", RobotMap.pdp.getCurrent(0));
+
 		SmartDashboard.putNumber("Right joystick z", OI.rightJoystick.getZ());
 		SmartDashboard.putNumber("FrontLeft", RobotMap.motorFrontLeft.get());
 		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
@@ -55,7 +56,9 @@ public class OI {
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
 	public static JoystickButton startDriveButton = new JoystickButton(rightJoystick, 8);
 	public static JoystickButton stopDriveButton = new JoystickButton(rightJoystick, 9);
-	
+	public static JoystickButton ejectBalls = new JoystickButton(rightJoystick, 6);
+	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
+
 	public static void buttonInit() {
 		leftTrigger.whileHeld(new ManualDriveStraight());
 		resetSensorsButton.whenPressed(new ResetSensors());
@@ -66,5 +69,7 @@ public class OI {
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
 		startDriveButton.whenPressed(new TestDrive());
 		stopDriveButton.whenPressed(new StopTestDrive());
+		acquireBalls.whileHeld(new BallCollect(true));
+		ejectBalls.whileHeld(new BallCollect(false));
 	}
 }
