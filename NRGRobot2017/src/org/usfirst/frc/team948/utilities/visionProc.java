@@ -42,14 +42,11 @@ public class visionProc {
 			timer.start();
 			cvSink.grabFrame(mat);
 			while (!Thread.interrupted()) {
-				SmartDashboard.putNumber("Timer", timer.get());
 				if(timer.get() > 0.002){
 					if (cvSink.grabFrame(mat) == 0) {
-						SmartDashboard.putBoolean("frameError", true);
 						out.notifyError(cvSink.getError());
 						continue;
 					}
-					SmartDashboard.putBoolean("frameError", false);
 					ArrayDeque<double[]> output = new ArrayDeque<double[]>();;
 					pipeLine.process(mat);
 					ArrayList<MatOfPoint> cameraIn = pipeLine.findContoursOutput();
