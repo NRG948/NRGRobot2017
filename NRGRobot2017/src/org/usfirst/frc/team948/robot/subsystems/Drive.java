@@ -20,7 +20,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private PIDController drivePID;
 	private volatile double PIDOutput;
 	private double prevError;
-	private int counter;
+	private int cyclesOnTarget;
 	private double autonomousHeading = 0;
 
 	private static final double PID_MIN_OUTPUT = 0.05;
@@ -82,13 +82,13 @@ public class Drive extends Subsystem implements PIDOutput {
 			kd = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_D, DEFAULT_DRIVE_LOWGEAR_D);
 		}
 		drivePIDInit(kp, ki, kd, heading, 0, 0);
+
 	}
 
 	public void driveOnHeading(double power) {
 		double error = drivePID.getError();
-		double outputRange = 1;
-//				MathUtil.clamp(
-//				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
+		double outputRange = MathUtil.clamp(
+				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
 		drivePID.setOutputRange(-outputRange, outputRange);
 
 		double currentPIDOutput = MathUtil.clamp(PIDOutput, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
@@ -159,7 +159,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
 		SmartDashboard.putNumber("turnToHeading desired heading", desiredHeading);
 		prevError = 0;
-		counter = 0;
+		cyclesOnTarget = 0;
 	}
 
 	public void turnToHeading(double power) {
@@ -186,6 +186,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		turnError = desiredHeading - RobotMap.continuousGyro.getAngle();
 		turnTolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
+		cyclesOnTarget = 0;
 	}
 
 	public void turnToHeadingNoPID(double power) {
@@ -202,7 +203,14 @@ public class Drive extends Subsystem implements PIDOutput {
 	}
 
 	public boolean isOnHeadingNoPID() {
-		return turnError <= turnTolerance;
+		if (Math.abs(turnError) <= turnTolerance) {
+			cyclesOnTarget++;
+			return cyclesOnTarget >= RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
+		} else {
+			cyclesOnTarget = 0;
+			return false;
+		}
+
 	}
 
 	public double getFeetFromUltrasoundVolts() {
@@ -233,4 +241,5 @@ public class Drive extends Subsystem implements PIDOutput {
 	public void setAutonomousHeading(double autonomousHeading) {
 		this.autonomousHeading = autonomousHeading;
 	}
+
 }

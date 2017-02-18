@@ -3,6 +3,7 @@ package org.usfirst.frc.team948.robot.commands;
 import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Robot does a relative turn by a given angle in degrees. Positive is clockwise
@@ -13,7 +14,7 @@ public class Turn extends Command {
 	private double power;
 	private double degreesToTurn;
 
-	public Turn(double power, double degreesToTurn) {
+	public Turn(double degreesToTurn, double power) {
 		this.requires(Robot.drive);
 		this.power = power;
 		this.degreesToTurn = degreesToTurn;
@@ -23,6 +24,8 @@ public class Turn extends Command {
 	protected void initialize() {
 		this.desiredHeading = Robot.drive.getAutonomousHeading() + degreesToTurn;
 		Robot.drive.turnToHeadingInitNoPID(desiredHeading);
+		SmartDashboard.putString("Turn command: degrees to turn, desired heading = ",
+				degreesToTurn + ", " + desiredHeading);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
