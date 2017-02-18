@@ -2,17 +2,24 @@ package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.robot.subsystems.Drive;
+import org.usfirst.frc.team948.robot.subsystems.Drive.Direction;
+import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
- * Robot drives straight using autonomousHeading.
- * To go forward use positive distance and positive power.
- * To go backwards use positive distance and negative power.
+ * Robot drives straight using autonomousHeading. To go forward use positive
+ * distance and positive power. To go backwards use positive distance and
+ * negative power.
  * 
- * autonomousHeading() not working, so switched back to continuousGyro.getHeading()
+ * autonomousHeading() not working, so switched back to
+ * continuousGyro.getHeading()
  */
 public class DriveStraightDistance extends Command {
+	private final double DEFAULT_AUTONOMOUS_POWER = 0.5;
+
 	private double power;
 	private double distance;
 
@@ -23,10 +30,17 @@ public class DriveStraightDistance extends Command {
 	private double ticksTraveled;
 	private double desiredHeading;
 
-	public DriveStraightDistance(double distance, double power) {
-		this.power = power;
+	private Direction direction;
+
+	public DriveStraightDistance(double distance, Drive.Direction direction, double power) {
+		this.direction = direction;
+		this.power = (direction == Drive.Direction.FORWARD) ? Math.abs(power) : -Math.abs(power);
 		this.distance = Math.abs(distance);
 		requires(Robot.drive);
+	}
+
+	public DriveStraightDistance(double distance, Drive.Direction direction) {
+		this(distance, direction, 0.0);
 	}
 
 	@Override
@@ -35,6 +49,12 @@ public class DriveStraightDistance extends Command {
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
 		desiredHeading = Robot.drive.getAutonomousHeading();
+		if (power == 0.0) {
+			power = RobotMap.preferences.getDouble(PreferenceKeys.AUTONOMOUS_DRIVE_POWER, DEFAULT_AUTONOMOUS_POWER);
+			if (direction == Drive.Direction.BACKWARD) {
+				power = -power;
+			}
+		}
 		Robot.drive.driveOnHeadingInit(desiredHeading);
 	}
 
@@ -42,9 +62,10 @@ public class DriveStraightDistance extends Command {
 	protected void execute() {
 		double leftTicks = Math.abs(RobotMap.leftEncoder.get() - encoderLeftStart);
 		double rightTicks = Math.abs(RobotMap.rightEncoder.get() - encoderRightStart);
-//		ticksTraveled = Math.max(leftTicks, rightTicks);
+		// ticksTraveled = Math.max(leftTicks, rightTicks);
 		ticksTraveled = (leftTicks + rightTicks) / 2;
-		SmartDashboard.putNumber("DriveStraightDistance distance traveled", ticksTraveled / Robot.drive.getTicksPerFoot());
+		SmartDashboard.putNumber("DriveStraightDistance distance traveled",
+				ticksTraveled / Robot.drive.getTicksPerFoot());
 		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerFoot());
 		Robot.drive.driveOnHeading(currentPower, desiredHeading);
 	}

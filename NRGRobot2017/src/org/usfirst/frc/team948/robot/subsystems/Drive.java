@@ -16,6 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Drive extends Subsystem implements PIDOutput {
 
+	public enum Direction{
+		FORWARD,BACKWARD
+	}
+	
 	private PIDController drivePID;
 	private volatile double PIDOutput;
 	private double prevError;

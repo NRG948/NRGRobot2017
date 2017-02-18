@@ -87,8 +87,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
 		SmartDashboard.putData("Turn -90", new Turn(-90, 0.5));
 		SmartDashboard.putData("Turn +90", new Turn(90, 0.5));
-		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, 1.0));
-		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, 1.0));
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, Drive.Direction.FORWARD, 1.0));
+		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		SmartDashboard.putData("Activate simple vision", new simpleVisionRoutine(VisionProccesor));
