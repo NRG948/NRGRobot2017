@@ -24,7 +24,7 @@ public class visionProc {
 	private static final double initialX = 39.5;
 	private static final double initialGamma = ((-5)*Math.PI)/180;
 	private double[] gotten = new double[6];
-	private double[] lastOut = new double[4];
+	private double[] lastOut = new double[5];
 	private boolean hasFrame = false;
 	private boolean hasRun = false;
 	Thread processingThread;
@@ -126,6 +126,16 @@ public class visionProc {
 		return zeta;
 	}
 	
+	private double getOmega(double [] in, double centerDistance){
+		double x = in[3];
+		double wF = in[5];
+		double epsilon = x - (wF/2);
+		double initialEpsilon = initialX - (wF/2);
+		double tanGam = (epsilon/initialEpsilon)*Math.tan(initialGamma);
+		double omega = tanGam*centerDistance;
+		return omega;
+	}
+	
 	public boolean dataExists(){
 		if(hasRun || (int) objects.size() > 0){
 			hasRun = true;
@@ -142,15 +152,17 @@ public class visionProc {
 	
 	public double[] getData(){
 		if(hasFrame){
-			double[] out = new double[4];
+			double[] out = new double[5];
 			double theta = getThetaSingleTape(gotten);
 			double v = getCenterDistance(gotten, theta);
 			double zeta = simpleHeading(gotten);
+			double omega = getOmega(gotten, v);
 			double gamma = getHeadingOffeset(gotten, theta);
 			out[0] = theta;
 			out[1] = v;
 			out[2] = zeta;
-			out[3] = gamma;
+			out[3] = omega;
+			out[4] = gamma;
 			lastOut = out;
 			return out;
 		}else{
