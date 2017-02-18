@@ -150,7 +150,7 @@ public class visionProc {
 		return false;
 	}
 	
-	public double[] getData(){
+	public visionField getData(){
 		if(hasFrame){
 			double[] out = new double[5];
 			double theta = getThetaSingleTape(gotten);
@@ -164,10 +164,11 @@ public class visionProc {
 			out[3] = omega;
 			out[4] = gamma;
 			lastOut = out;
-			return out;
-		}else{
-			return lastOut;
+			return new visionField(out);
+		}else if(!lastOut.equals(new double[5])){
+			return new visionField(lastOut);
 		}
+		return new visionField();
 	}
 	
 }
