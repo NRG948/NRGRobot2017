@@ -6,7 +6,6 @@ import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,8 +24,8 @@ public class Drive extends Subsystem implements PIDOutput {
 
 	private static final double PID_MIN_OUTPUT = 0.05;
 	private static final double PID_MAX_OUTPUT = 0.5;
-	private static final double SLOW_DOWN_ERROR = 5.0;
-	private static final double MIN_POWER_TURN = 0.25;
+	private static final double SLOW_DOWN_ERROR = 10.0;
+	private static final double MIN_POWER_TURN = 0.15;
 
 	private static final double DEFAULT_DRIVE_LOWGEAR_P = 0.081;
 	private static final double DEFAULT_DRIVE_LOWGEAR_I = 0.016;
@@ -36,7 +35,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0.072;
 
-	private static final double DEFAULT_TICKS_PER_FOOT = 1480;
+	private static final double DEFAULT_TICKS_PER_FOOT = 1452;
 	private static final double DEFAULT_TICKS_PER_FOOT_TOLERANCE = DEFAULT_TICKS_PER_FOOT / 12;
 
 	private double kp;
@@ -99,7 +98,7 @@ public class Drive extends Subsystem implements PIDOutput {
 		SmartDashboard.putNumber("driveOnHeading PID error", drivePID.getError());
 		SmartDashboard.putNumber("driveOnHeading PID output", currentPIDOutput);
 		SmartDashboard.putNumber("driveOnHeading rawPower", power);
-		
+
 		double pL = power;
 		double pR = power;
 
@@ -153,36 +152,36 @@ public class Drive extends Subsystem implements PIDOutput {
 		RobotMap.motorFrontRight.disable();
 	}
 
-	public void turnToHeadingInit(double desiredHeading) {
-		double tP = RobotMap.preferences.getDouble(PreferenceKeys.TURN_P, 0.084);
-		double tI = RobotMap.preferences.getDouble(PreferenceKeys.TURN_I, 0.0153);
-		double tD = RobotMap.preferences.getDouble(PreferenceKeys.TURN_D, 0.116);
-		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
-		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
-		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
-		SmartDashboard.putNumber("turnToHeading desired heading", desiredHeading);
-		prevError = 0;
-		cyclesOnTarget = 0;
-	}
-
-	public void turnToHeading(double power) {
-		double currentPIDOutput = PIDOutput;
-		double scaledPower = currentPIDOutput * power;
-		SmartDashboard.putNumber("turnToHeading error", drivePID.getError());
-		SmartDashboard.putNumber("turnToHeading output", currentPIDOutput);
-		SmartDashboard.putNumber("turnToHeading scaledPower", scaledPower);
-		tankDrive(scaledPower, -scaledPower);
-	}
-
-	public void turnToHeadingEnd(double newHeading) {
-		setAutonomousHeading(newHeading);
-		drivePID.reset();
-		stop();
-	}
-
-	public boolean isOnHeading() {
-		return drivePID.onTarget();
-	}
+//	public void turnToHeadingInit(double desiredHeading) {
+//		double tP = RobotMap.preferences.getDouble(PreferenceKeys.TURN_P, 0.084);
+//		double tI = RobotMap.preferences.getDouble(PreferenceKeys.TURN_I, 0.0153);
+//		double tD = RobotMap.preferences.getDouble(PreferenceKeys.TURN_D, 0.116);
+//		double tolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
+//		int toleranceBuffer = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
+//		drivePIDInit(tP, tI, tD, desiredHeading, tolerance, toleranceBuffer);
+//		SmartDashboard.putNumber("turnToHeading desired heading", desiredHeading);
+//		prevError = 0;
+//		cyclesOnTarget = 0;
+//	}
+//
+//	public void turnToHeading(double power) {
+//		double currentPIDOutput = PIDOutput;
+//		double scaledPower = currentPIDOutput * power;
+//		SmartDashboard.putNumber("turnToHeading error", drivePID.getError());
+//		SmartDashboard.putNumber("turnToHeading output", currentPIDOutput);
+//		SmartDashboard.putNumber("turnToHeading scaledPower", scaledPower);
+//		tankDrive(scaledPower, -scaledPower);
+//	}
+//
+//	public void turnToHeadingEnd(double newHeading) {
+//		setAutonomousHeading(newHeading);
+//		drivePID.reset();
+//		stop();
+//	}
+//
+//	public boolean isOnHeading() {
+//		return drivePID.onTarget();
+//	}
 
 	public void turnToHeadingInitNoPID(double desiredHeading) {
 		setAutonomousHeading(desiredHeading);

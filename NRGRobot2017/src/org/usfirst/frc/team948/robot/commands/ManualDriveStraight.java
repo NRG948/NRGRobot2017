@@ -13,7 +13,8 @@ public class ManualDriveStraight extends Command {
 
 	@Override 
 	protected void initialize() {
-		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
+		desiredHeading = RobotMap.continuousGyro.getAngle();
+		Robot.drive.driveOnHeadingInit(desiredHeading);
 	} 
 	
 	@Override 
