@@ -23,6 +23,7 @@ public class DriveStraightDistance extends Command {
 
 	private double ticksToTravel;
 	private double ticksTraveled;
+	private double desiredHeading;
 
 	public DriveStraightDistance(double distance, double power) {
 		this.power = power;
@@ -35,8 +36,8 @@ public class DriveStraightDistance extends Command {
 		ticksToTravel = Robot.drive.getTicksFromFeet(distance);
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
-		Robot.drive.driveOnHeadingInit(Robot.drive.getAutonomousHeading());
-//		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
+		desiredHeading = Robot.drive.getAutonomousHeading();
+		Robot.drive.driveOnHeadingInit(desiredHeading);
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class DriveStraightDistance extends Command {
 		ticksTraveled = (leftTicks + rightTicks) / 2;
 		SmartDashboard.putNumber("DriveStraightDistance distance traveled", ticksTraveled / Robot.drive.getTicksPerFoot());
 		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerFoot());
-		Robot.drive.driveOnHeading(currentPower);
+		Robot.drive.driveOnHeading(currentPower, desiredHeading);
 	}
 
 	@Override

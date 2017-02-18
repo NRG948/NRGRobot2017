@@ -6,6 +6,7 @@ import org.usfirst.frc.team948.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ManualDriveStraight extends Command {
+	private double desiredHeading;
 	public ManualDriveStraight() {
 		requires(Robot.drive);
 	}
@@ -17,7 +18,7 @@ public class ManualDriveStraight extends Command {
 	
 	@Override 
 	protected void execute(){
-		Robot.drive.driveOnHeading(-OI.leftJoystick.getY());
+		Robot.drive.driveOnHeading(-OI.leftJoystick.getY(), desiredHeading);
 	}
 	
 	@Override

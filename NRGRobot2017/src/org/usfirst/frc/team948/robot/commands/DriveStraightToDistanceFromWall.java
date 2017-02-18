@@ -21,6 +21,7 @@ public class DriveStraightToDistanceFromWall extends Command {
 
 	private double ticksToTravel;
 	private double ticksTraveled;
+	private double desiredHeading;
 	
 	public DriveStraightToDistanceFromWall(double power, double distanceFromWall) {
 		requires(Robot.drive);
@@ -34,7 +35,8 @@ public class DriveStraightToDistanceFromWall extends Command {
 		ticksToTravel = Robot.drive.getTicksFromFeet(currentDistanceFromWall - distanceFromWall); //how far to move in terms of ticks
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
-		Robot.drive.driveOnHeadingInit(Robot.drive.getAutonomousHeading());
+		desiredHeading = Robot.drive.getAutonomousHeading();
+		Robot.drive.driveOnHeadingInit(desiredHeading);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -43,7 +45,7 @@ public class DriveStraightToDistanceFromWall extends Command {
 		double rightTicks = Math.abs(RobotMap.rightEncoder.get() - encoderRightStart);
 		ticksTraveled = Math.max(leftTicks, rightTicks);
 		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerFoot());
-		Robot.drive.driveOnHeading(currentPower);
+		Robot.drive.driveOnHeading(currentPower, desiredHeading);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
