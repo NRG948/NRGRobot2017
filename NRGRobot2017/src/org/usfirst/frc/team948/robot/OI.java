@@ -64,8 +64,8 @@ public class OI {
 		resetSensorsButton.whenPressed(new ResetSensors());
 		switchHighGear.whenPressed(new ShiftGears(true));
 		switchLowGear.whenPressed(new ShiftGears(false));
-		climberForwards.whileHeld(new ClimbPower(0.50));
-		climberReverse.whileHeld(new ClimbPower(-0.35));
+		climberForwards.whileHeld(new ClimbPower(true));
+		climberReverse.whileHeld(new ClimbPower(false));
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
 		startDriveButton.whenPressed(new TestDrive());
 		stopDriveButton.whenPressed(new StopTestDrive());

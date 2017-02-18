@@ -16,7 +16,7 @@ public class Climber extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new ClimbPower(0.0));
+    	//setDefaultCommand(new ClimbPower(true));
     }
     
     public void rawClimb(double power){
