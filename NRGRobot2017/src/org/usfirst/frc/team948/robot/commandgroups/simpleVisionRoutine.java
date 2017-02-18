@@ -1,5 +1,6 @@
 package org.usfirst.frc.team948.robot.commandgroups;
 
+import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
@@ -14,6 +15,7 @@ public class simpleVisionRoutine extends CommandGroup {
 	visionField a;
 	public simpleVisionRoutine(visionProc proc){
 		addSequential(new FlipCameraLight(true));
+		addSequential(new DelaySeconds(0.1));
 		if(proc.dataExists()){
 			a = proc.getData();
 			addSequential(new ResetSensors());
