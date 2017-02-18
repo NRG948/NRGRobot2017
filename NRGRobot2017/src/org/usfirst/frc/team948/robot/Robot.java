@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 		camera.setResolution(640, 380);
 		camera.setExposureManual(-11);
 		cameraLight.turnOff();
-		VisionProccesor = new visionProc();
+		VisionProccesor = new visionProc().start();
 
 		// Driver Station
 		OI.buttonInit();
