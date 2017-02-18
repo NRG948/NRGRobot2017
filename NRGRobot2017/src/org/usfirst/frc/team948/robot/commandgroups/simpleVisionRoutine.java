@@ -18,7 +18,6 @@ public class simpleVisionRoutine extends CommandGroup {
 		addSequential(new DelaySeconds(0.1));
 		if(proc.dataExists()){
 			a = proc.getData();
-			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			if(a.zeta != 0){
 				addSequential(new Turn(90.0*a.zeta, 0.5));
