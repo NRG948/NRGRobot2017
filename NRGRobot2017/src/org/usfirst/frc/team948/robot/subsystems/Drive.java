@@ -44,6 +44,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	private double kd;
 	private double turnError;
 	private double turnTolerance;
+	private int requiredCyclesOnTarget;
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ManualDrive());
@@ -205,7 +206,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	public boolean isOnHeadingNoPID() {
 		if (Math.abs(turnError) <= turnTolerance) {
 			cyclesOnTarget++;
-			return cyclesOnTarget >= RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
+			requiredCyclesOnTarget = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
+			return cyclesOnTarget >= requiredCyclesOnTarget;
 		} else {
 			cyclesOnTarget = 0;
 			return false;
