@@ -11,10 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class BallCollect extends Command {
 
 	public static final double BALL_COLLECT_POWER = 0.15;
-	private static int countIn;
-	private static int countOut;
 	private boolean in;
-
+	
 	public BallCollect(boolean in) {
 		this.in = in;
 		requires(Robot.ballCollector);
@@ -22,34 +20,27 @@ public class BallCollect extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if (in) {
-			countOut = 0;
-			countIn++;
-		} else {
-			countIn = 0;
-			countOut++;
-		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double powerIn = ((countIn % 2 == 1) ? BALL_COLLECT_POWER : 0);
-		double powerOut = ((countOut % 2 == 1) ? -BALL_COLLECT_POWER : 0);
-		Robot.ballCollector.rawCollect(in ? powerIn : powerOut);
-
+		double power = in ? BALL_COLLECT_POWER : -BALL_COLLECT_POWER;
+		Robot.ballCollector.rawCollect(power);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return in ? countIn % 2 == 0 : countOut % 2 == 0;
+		return false;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.ballCollector.rawCollect(0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		end();
 	}
 }

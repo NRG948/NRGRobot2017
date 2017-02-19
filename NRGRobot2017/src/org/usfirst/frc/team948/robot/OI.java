@@ -71,8 +71,8 @@ public class OI {
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
 		startDriveButton.whenPressed(new TestDrive());
 		stopDriveButton.whenPressed(new StopTestDrive());
-		acquireBalls.whileHeld(new BallCollect(true));
-		ejectBalls.whileHeld(new BallCollect(false));
+		acquireBalls.toggleWhenActive(new BallCollect(true));
+		ejectBalls.toggleWhenActive(new BallCollect(false));
 		interruptButton.whenPressed(new Interrupt());
 	}
 }
