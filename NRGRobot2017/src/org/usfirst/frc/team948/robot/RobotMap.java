@@ -70,7 +70,7 @@ public class RobotMap {
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
-	public static Solenoid cameraLight = new Solenoid(4);
+	public static Solenoid cameraLight = new Solenoid(5);
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;

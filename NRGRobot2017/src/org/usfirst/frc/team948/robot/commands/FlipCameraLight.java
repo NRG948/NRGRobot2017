@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 //toggle light command
 public class FlipCameraLight extends Command {
-	private static boolean isOn = true;
+	private static boolean isOn = false;
 	private boolean type = true;
 
 	public FlipCameraLight() {

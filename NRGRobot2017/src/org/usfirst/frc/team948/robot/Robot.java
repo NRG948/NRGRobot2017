@@ -2,7 +2,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
-import org.usfirst.frc.team948.robot.commandgroups.simpleVisionRoutine;
+import org.usfirst.frc.team948.robot.commandgroups.SimpleVisionRoutine;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	visionProc VisionProccesor;
 
 	Command autonomousCommand;
-	SendableChooser<Command> autoChooser;
+	SendableChooser<Command> autoChooser, continueAfterGearDrop;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(640, 380);
+//		camera.setResolution(640, 380);
 		camera.setExposureManual(-11);
 		cameraLight.turnOff();
 		VisionProccesor = new visionProc().start();
@@ -77,6 +77,8 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Blue 2", new AutonomousRoutines(AutoPosition.POSITION_FIVE));
 		autoChooser.addObject("Blue 3", new AutonomousRoutines(AutoPosition.POSITION_FOUR));
 		autoChooser.addDefault("No Motion", new AutonomousRoutines(AutoPosition.POSITION_SEVEN));
+		
+//		continueAfterGearDrop.addDefault("move", );
 
 		// SmartDashboard for Drive SubSystem Commands
 		SmartDashboard.putData("Choose autonomous routine", autoChooser);
@@ -91,7 +93,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
-		SmartDashboard.putData("Activate simple vision", new simpleVisionRoutine(VisionProccesor));
+		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(VisionProccesor));
 
 		// Start in Low gear
 		gearbox.setLowGear();

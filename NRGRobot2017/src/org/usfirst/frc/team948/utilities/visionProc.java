@@ -47,7 +47,7 @@ public class visionProc {
 						out.notifyError(cvSink.getError());
 						continue;
 					}
-					ArrayDeque<double[]> output = new ArrayDeque<double[]>();;
+					ArrayDeque<double[]> output = new ArrayDeque<double[]>();
 					pipeLine.process(mat);
 					ArrayList<MatOfPoint> cameraIn = pipeLine.findContoursOutput();
 					int cont = cameraIn.size();
@@ -80,6 +80,7 @@ public class visionProc {
 						output.offerFirst(properties);
 					}
 					objects.addFirst(output);
+//					System.out.println(objects.size());
 					timer.reset();
 				}
 				out.putFrame(mat);
@@ -137,7 +138,7 @@ public class visionProc {
 	}
 	
 	public boolean dataExists(){
-		if(hasRun || (int) objects.size() > 0){
+		if(hasRun || objects.size() > 0){
 			hasRun = true;
 			ArrayDeque<double[]> a = objects.peekFirst();
 			if(a.size() > 0){
