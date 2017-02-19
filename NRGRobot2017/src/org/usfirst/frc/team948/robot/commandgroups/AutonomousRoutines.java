@@ -174,15 +174,20 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.FORWARD));
-
+			addSequential(new DriveStraightDistance(58 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new TurnToHeading(60));
+			addSequential(new DriveStraightDistance(45 / 12.0, Drive.Direction.FORWARD));
+			
 			if (moveAfterGear) {
 				addSequential(new DelaySeconds(this.delayTime));
-				addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.BACKWARD));
+				addSequential(new DriveStraightDistance(20 / 12.0, Drive.Direction.BACKWARD));
 				addSequential(new TurnToHeading(0));
-				addSequential(new DriveStraightDistance(325.28 / 12.0, Drive.Direction.FORWARD));
+				addSequential(new ShiftGears(true));
+				addSequential(new DriveStraightDistance(113 / 12.0, Drive.Direction.FORWARD));
+				addSequential(new TurnToHeading(50));
+				addSequential(new DriveStraightDistance(200 / 12.0, Drive.Direction.FORWARD));
+				addSequential(new TurnToHeading(0));
+				addSequential(new ShiftGears(false));
 			}
 		}
 	}

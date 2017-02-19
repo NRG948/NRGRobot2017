@@ -205,6 +205,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());
 		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
 		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
+		SmartDashboard.putBoolean("gear sensor", RobotMap.gearSensor.get());
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 	}
 }
