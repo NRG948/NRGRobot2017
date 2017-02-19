@@ -5,6 +5,7 @@ import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetAutonomousHeading;
+import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 
@@ -21,22 +22,22 @@ public class AutonomousRoutines extends CommandGroup {
 		
 		switch (this.autoPosition) {
 			case POSITION_ONE:
-				addSequential(new PositionOne(3));
+				addSequential(new Redright(3));
 				break;
 			case POSITION_TWO:
-				addSequential(new PositionTwo(3));
+				addSequential(new RedCenter(3));
 				break;
 			case POSITION_THREE:
-				addSequential(new PositionThree(3));
+				addSequential(new RedLeft(3));
 				break;
 			case POSITION_FOUR:
-				addSequential(new PositionFour(3));
+				addSequential(new BlueRight(3));
 				break;
 			case POSITION_FIVE:
-				addSequential(new PositionFive(3));
+				addSequential(new BlueCenter(3));
 				break;
 			case POSITION_SIX:
-				addSequential(new PositionSix(3));
+				addSequential(new BlueLeft(3));
 				break;
 			case POSITION_SEVEN:
 				addSequential(new PositionSeven());
@@ -44,10 +45,10 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 		
 	}
-	private class PositionOne extends CommandGroup {
+	private class Redright extends CommandGroup {
 		private double delayTime;
 		
-		public PositionOne(double delayTime) {
+		public Redright(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
@@ -64,11 +65,11 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(325.28 /12, Drive.Direction.FORWARD));
 		}
 	}
-	private class PositionTwo extends CommandGroup {
+	private class RedCenter extends CommandGroup {
 		private double power;
 		private double delayTime;
 		
-		public PositionTwo(double delayTime) {
+		public RedCenter(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
@@ -80,11 +81,11 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(326 / 12.0, Drive.Direction.FORWARD));
 		}
 	}
-	private class PositionThree extends CommandGroup {
+	private class RedLeft extends CommandGroup {
 		private double power;
 		private double delayTime;
 		
-		public PositionThree(double power) {
+		public RedLeft(double power) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
@@ -99,48 +100,46 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(0));
 		}
 	}
-	private class PositionFour extends CommandGroup {
+	private class BlueRight extends CommandGroup {
 		private double power;
 		private double delayTime;
 		
-		public PositionFour(double delayTime) {
+		public BlueRight(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(53.5 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(59.0 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.BACKWARD));
-//			addSequential(new TurnToHeading(90));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(88.6 / 12.0 , Drive.Direction.BACKWARD));
-//			addSequential(new DriveStraightDistance(88.6 / 12.0 , Drive.Direction.FORWARD));
-			addSequential(new SetAutonomousHeading(0));
-			addSequential(new DriveStraightDistance( 327.563 /12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(20.0 / 12.0, Drive.Direction.BACKWARD));
+			addSequential(new TurnToHeading(6));
+			addParallel(new ShiftGears(true));
+			addSequential(new DriveStraightDistance(300 / 12.0 , Drive.Direction.FORWARD));
+			addSequential(new ShiftGears(false));
 		}
 	}
-	private class PositionFive extends CommandGroup {
+	private class BlueCenter extends CommandGroup {
 		private double power;
 		private double delayTime;
 		
-		public PositionFive(double delayTime) {
+		public BlueCenter(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(53 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(7 / 12.0, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(90));
+			addSequential(new DriveStraightDistance(38 / 12.0, Drive.Direction.BACKWARD));
+			addSequential(new TurnToHeading(65));
 			addSequential(new DriveStraightDistance(136.875 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(0));
 			addSequential(new DriveStraightDistance(326 / 12.0, Drive.Direction.FORWARD ));
 			
 		}
 	}
-	private class PositionSix extends CommandGroup {
+	private class BlueLeft extends CommandGroup {
 		private double power;
 		private double delayTime;
 		
-		public PositionSix(double delayTime) {
+		public BlueLeft(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
