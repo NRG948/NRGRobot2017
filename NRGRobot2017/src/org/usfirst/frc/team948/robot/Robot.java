@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public enum AutoPosition {
-		POSITION_ONE, POSITION_TWO, POSITION_THREE, POSITION_FOUR, POSITION_FIVE, POSITION_SIX, POSITION_SEVEN;
+		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_RIGHT, BLUE_CENTER, BLUE_LEFT, STAY;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class Robot extends IterativeRobot {
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
-//		camera.setResolution(640, 380);
+//		camera.setResolution(640, 380);x
 		camera.setExposureManual(-11);
 		cameraLight.turnOff();
 		VisionProccesor = new visionProc().start();
@@ -70,13 +70,13 @@ public class Robot extends IterativeRobot {
 
 		// Autonomous Routine
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addObject("Red 1", new AutonomousRoutines(AutoPosition.POSITION_ONE));
-		autoChooser.addObject("Red 2 ", new AutonomousRoutines(AutoPosition.POSITION_TWO));
-		autoChooser.addObject("Red 3", new AutonomousRoutines(AutoPosition.POSITION_THREE));
-		autoChooser.addObject("Blue 1", new AutonomousRoutines(AutoPosition.POSITION_SIX));
-		autoChooser.addObject("Blue 2", new AutonomousRoutines(AutoPosition.POSITION_FIVE));
-		autoChooser.addObject("Blue 3", new AutonomousRoutines(AutoPosition.POSITION_FOUR));
-		autoChooser.addDefault("No Motion", new AutonomousRoutines(AutoPosition.POSITION_SEVEN));
+		autoChooser.addObject("Red left", new AutonomousRoutines(AutoPosition.RED_LEFT));
+		autoChooser.addObject("Red center", new AutonomousRoutines(AutoPosition.RED_CENTER));
+		autoChooser.addObject("Red right", new AutonomousRoutines(AutoPosition.RED_RIGHT));
+		autoChooser.addObject("Blue left", new AutonomousRoutines(AutoPosition.BLUE_LEFT));
+		autoChooser.addObject("Blue center", new AutonomousRoutines(AutoPosition.BLUE_CENTER));
+		autoChooser.addObject("Blue right", new AutonomousRoutines(AutoPosition.BLUE_RIGHT));
+		autoChooser.addDefault("Stay", new AutonomousRoutines(AutoPosition.STAY));
 		
 //		continueAfterGearDrop.addDefault("move", );
 

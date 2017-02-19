@@ -21,34 +21,34 @@ public class AutonomousRoutines extends CommandGroup {
 		addSequential(new ResetSensors());
 		
 		switch (this.autoPosition) {
-			case POSITION_ONE:
-				addSequential(new Redright(3));
-				break;
-			case POSITION_TWO:
-				addSequential(new RedCenter(3));
-				break;
-			case POSITION_THREE:
+			case RED_LEFT:
 				addSequential(new RedLeft(3));
 				break;
-			case POSITION_FOUR:
+			case RED_CENTER:
+				addSequential(new RedCenter(3));
+				break;
+			case RED_RIGHT:
+				addSequential(new RedRight(3));
+				break;
+			case BLUE_RIGHT:
 				addSequential(new BlueRight(3));
 				break;
-			case POSITION_FIVE:
+			case BLUE_CENTER:
 				addSequential(new BlueCenter(3));
 				break;
-			case POSITION_SIX:
+			case BLUE_LEFT:
 				addSequential(new BlueLeft(3));
 				break;
-			case POSITION_SEVEN:
-				addSequential(new PositionSeven());
+			case STAY:
+				addSequential(new Stay());
 				break;
 		}
 		
 	}
-	private class Redright extends CommandGroup {
+	private class RedLeft extends CommandGroup {
 		private double delayTime;
 		
-		public Redright(double delayTime) {
+		public RedLeft(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
@@ -81,11 +81,11 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(326 / 12.0, Drive.Direction.FORWARD));
 		}
 	}
-	private class RedLeft extends CommandGroup {
+	private class RedRight extends CommandGroup {
 		private double power;
 		private double delayTime;
 		
-		public RedLeft(double power) {
+		public RedRight(double power) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
@@ -152,7 +152,7 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 	}
 	
-	private class PositionSeven extends CommandGroup {
+	private class Stay extends CommandGroup {
 	
 	}
 }
