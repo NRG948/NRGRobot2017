@@ -22,7 +22,7 @@ public class BallCollect extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if(in) {
+		if (in) {
 			countOut = 0;
 			countIn++;
 		} else {
@@ -33,16 +33,15 @@ public class BallCollect extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double powerIn = ((countIn % 2 == 1) ?  BALL_COLLECT_POWER : 0);
-		double powerOut = ((countOut % 2 == 1) ?  -BALL_COLLECT_POWER : 0);
+		double powerIn = ((countIn % 2 == 1) ? BALL_COLLECT_POWER : 0);
+		double powerOut = ((countOut % 2 == 1) ? -BALL_COLLECT_POWER : 0);
 		Robot.ballCollector.rawCollect(in ? powerIn : powerOut);
-		
 
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return in ? countIn % 2 == 0 : countOut % 2 == 0;
 	}
 
 	// Called once after isFinished returns true
@@ -54,5 +53,3 @@ public class BallCollect extends Command {
 	protected void interrupted() {
 	}
 }
-
- 
