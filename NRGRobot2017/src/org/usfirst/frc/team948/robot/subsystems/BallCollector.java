@@ -13,11 +13,13 @@ public class BallCollector extends Subsystem {
 
 	public void rawCollect(double power) {
 		// turn on the ball collector
-		RobotMap.ballCollectorMotor.set(power);
+		RobotMap.ballCollectorInOutMotor.set(power);
+		RobotMap.ballCollectorUpDownMotor.set(power);
 	}
 
 	public void rawStop() {
 		// turn off the ball collector
-		RobotMap.ballCollectorMotor.disable();
+		RobotMap.ballCollectorInOutMotor.disable();
+		RobotMap.ballCollectorUpDownMotor.disable();
 	}
 }

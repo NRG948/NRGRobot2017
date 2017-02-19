@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class BallCollect extends Command {
 
-	public static final double BALL_COLLECT_POWER = 0.15;
+	public static final double BALL_COLLECT_POWER = 0.3;
 	private boolean in;
 	
 	public BallCollect(boolean in) {

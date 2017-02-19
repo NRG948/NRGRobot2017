@@ -125,14 +125,15 @@ public class AutonomousRoutines extends CommandGroup {
 		public BlueCenter(double delayTime) {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(53 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(50 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(38 / 12.0, Drive.Direction.BACKWARD));
+			addSequential(new DriveStraightDistance(45 / 12.0, Drive.Direction.BACKWARD));
 			addSequential(new TurnToHeading(65));
-			addSequential(new DriveStraightDistance(136.875 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(0));
-			addSequential(new DriveStraightDistance(326 / 12.0, Drive.Direction.FORWARD ));
-			
+			addSequential(new ShiftGears(true));
+			addSequential(new DriveStraightDistance(300 / 12.0, Drive.Direction.FORWARD ));
+			addSequential(new ShiftGears(false));
 		}
 	}
 	private class BlueLeft extends CommandGroup {

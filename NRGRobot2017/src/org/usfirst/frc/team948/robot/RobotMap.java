@@ -50,9 +50,10 @@ public class RobotMap {
 
 	public static Victor climberMotor = new Victor(8);
 	
-	public static Victor ballCollectorMotor = new Victor(5);
+	public static Victor ballCollectorInOutMotor = new Victor(5);
+	public static Victor ballCollectorUpDownMotor = new Victor(4);
 	
-	public static Victor shooterWheel = new Victor(4);
+	public static Victor shooterWheel = new Victor(6);
 	
 	public static Encoder leftEncoder = new Encoder(0, 1, true);
 	public static Encoder rightEncoder = new Encoder(2, 3, false);
