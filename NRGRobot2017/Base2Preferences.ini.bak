@@ -1,0 +1,8 @@
+[NetworkTables Storage 3.0]
+double "/Preferences/DriveStraight_D"=0.081
+double "/Preferences/DriveStraight_I"=0.016
+double "/Preferences/DriveStraight_P"=0.072
+double "/Preferences/ticksPerFoot"=1480
+double "/Preferences/turnD"=0.116
+double "/Preferences/turnI"=0.0153
+double "/Preferences/turnP"=0.084
