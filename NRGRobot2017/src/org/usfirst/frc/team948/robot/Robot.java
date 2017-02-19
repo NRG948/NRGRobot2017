@@ -38,7 +38,9 @@ public class Robot extends IterativeRobot {
 	public static final Shooter shooter = new Shooter();
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
-	public static final BallCollector ballCollector= new BallCollector();
+	public static final BallCollector ballCollector = new BallCollector();
+
+	private static boolean moveAfterGear = true;
 
 	public static UsbCamera camera;
 	visionProc VisionProccesor;
@@ -76,13 +78,11 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Blue left", new AutonomousRoutines(AutoPosition.BLUE_LEFT));
 		autoChooser.addObject("Blue center", new AutonomousRoutines(AutoPosition.BLUE_CENTER));
 		autoChooser.addObject("Blue right", new AutonomousRoutines(AutoPosition.BLUE_RIGHT));
-		autoChooser.addDefault("Stay", new AutonomousRoutines(AutoPosition.STAY));
-		
-//		continueAfterGearDrop.addDefault("move", );
+		autoChooser.addDefault("Stay", new AutonomousRoutines(AutoPosition.STAY)); // constructor needs a boolean at the end
 
 		// SmartDashboard for Drive SubSystem Commands
 		SmartDashboard.putData("Choose autonomous routine", autoChooser);
-		SmartDashboard.putData(this.drive);
+		SmartDashboard.putData(drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
 		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));

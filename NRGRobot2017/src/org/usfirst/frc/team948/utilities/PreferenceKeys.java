@@ -31,4 +31,6 @@ public class PreferenceKeys {
 	
 	public static final String AUTONOMOUS_DRIVE_POWER = "Autonomous_Drive_Power";
 	public static final String AUTONOMOUS_TURN_POWER = "Autonomous_Turn_Power";
+	
+	public static final String MOVE_AFTER_GEAR = "Move_After_Gear_Dropoff";
 }
