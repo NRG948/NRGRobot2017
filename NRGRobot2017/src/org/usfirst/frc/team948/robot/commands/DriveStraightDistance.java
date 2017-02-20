@@ -45,7 +45,7 @@ public class DriveStraightDistance extends Command {
 
 	@Override
 	protected void initialize() {
-		ticksToTravel = Robot.drive.getTicksFromFeet(distance);
+		ticksToTravel = Robot.drive.getTicksFromInches(distance);
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
 		desiredHeading = Robot.drive.getAutonomousHeading();
@@ -65,15 +65,15 @@ public class DriveStraightDistance extends Command {
 		double rightTicks = Math.abs(RobotMap.rightEncoder.get() - encoderRightStart);
 		ticksTraveled = Math.max(leftTicks, rightTicks); // we don't average the two in case one encoder dies
 		SmartDashboard.putNumber("DriveStraightDistance distance traveled",
-				ticksTraveled / Robot.drive.getTicksPerFoot());
-		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerFoot());
+				ticksTraveled / Robot.drive.getTicksPerInch());
+		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerInch());
 		Robot.drive.driveOnHeading(currentPower, desiredHeading);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		double ticksRemaining = Math.abs(ticksTraveled - ticksToTravel);
-		boolean isDone = ticksRemaining <= Robot.drive.getTicksPerFootTolerance();
+		boolean isDone = ticksRemaining <= Robot.drive.getDistanceToleranceInTicks();
 		return isDone;
 	}
 

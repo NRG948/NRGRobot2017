@@ -39,8 +39,8 @@ public class Drive extends Subsystem implements PIDOutput {
 	private static final double DEFAULT_DRIVE_HIGHGEAR_I = 0.016;
 	private static final double DEFAULT_DRIVE_HIGHGEAR_D = 0.072;
 
-	private static final double DEFAULT_TICKS_PER_FOOT = 1452;
-	private static final double DEFAULT_TICKS_PER_FOOT_TOLERANCE = DEFAULT_TICKS_PER_FOOT / 12;
+	private static final double DEFAULT_TICKS_PER_INCH = 121;
+	private static final double DEFAULT_DISTANCE_TOLERANCE = 1.0 * DEFAULT_TICKS_PER_INCH;
 
 	private double kp;
 	private double ki;
@@ -254,17 +254,17 @@ public class Drive extends Subsystem implements PIDOutput {
 		return RobotMap.ultrasound.getVoltage();
 	}
 
-	public double getTicksFromFeet(double feet) {
-		return feet * RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT, DEFAULT_TICKS_PER_FOOT);
+	public double getTicksFromInches(double inches) {
+		return inches * RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_INCH, DEFAULT_TICKS_PER_INCH);
 	}
 
-	public double getTicksPerFoot() {
-		return RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT, DEFAULT_TICKS_PER_FOOT);
+	public double getTicksPerInch() {
+		return RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_INCH, DEFAULT_TICKS_PER_INCH);
 	}
 
-	public double getTicksPerFootTolerance() {
-		return RobotMap.preferences.getDouble(PreferenceKeys.TICKS_PER_FOOT_TOLERANCE,
-				DEFAULT_TICKS_PER_FOOT_TOLERANCE);
+	public double getDistanceToleranceInTicks() {
+		return RobotMap.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE_IN_TICKS,
+				DEFAULT_DISTANCE_TOLERANCE);
 	}
 
 	public double getAutonomousHeading() {

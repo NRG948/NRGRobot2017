@@ -23,8 +23,8 @@ public class PreferenceKeys {
 	public static final String TURN_TOLERANCE = "Turn_Tolerance";
 	public static final String TURN_TOLERANCE_BUFFER = "Turn_Tolerance_Buffer";
 
-	public static final String TICKS_PER_FOOT = "Ticks_Per_Foot";
-	public static final String TICKS_PER_FOOT_TOLERANCE = "Ticks_Per_Foot_Tolerance";
+	public static final String TICKS_PER_INCH = "Ticks_Per_Inch";
+	public static final String DISTANCE_TOLERANCE_IN_TICKS = "Distance_Tolerance_In_Ticks";
 	
 	public static final String CLIMB_FORWARD_POWER = "Climb_Forward_Power";
 	public static final String CLIMB_BACKWARD_POWER = "Climb_Backward_Power";
