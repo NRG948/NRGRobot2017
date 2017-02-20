@@ -39,7 +39,9 @@ public class Robot extends IterativeRobot {
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
 	public static final BallCollector ballCollector = new BallCollector();
-
+	
+	private static final double TURN_POWER = 1.0;
+	
 	private static boolean moveAfterGear = true;
 
 	public static UsbCamera camera;
@@ -83,12 +85,12 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard for Drive SubSystem Commands
 		SmartDashboard.putData("Choose autonomous routine", autoChooser);
 		SmartDashboard.putData(drive);
-		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, 0.5));
-		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, 0.5));
-		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, 0.5));
-		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, 0.5));
-		SmartDashboard.putData("Turn -90", new Turn(-90, 0.5));
-		SmartDashboard.putData("Turn +90", new Turn(90, 0.5));
+		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, TURN_POWER));
+		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, TURN_POWER));
+		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, TURN_POWER));
+		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, TURN_POWER));
+		SmartDashboard.putData("Turn -90", new Turn(-90, TURN_POWER));
+		SmartDashboard.putData("Turn +90", new Turn(90, TURN_POWER));
 		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));

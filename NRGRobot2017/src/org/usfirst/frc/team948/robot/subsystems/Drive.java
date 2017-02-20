@@ -22,7 +22,7 @@ public class Drive extends Subsystem implements PIDOutput {
 	
 	private PIDController drivePID;
 	private volatile double PIDOutput;
-	private double prevError;
+	private double prevTurnError;
 	private int cyclesOnTarget;
 	private double autonomousHeading = 0;
 
@@ -192,24 +192,51 @@ public class Drive extends Subsystem implements PIDOutput {
 		turnError = desiredHeading - RobotMap.continuousGyro.getAngle();
 		requiredCyclesOnTarget = RobotMap.preferences.getInt(PreferenceKeys.TURN_TOLERANCE_BUFFER, 6);
 		turnTolerance = RobotMap.preferences.getDouble(PreferenceKeys.TURN_TOLERANCE, 1.0);
+		kp = RobotMap.preferences.getDouble(PreferenceKeys.TURN_P, .025);
 		SmartDashboard.putNumber("desired heading", desiredHeading);
 		cyclesOnTarget = 0;
+		prevTurnError = 0;
 	}
 
-	public void turnToHeadingNoPID(double power) {
+	public void turnToHeadingNoPID(double maxPower) {
 		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
-		double adjustedPower = Math.abs(turnError) > SLOW_DOWN_ERROR ? power : MIN_POWER_TURN;
-		SmartDashboard.putNumber("turnToHeading2 turnError", turnError);
-		SmartDashboard.putNumber("turnToHeading2 scaledPower", adjustedPower);
-		adjustedPower = Math.copySign(adjustedPower, turnError);
+		double angularVel = prevTurnError - turnError;
+		double predictedErrorNextCycle = turnError - angularVel;
+		double adjustedPower = MathUtil.clamp(Math.abs(predictedErrorNextCycle * kp), MIN_POWER_TURN, maxPower);
+		SmartDashboard.putNumber("turnToHeadingNoPID turnError", turnError);
+		SmartDashboard.putNumber("turnToHeadingNoPID scaledPower", adjustedPower);
+		adjustedPower = Math.copySign(adjustedPower, predictedErrorNextCycle);
+		
+		// shut power off if current or predicted error within tolerance
 		if (Math.abs(turnError) <= turnTolerance) {
 			cyclesOnTarget++;
 			adjustedPower = 0;
 		} else {
 			cyclesOnTarget = 0;
 		}
+		
+		if (Math.abs(predictedErrorNextCycle) <= turnTolerance) {
+			adjustedPower = 0;
+		}
+		
 		tankDrive(adjustedPower, -adjustedPower);
+		prevTurnError = turnError;
 	}
+	
+//	public void turnToHeadingNoPID(double power) {
+//		turnError = getAutonomousHeading() - RobotMap.continuousGyro.getAngle();
+//		double adjustedPower = Math.abs(turnError) > SLOW_DOWN_ERROR ? power : MIN_POWER_TURN;
+//		SmartDashboard.putNumber("turnToHeading2 turnError", turnError);
+//		SmartDashboard.putNumber("turnToHeading2 scaledPower", adjustedPower);
+//		adjustedPower = Math.copySign(adjustedPower, turnError);
+//		if (Math.abs(turnError) <= turnTolerance) {
+//			cyclesOnTarget++;
+//			adjustedPower = 0;
+//		} else {
+//			cyclesOnTarget = 0;
+//		}
+//		tankDrive(adjustedPower, -adjustedPower);
+//	}
 
 	public void turnToHeadingEndNoPID(double newHeading) {
 		stop();

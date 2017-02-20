@@ -19,6 +19,10 @@ public class Turn extends Command {
 		this.power = power;
 		this.degreesToTurn = degreesToTurn;
 	}
+	
+	public Turn(double degreesToTurn) {
+		this(degreesToTurn, 1.0);
+	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {

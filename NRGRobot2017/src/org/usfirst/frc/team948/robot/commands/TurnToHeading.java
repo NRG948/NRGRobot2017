@@ -18,17 +18,14 @@ public class TurnToHeading extends Command {
 		this.power = Math.abs(power);
 		this.desiredHeading = desiredHeading;
 	}
-	
-	public TurnToHeading(double desiredHeading){
-		this(desiredHeading, 0.0);
-		
-	}
-		
 
-	// Called just before this Command runs the first time
+	public TurnToHeading(double desiredHeading) {
+		this(desiredHeading, 1.0);
+	}
+
 	protected void initialize() {
-		if(power == 0.0){
-			power = RobotMap.preferences.getDouble(PreferenceKeys.AUTONOMOUS_TURN_POWER,0.5);
+		if (power == 0.0) {
+			power = RobotMap.preferences.getDouble(PreferenceKeys.AUTONOMOUS_TURN_POWER, 0.5);
 		}
 		Robot.drive.turnToHeadingInitNoPID(desiredHeading);
 	}

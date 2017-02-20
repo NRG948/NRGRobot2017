@@ -4,6 +4,7 @@ import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
+import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetAutonomousHeading;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousRoutines extends CommandGroup {
-	private static final double DRIVE_TO_AIRSHIP_TIMEOUT = 2.0;
+	private static final double DRIVE_TO_AIRSHIP_TIMEOUT = 3.0;
 	private Robot.AutoPosition autoPosition;
 	public boolean moveAfterGear;
 
@@ -163,20 +164,20 @@ public class AutonomousRoutines extends CommandGroup {
 
 		public BlueLeft(double delayTime) {
 			this.delayTime = delayTime;
-
+			
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(58 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(62.6 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(60));
-			addSequential(new DriveStraightDistance(45 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(81.4 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
 			addSequential(new DelaySeconds(this.delayTime));
 			addSequential(new DriveStraightDistance(20 / 12.0, Drive.Direction.BACKWARD));
 			addSequential(new TurnToHeading(0));
 			addSequential(new ShiftGears(true));
 			addSequential(new DriveStraightDistance(113 / 12.0, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(50));
+			addSequential(new TurnToHeading(40));
 			addSequential(new DriveStraightDistance(200 / 12.0, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(0));
+			addSequential(new TurnToHeading(5));
 			addSequential(new ShiftGears(false));
 		}
 	}
