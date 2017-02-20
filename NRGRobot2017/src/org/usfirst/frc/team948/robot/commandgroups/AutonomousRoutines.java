@@ -86,14 +86,17 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(76 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
 			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(7 / 12.0, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(-90));
-			addSequential(new DriveStraightDistance(136.875 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(60 / 12.0, Drive.Direction.BACKWARD));
+			addSequential(new TurnToHeading(-65));
+			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(0));
-			addSequential(new DriveStraightDistance(326 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new ShiftGears(true));
+			addSequential(new DriveStraightDistance(300 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new ShiftGears(false));
+			
 		}
 	}
 
@@ -102,19 +105,23 @@ public class AutonomousRoutines extends CommandGroup {
 
 		public RedRight(double delayTime) {
 			this.delayTime = delayTime;
+			
 
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(62.6 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(81.4 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
 			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.BACKWARD));
+			addSequential(new DriveStraightDistance(20 / 12.0, Drive.Direction.BACKWARD));
 			addSequential(new TurnToHeading(0));
-			addSequential(new DriveStraightDistance(88.6 / 12.0, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-43.54));
-			addSequential(new DriveStraightDistance(327.563 / 12.0, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(0));
+			addSequential(new ShiftGears(true));
+			addSequential(new DriveStraightDistance(113 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new TurnToHeading(-40));
+			addSequential(new DriveStraightDistance(200 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new TurnToHeading(-5));
+			addSequential(new ShiftGears(false));
+			
 		}
 	}
 
@@ -146,10 +153,10 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 
 			addSequential(new ResetSensors());
-			addSequential(new DriveStraightDistance(50 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(76 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
 			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(45 / 12.0, Drive.Direction.BACKWARD));
+			addSequential(new DriveStraightDistance(60 / 12.0, Drive.Direction.BACKWARD));
 			addSequential(new TurnToHeading(65));
 			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(0));
