@@ -15,11 +15,13 @@ public class PreferenceKeys {
 	public static final String DRIVE_ON_HEADING_LOW_GEAR_P = "Drive_Straight_Low_Gear_P";
 	public static final String DRIVE_ON_HEADING_LOW_GEAR_I = "Drive_Straight_Low_Gear_I";
 	public static final String DRIVE_ON_HEADING_LOW_GEAR_D = "Drive_Straight_Low_Gear_D";
+	public static final String DRIVE_ON_HEADING_LOW_GEAR_F = "Drive_Straight_Low_Gear_F";
 
 	public static final String DRIVE_ON_HEADING_HIGH_GEAR_P = "Drive_Straight_High_Gear_P";
 	public static final String DRIVE_ON_HEADING_HIGH_GEAR_I = "Drive_Straight_High_Gear_I";
 	public static final String DRIVE_ON_HEADING_HIGH_GEAR_D = "Drive_Straight_High_Gear_D";
-
+	public static final String DRIVE_ON_HEADING_HIGH_GEAR_F = "Drive_Straight_High_Gear_F";
+	
 	public static final String TURN_TOLERANCE = "Turn_Tolerance";
 	public static final String TURN_TOLERANCE_BUFFER = "Turn_Tolerance_Buffer";
 
@@ -34,4 +36,5 @@ public class PreferenceKeys {
 	public static final String AUTONOMOUS_TURN_POWER = "Autonomous_Turn_Power";
 	
 	public static final String MOVE_AFTER_GEAR = "Move_After_Gear_Dropoff";
+
 }

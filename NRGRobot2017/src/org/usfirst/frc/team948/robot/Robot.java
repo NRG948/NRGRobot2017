@@ -91,7 +91,8 @@ public class Robot extends IterativeRobot {
 		autoMovementChooser.addDefault("Stop at airship", AutoMovement.STOP_AT_AIRSHIP);
 	
 		// SmartDashboard for Drive SubSystem Commands
-		SmartDashboard.putData("Choose autonomous routine", autoPositionChooser);
+		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
+		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
 		SmartDashboard.putData(drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, TURN_POWER));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, TURN_POWER));
