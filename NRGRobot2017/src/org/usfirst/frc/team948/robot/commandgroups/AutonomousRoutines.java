@@ -87,14 +87,15 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(76 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
 			addSequential(new DelaySeconds(this.delayTime));
 			addSequential(new DriveStraightDistance(60 / 12.0, Drive.Direction.BACKWARD));
 			addSequential(new TurnToHeading(-65));
-			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(125 / 12.0, Drive.Direction.FORWARD));  // 105
 			addSequential(new TurnToHeading(0));
 			addSequential(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(300 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(50 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
+			addSequential(new DriveStraightDistance(250 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new ShiftGears(false));
 			
 		}
@@ -154,14 +155,15 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new DriveStraightDistance(76 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
 			addSequential(new DelaySeconds(this.delayTime));
 			addSequential(new DriveStraightDistance(60 / 12.0, Drive.Direction.BACKWARD));
 			addSequential(new TurnToHeading(65));
-			addSequential(new DriveStraightDistance(105 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(125 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(0));
 			addSequential(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(300 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(50 / 12.0, Drive.Direction.FORWARD));
+			addSequential(new ContinueIfAllowed(PreferenceKeys.MOVE_AFTER_GEAR));
+			addSequential(new DriveStraightDistance(250 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new ShiftGears(false));
 		}
 	}
