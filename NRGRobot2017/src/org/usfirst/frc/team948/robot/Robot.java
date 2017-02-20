@@ -39,17 +39,17 @@ public class Robot extends IterativeRobot {
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
 	public static final BallCollector ballCollector = new BallCollector();
-	
+
 	private static final double TURN_POWER = 1.0;
-	
+
 	private static boolean moveAfterGear = true;
 
 	public static UsbCamera camera;
 	visionProc VisionProccesor;
 
 	Command autonomousCommand;
-	SendableChooser<Command> autoChooser, continueAfterGearDrop;
-
+	SendableChooser<AutoPosition> autoPositionChooser;
+	SendableChooser<AutoMovement> autoMovementChooser;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -58,13 +58,16 @@ public class Robot extends IterativeRobot {
 	public enum AutoPosition {
 		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_RIGHT, BLUE_CENTER, BLUE_LEFT, STAY;
 	}
+	public enum AutoMovement {
+		STOP_AT_AIRSHIP, CONTINUE_TO_AUTOLINE, CONTINUE_TO_END;
+	}
 
 	@Override
 	public void robotInit() {
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
-//		camera.setResolution(640, 380);x
+		// camera.setResolution(640, 380);x
 		camera.setExposureManual(-11);
 		cameraLight.turnOff();
 		VisionProccesor = new visionProc().start();
@@ -73,17 +76,22 @@ public class Robot extends IterativeRobot {
 		OI.buttonInit();
 
 		// Autonomous Routine
-		autoChooser = new SendableChooser<Command>();
-		autoChooser.addObject("Red left", new AutonomousRoutines(AutoPosition.RED_LEFT));
-		autoChooser.addObject("Red center", new AutonomousRoutines(AutoPosition.RED_CENTER));
-		autoChooser.addObject("Red right", new AutonomousRoutines(AutoPosition.RED_RIGHT));
-		autoChooser.addObject("Blue left", new AutonomousRoutines(AutoPosition.BLUE_LEFT));
-		autoChooser.addObject("Blue center", new AutonomousRoutines(AutoPosition.BLUE_CENTER));
-		autoChooser.addObject("Blue right", new AutonomousRoutines(AutoPosition.BLUE_RIGHT));
-		autoChooser.addDefault("Stay", new AutonomousRoutines(AutoPosition.STAY)); // constructor needs a boolean at the end
-
+		autoPositionChooser = new SendableChooser<AutoPosition>();
+		autoPositionChooser.addObject("Red left", AutoPosition.RED_LEFT);
+		autoPositionChooser.addObject("Red center", AutoPosition.RED_CENTER);
+		autoPositionChooser.addObject("Red right", AutoPosition.RED_RIGHT);
+		autoPositionChooser.addObject("Blue left", AutoPosition.BLUE_LEFT);
+		autoPositionChooser.addObject("Blue center", AutoPosition.BLUE_CENTER);
+		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
+		autoPositionChooser.addDefault("Stay", AutoPosition.STAY);
+		
+		autoMovementChooser = new SendableChooser<AutoMovement>();
+		autoMovementChooser.addObject("Continue to end", AutoMovement.CONTINUE_TO_END);
+		autoMovementChooser.addObject("Continue to auto", AutoMovement.CONTINUE_TO_AUTOLINE);
+		autoMovementChooser.addDefault("Stop at airship", AutoMovement.STOP_AT_AIRSHIP);
+	
 		// SmartDashboard for Drive SubSystem Commands
-		SmartDashboard.putData("Choose autonomous routine", autoChooser);
+		SmartDashboard.putData("Choose autonomous routine", autoPositionChooser);
 		SmartDashboard.putData(drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, TURN_POWER));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, TURN_POWER));
@@ -130,7 +138,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = autoChooser.getSelected();
+		autonomousCommand = new AutonomousRoutines(autoPositionChooser.getSelected(), autoMovementChooser.getSelected());
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
