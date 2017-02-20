@@ -6,16 +6,17 @@ import edu.wpi.first.wpilibj.command.Command;
 
 //toggle light command
 public class FlipCameraLight extends Command {
-	private static boolean isOn = false;
-	private boolean type = true;
+	private boolean turnOn = false;
+	private boolean toggle;
 
 	public FlipCameraLight() {
+		toggle = true;
 		requires(Robot.cameraLight);
 	}
-	
+
 	public FlipCameraLight(boolean newValue) {
-		type = false;
-		isOn = newValue;
+		toggle = false;
+		turnOn = newValue;
 		requires(Robot.cameraLight);
 	}
 
@@ -25,16 +26,13 @@ public class FlipCameraLight extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if(type){
-			if (isOn) {
-				Robot.cameraLight.turnOn();
-			} else {
-				Robot.cameraLight.turnOff();
-			}
-			isOn = !isOn;
-		}else if(isOn){
+		if (toggle) {
+			turnOn = !Robot.cameraLight.isOn();
+		}
+		if (turnOn) {
 			Robot.cameraLight.turnOn();
-		}else{
+		}
+		else {
 			Robot.cameraLight.turnOff();
 		}
 	}
