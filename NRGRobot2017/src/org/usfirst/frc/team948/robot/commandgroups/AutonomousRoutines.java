@@ -59,7 +59,8 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedLeft(double delayTime) {
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
+			addParallel(new ResetSensors());
+			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(98.82 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(60));
 			addSequential(new DriveStraightDistance(51.932 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
@@ -86,7 +87,9 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedCenter(double delayTime) {
 			SmartDashboard.putBoolean("move after gear (blue center)", moveAfterGear);
 			this.delayTime = delayTime;
-			addSequential(new ResetSensors());
+			
+			addParallel(new ResetSensors());
+			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(76 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new DelaySeconds(this.delayTime));
 			if (autoMovement == Robot.AutoMovement.STOP_AT_AIRSHIP) {
@@ -113,7 +116,8 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedRight(double delayTime) {
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
+			addParallel(new ResetSensors());
+			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(62.6 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-60));
 			addSequential(new DriveStraightDistance(81.4 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
@@ -139,7 +143,8 @@ public class AutonomousRoutines extends CommandGroup {
 		public BlueRight(double delayTime) {
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
+			addParallel(new ResetSensors());
+			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(53.5 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(-60));
 			addSequential(new DriveStraightDistance(59.0 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
@@ -162,7 +167,8 @@ public class AutonomousRoutines extends CommandGroup {
 			SmartDashboard.putBoolean("move after gear (blue center)", moveAfterGear);
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
+			addParallel(new ResetSensors());
+			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(76 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new DelaySeconds(this.delayTime));
 			if (autoMovement == Robot.AutoMovement.STOP_AT_AIRSHIP) {
@@ -188,7 +194,8 @@ public class AutonomousRoutines extends CommandGroup {
 		public BlueLeft(double delayTime) {
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
+			addParallel(new ResetSensors());
+			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(62.6 / 12.0, Drive.Direction.FORWARD));
 			addSequential(new TurnToHeading(60));
 			addSequential(new DriveStraightDistance(81.4 / 12.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
