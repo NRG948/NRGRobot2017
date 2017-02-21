@@ -21,4 +21,5 @@ public class visionField {
 	public double zeta;
 	public double omega;
 	public double gamma;
+	public boolean isTape;
 }

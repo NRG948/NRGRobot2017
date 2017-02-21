@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class SimpleVisionRoutine extends Command {
+public class simpleVisionRoutine extends Command {
 	private final visionProc proc;
 
-    public SimpleVisionRoutine(visionProc proccesor) {
+    public simpleVisionRoutine(visionProc proccesor) {
     	proc = proccesor;
     }
 

@@ -120,8 +120,17 @@ public class visionProc {
 		return (Double) null;
 	}
 	
-	private double getThetaSingleTape(threadOut in){
-		if(in.hasData){
+	private double getThetaSingleTape(threadOut in, boolean peg){
+		if(in.hasData && peg){
+			if(in.hasSecond){
+				double W = in.rectWidth;
+				double H = in.rectHeight;
+				double uW = (H/initialHeight)*initialWidth;
+				double theta = Math.acos(W/uW);
+				theta = Math.copySign(theta,in.x - in.secondValue.x);
+				return theta;
+			}
+		}else if(in.hasData){
 			double W = in.rectWidth;
 			double H = in.rectHeight;
 			double uW = (H/initialHeight)*initialWidth;
@@ -131,40 +140,72 @@ public class visionProc {
 		return (Double) null;
 	}
 	
-	private double getCenterDistance(threadOut in, double theta){
-		if(in.hasData){
+	private double getCenterDistance(threadOut in, double theta, boolean peg){
+		if(in.hasData && peg){
+			if(in.hasSecond){
+				double closestDistance = rectDistance(in);
+				return closestDistance + (Math.tan(theta)*(2.0/2.0));
+			}
+		}else if(in.hasData){
 			double closestDistance = rectDistance(in);
 			double W = in.rectWidth;
-			return closestDistance + (Math.tan(theta)*W/2);
+			return closestDistance + (Math.tan(theta)*(W/2.0));
 		}
 		return (Double) null;
 	}
 	
-	private double getHeadingOffeset(threadOut in, double theta){
-		if(in.hasData){
+	private double getHeadingOffeset(threadOut in, double theta, boolean peg){
+		if(in.hasData && peg){
+			if(in.hasSecond){
+				double x = (in.x + in.secondValue.x)/2.0;
+				double wF = in.frameWidth;
+				double epsilon = x - (wF/2.0);
+				double initialEpsilon = initialX - (wF/2.0);
+				double gamma = Math.atan((epsilon/initialEpsilon)*Math.tan(initialGamma));
+				return gamma;
+			}
+		}else if(in.hasData){
 			double x = in.x;
 			double wF = in.frameWidth;
-			double epsilon = x - (wF/2);
-			double initialEpsilon = initialX - (wF/2);
+			double epsilon = x - (wF/2.0);
+			double initialEpsilon = initialX - (wF/2.0);
 			double gamma = Math.atan((epsilon/initialEpsilon)*Math.tan(initialGamma));
 			return gamma;
 		}
 		return (Double) null;
 	}
 	
-	private double simpleHeading(threadOut in){
-		if(in.hasData){
+	private double simpleHeading(threadOut in, boolean peg){
+		if(in.hasData && peg){
+			if(in.hasSecond){
+				double x = (in.x + in.secondValue.x)/2.0;
+				double wF = in.frameWidth;
+				double epsilon = x - (wF/2.0);
+				double zeta = epsilon/(wF/2.0);
+				return zeta;
+			}
+		}else if(in.hasData){
 			double x = in.x;
 			double wF = in.frameWidth;
-			double epsilon = x - (wF/2);
-			double zeta = epsilon/(wF/2);
+			double epsilon = x - (wF/2.0);
+			double zeta = epsilon/(wF/2.0);
 			return zeta;
 		}
 		return (Double) null;
 	}
 	
-	private double getOmega(threadOut in, double centerDistance){
-		if(in.hasData){
+	private double getOmega(threadOut in, double centerDistance, boolean peg){
+		if(in.hasData && peg){
+			if(in.hasSecond){
+				double x = (in.x + in.secondValue.x)/2.0;
+				double wF = in.frameWidth;
+				double epsilon = x - (wF/2);
+				double initialEpsilon = initialX - (wF/2);
+				double tanGam = (epsilon/initialEpsilon)*Math.tan(initialGamma);
+				double omega = tanGam*centerDistance;
+				return omega;
+			}
+		}else if(in.hasData){
 			double x = in.x;
 			double wF = in.frameWidth;
 			double epsilon = x - (wF/2);
@@ -194,14 +235,27 @@ public class visionProc {
 	
 	public visionField getData(){
 		if(gotten.hasData){
-			visionField out = new visionField();
-			out.theta = getThetaSingleTape(gotten);
-			out.v = getCenterDistance(gotten, out.theta);
-			out.zeta = simpleHeading(gotten);
-			out.omega = getOmega(gotten, out.v);
-			out.gamma = getHeadingOffeset(gotten, out.theta);
-			lastOut = out;
-			return out;
+			if(gotten.hasSecond){
+				visionField out = new visionField();
+				out.theta = getThetaSingleTape(gotten, true);
+				out.v = getCenterDistance(gotten, Math.abs(out.theta), true);
+				out.zeta = simpleHeading(gotten, true);
+				out.omega = getOmega(gotten, out.v, true);
+				out.gamma = getHeadingOffeset(gotten, Math.abs(out.theta), true);
+				out.isTape = false;
+				lastOut = out;
+				return out;
+			}else{
+				visionField out = new visionField();
+				out.theta = getThetaSingleTape(gotten,false);
+				out.v = getCenterDistance(gotten, out.theta,false);
+				out.zeta = simpleHeading(gotten,false);
+				out.omega = getOmega(gotten, out.v,false);
+				out.gamma = getHeadingOffeset(gotten, out.theta,false);
+				out.isTape = true;
+				lastOut = out;
+				return out;
+			}
 		}else if(!lastOut.equals(new threadOut())){
 			return lastOut;
 		}
