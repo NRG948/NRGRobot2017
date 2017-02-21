@@ -64,7 +64,7 @@ public class visionProc {
 					for(int i = 0; i < cont;i++){
 						MatOfPoint temp0 = cameraIn.get(i);
 						Rect temp1 = Imgproc.boundingRect(temp0);
-						if(temp1.height*temp1.width > maxSize){
+						if(temp1.height*temp1.width >= maxSize){
 							kprime = k;
 							k = i;
 							maxSize = temp1.height*temp1.width;
@@ -85,11 +85,11 @@ public class visionProc {
 						temp.frameWidth = mat.width();
 						if(cont > 1){
 							boool = true;
-							MatOfPoint lprime = cameraIn.get(k);
-							Rect jprime = Imgproc.boundingRect(l);
+							MatOfPoint lprime = cameraIn.get(kprime);
+							Rect jprime = Imgproc.boundingRect(lprime);
 							threadOut nestedTemp = new threadOut();
 							nestedTemp.hasData = true;
-							nestedTemp.area = l.size().area();
+							nestedTemp.area = lprime.size().area();
 							nestedTemp.rectWidth = jprime.width;
 							nestedTemp.rectHeight = jprime.height;
 							nestedTemp.x = (jprime.tl().x + jprime.br().x)/2;
@@ -105,8 +105,8 @@ public class visionProc {
 						temp.proccessTime = delta;
 						setFrameData(temp);
 					}
-					vidOut.putFrame(mat);
 				}
+				vidOut.putFrame(mat);
 			}
 		}, 0, 10);
 		return this;
