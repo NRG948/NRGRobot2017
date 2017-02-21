@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class simpleVisionRoutine extends Command {
+public class SimpleVisionRoutine extends Command {
 	private final visionProc proc;
 
-    public simpleVisionRoutine(visionProc proccesor) {
+    public SimpleVisionRoutine(visionProc proccesor) {
     	proc = proccesor;
     }
 
@@ -42,6 +42,8 @@ public class simpleVisionRoutine extends Command {
 					SmartDashboard.putNumber("Vision: Omega", a.omega);
 					SmartDashboard.putNumber("Vision: Gamma", a.gamma);
 					addSequential(new ShiftGears(false));
+					addSequential(new Turn(-1.0*(a.gamma*180.0)/Math.PI));
+					addSequential(new DriveStraightDistance(Math.sqrt((a.omega*a.omega)+(a.v*a.v)), Drive.Direction.FORWARD));
 					if(a.zeta != 0){
 //						addSequential(new Turn(90.0*a.zeta, 0.5));
 //						addSequential(new DriveStraightDistance(Math.abs(a.zeta)*scalar, Drive.Direction.FORWARD,0.5));
