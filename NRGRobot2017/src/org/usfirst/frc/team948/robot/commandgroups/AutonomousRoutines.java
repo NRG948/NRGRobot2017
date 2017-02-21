@@ -1,5 +1,8 @@
 package org.usfirst.frc.team948.robot.commandgroups;
 
+import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.BACKWARD;
+import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.FORWARD;
+
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
@@ -59,25 +62,23 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedLeft(double delayTime) {
 			this.delayTime = delayTime;
 
-			addParallel(new ResetSensors());
+			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(98.82, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(53.5, FORWARD));
 			addSequential(new TurnToHeading(60));
-			addSequential(new DriveStraightDistance(51.932, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			if (autoMovement != Robot.AutoMovement.CONTINUE_TO_END) {
-				return;
+			addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new DriveStraightDistance(20.0, BACKWARD));
+				addSequential(new TurnToHeading(-6));
+				addSequential(new ShiftGears(true));
+				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+					addSequential(new DriveStraightDistance(300, FORWARD));
+				} else {
+					addSequential(new DriveStraightDistance(40, FORWARD));
+				}
+				addSequential(new ShiftGears(false));
 			}
-			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(12.0, Drive.Direction.BACKWARD));
-			addSequential(new SetAutonomousHeading(-90));
-			addSequential(new DriveStraightDistance(51.932 - 12.0, Drive.Direction.BACKWARD));
-			// addSequential(new DriveStraightDistance(51.932,
-			// Drive.Direction.BACKWARD));
-			// addSequential(new TurnToHeading(-90 ,
-			// Drive.Direction.FORWARD));
-			addSequential(new DriveStraightDistance(50, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(0));
-			addSequential(new DriveStraightDistance(325.28, Drive.Direction.FORWARD));
 		}
 	}
 
@@ -87,26 +88,24 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedCenter(double delayTime) {
 			SmartDashboard.putBoolean("move after gear (blue center)", moveAfterGear);
 			this.delayTime = delayTime;
-			
-			addParallel(new ResetSensors());
+
+			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(76, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new DelaySeconds(this.delayTime));
-			if (autoMovement == Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				return;
+			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new DriveStraightDistance(60, BACKWARD));
+				addSequential(new TurnToHeading(-65));
+				addSequential(new DriveStraightDistance(125, FORWARD));
+				addSequential(new TurnToHeading(0));
+				addSequential(new ShiftGears(true));
+				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+					addSequential(new DriveStraightDistance(300, FORWARD));
+				} else {
+					addSequential(new DriveStraightDistance(50, FORWARD));
+				}
+				addSequential(new ShiftGears(false));
 			}
-			addSequential(new DriveStraightDistance(60, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(-65));
-			addSequential(new DriveStraightDistance(125, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(0));
-			addSequential(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(50, Drive.Direction.FORWARD));
-			
-			if (autoMovement != Robot.AutoMovement.CONTINUE_TO_END) {
-				return;
-			}
-			addSequential(new DriveStraightDistance(250, Drive.Direction.FORWARD));
-			addSequential(new ShiftGears(false));
 		}
 	}
 
@@ -116,24 +115,25 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedRight(double delayTime) {
 			this.delayTime = delayTime;
 
-			addParallel(new ResetSensors());
+			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(62.6, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(56.537, FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(81.4, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			if (autoMovement != Robot.AutoMovement.CONTINUE_TO_END) {
-				return;
+			addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new DriveStraightDistance(20, BACKWARD));
+				addSequential(new TurnToHeading(0));
+				addSequential(new ShiftGears(true));
+				addSequential(new DriveStraightDistance(113, FORWARD));
+				addSequential(new TurnToHeading(-40));
+				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+					addSequential(new DriveStraightDistance(200, FORWARD));
+					addSequential(new TurnToHeading(-5));
+				} else {
+				}
+				addSequential(new ShiftGears(false));
 			}
-			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(20, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(0));
-			addSequential(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(113, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-40));
-			addSequential(new DriveStraightDistance(200, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(-5));
-			addSequential(new ShiftGears(false));
-
 		}
 	}
 
@@ -143,20 +143,23 @@ public class AutonomousRoutines extends CommandGroup {
 		public BlueRight(double delayTime) {
 			this.delayTime = delayTime;
 
-			addParallel(new ResetSensors());
+			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(53.5, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(53.5, FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(59.0, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			if (autoMovement != Robot.AutoMovement.CONTINUE_TO_END) {
-				return;
+			addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new DriveStraightDistance(20.0, BACKWARD));
+				addSequential(new TurnToHeading(6));
+				addSequential(new ShiftGears(true));
+				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+					addSequential(new DriveStraightDistance(300, FORWARD));
+				} else {
+					addSequential(new DriveStraightDistance(40, FORWARD));
+				}
+				addSequential(new ShiftGears(false));
 			}
-			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(20.0, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(6));
-			addParallel(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(300, Drive.Direction.FORWARD));
-			addSequential(new ShiftGears(false));
 		}
 	}
 
@@ -167,24 +170,23 @@ public class AutonomousRoutines extends CommandGroup {
 			SmartDashboard.putBoolean("move after gear (blue center)", moveAfterGear);
 			this.delayTime = delayTime;
 
-			addParallel(new ResetSensors());
+			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(76, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			addSequential(new DelaySeconds(this.delayTime));
-			if (autoMovement == Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				return;
+			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new DriveStraightDistance(60, BACKWARD));
+				addSequential(new TurnToHeading(65));
+				addSequential(new DriveStraightDistance(125, FORWARD));
+				addSequential(new TurnToHeading(0));
+				addSequential(new ShiftGears(true));
+				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+					addSequential(new DriveStraightDistance(300, FORWARD));
+				} else {
+					addSequential(new DriveStraightDistance(50, FORWARD));
+				}
+				addSequential(new ShiftGears(false));
 			}
-			addSequential(new DriveStraightDistance(60, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(65));
-			addSequential(new DriveStraightDistance(125, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(0));
-			addSequential(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(50, Drive.Direction.FORWARD));
-			if (autoMovement != Robot.AutoMovement.CONTINUE_TO_END) {
-				return;
-			}
-			addSequential(new DriveStraightDistance(250, Drive.Direction.FORWARD));
-			addSequential(new ShiftGears(false));
 		}
 	}
 
@@ -194,23 +196,25 @@ public class AutonomousRoutines extends CommandGroup {
 		public BlueLeft(double delayTime) {
 			this.delayTime = delayTime;
 
-			addParallel(new ResetSensors());
+			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(62.6, Drive.Direction.FORWARD));
+			addSequential(new DriveStraightDistance(56.537, FORWARD));
 			addSequential(new TurnToHeading(60));
-			addSequential(new DriveStraightDistance(81.4, Drive.Direction.FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			if (autoMovement != Robot.AutoMovement.CONTINUE_TO_END) {
-				return;
+			addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new DriveStraightDistance(20, BACKWARD));
+				addSequential(new TurnToHeading(0));
+				addSequential(new ShiftGears(true));
+				addSequential(new DriveStraightDistance(113, FORWARD));
+				addSequential(new TurnToHeading(40));
+				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+					addSequential(new DriveStraightDistance(200, FORWARD));
+					addSequential(new TurnToHeading(5));
+				} else {
+				}
+				addSequential(new ShiftGears(false));
 			}
-			addSequential(new DelaySeconds(this.delayTime));
-			addSequential(new DriveStraightDistance(20, Drive.Direction.BACKWARD));
-			addSequential(new TurnToHeading(0));
-			addSequential(new ShiftGears(true));
-			addSequential(new DriveStraightDistance(113, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(40));
-			addSequential(new DriveStraightDistance(200, Drive.Direction.FORWARD));
-			addSequential(new TurnToHeading(5));
-			addSequential(new ShiftGears(false));
 		}
 	}
 
