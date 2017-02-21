@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class SimpleVisionRoutine extends Command {
+public class simpleVisionRoutine extends Command {
 	private final visionProc proc;
 
-    public SimpleVisionRoutine(visionProc proccesor) {
+    public simpleVisionRoutine(visionProc proccesor) {
     	proc = proccesor;
     }
 
@@ -36,11 +36,11 @@ public class SimpleVisionRoutine extends Command {
 				boolean bool = proc.dataExists();
 				if(bool){
 					visionField a = proc.getData();
-					SmartDashboard.putNumber("Vision: Theta", a.theta);
-					SmartDashboard.putNumber("Vision: V", a.v);
-					SmartDashboard.putNumber("Vision: Zeta", a.zeta);
-					SmartDashboard.putNumber("Vision: Omega", a.omega);
-					SmartDashboard.putNumber("Vision: Gamma", a.gamma);
+//					SmartDashboard.putNumber("Vision: Theta", a.theta);
+//					SmartDashboard.putNumber("Vision: V", a.v);
+//					SmartDashboard.putNumber("Vision: Zeta", a.zeta);
+//					SmartDashboard.putNumber("Vision: Omega", a.omega);
+//					SmartDashboard.putNumber("Vision: Gamma", a.gamma);
 					addSequential(new ShiftGears(false));
 					if(a.zeta != 0){
 //						addSequential(new Turn(90.0*a.zeta, 0.5));

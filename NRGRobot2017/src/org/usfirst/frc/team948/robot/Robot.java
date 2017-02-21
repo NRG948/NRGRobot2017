@@ -2,7 +2,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
-import org.usfirst.frc.team948.robot.commandgroups.SimpleVisionRoutine;
+import org.usfirst.frc.team948.robot.commandgroups.simpleVisionRoutine;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
-		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(VisionProccesor));
+		SmartDashboard.putData("Activate simple vision", new simpleVisionRoutine(VisionProccesor));
 
 		// Start in Low gear
 		gearbox.setLowGear();
@@ -218,5 +218,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
 		SmartDashboard.putBoolean("gear sensor", RobotMap.gearSensor.get());
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
+		VisionProccesor.dataExists();
 	}
 }

@@ -14,7 +14,10 @@ import org.usfirst.frc.team948.utilities.tempPipe;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class visionProc {
@@ -25,6 +28,12 @@ public class visionProc {
 	private static final double initialGamma = ((-5)*Math.PI)/180;
 	private threadOut gotten;
 	private visionField lastOut;
+	
+	private Timer proccessingTimer;
+	private CvSink cvSink;
+	private CvSource vidOut;
+	private tempPipe pipeLine;
+	private Mat mat;
 	Thread processingThread;
 	threadOut threadObjectData;
 	
@@ -34,29 +43,29 @@ public class visionProc {
 		gotten = new threadOut();
 		lastOut = new visionField();
 		threadObjectData = new threadOut();
-		processingThread = new Thread(() -> {
-			tempPipe pipeLine = new tempPipe();
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource out = CameraServer.getInstance().putVideo("Processed", 640, 480);
-			Mat mat = new Mat();
-			Timer timer = new Timer();
-			timer.start();
-			cvSink.grabFrame(mat);
-			while (!Thread.interrupted()) {
-				if(timer.get() > 0.002){
-					if (cvSink.grabFrame(mat) == 0) {
-						out.notifyError(cvSink.getError());
-						continue;
-					}
+		cvSink = CameraServer.getInstance().getVideo();
+		vidOut = CameraServer.getInstance().putVideo("Processed", 640, 480);
+		mat = new Mat();
+		pipeLine = new tempPipe();
+		proccessingTimer = new Timer();
+		proccessingTimer.schedule(new TimerTask(){
+			@Override
+			public void run(){
+				long start = System.currentTimeMillis();
+				if (cvSink.grabFrame(mat) == 0) {
+					vidOut.notifyError(cvSink.getError());
+				}else{
 					pipeLine.process(mat);
 					ArrayList<MatOfPoint> cameraIn = pipeLine.findContoursOutput();
 					int cont = cameraIn.size();
+					int kprime = 0;
 					int k = 0;
 					double maxSize = 0;
 					for(int i = 0; i < cont;i++){
 						MatOfPoint temp0 = cameraIn.get(i);
 						Rect temp1 = Imgproc.boundingRect(temp0);
 						if(temp1.height*temp1.width > maxSize){
+							kprime = k;
 							k = i;
 							maxSize = temp1.height*temp1.width;
 						}
@@ -66,6 +75,7 @@ public class visionProc {
 						Rect j = Imgproc.boundingRect(l);
 						Imgproc.rectangle(mat, j.br(), j.tl(), new Scalar(255, 255, 255), 1);
 						threadOut temp = new threadOut();
+						boolean boool = false;
 						temp.hasData = true;
 						temp.area = l.size().area();
 						temp.rectWidth = j.width;
@@ -73,15 +83,32 @@ public class visionProc {
 						temp.x = (j.tl().x + j.br().x)/2;
 						temp.y = (j.tl().y + j.br().y)/2;
 						temp.frameWidth = mat.width();
+						if(cont > 1){
+							boool = true;
+							MatOfPoint lprime = cameraIn.get(k);
+							Rect jprime = Imgproc.boundingRect(l);
+							threadOut nestedTemp = new threadOut();
+							nestedTemp.hasData = true;
+							nestedTemp.area = l.size().area();
+							nestedTemp.rectWidth = jprime.width;
+							nestedTemp.rectHeight = jprime.height;
+							nestedTemp.x = (jprime.tl().x + jprime.br().x)/2;
+							nestedTemp.y = (jprime.tl().y + jprime.br().y)/2;
+							nestedTemp.frameWidth = mat.width();
+							temp.secondValue = nestedTemp;
+							temp.hasSecond = true;
+						}
+						long end = System.currentTimeMillis();
+						long delta = end - start;
+						if(boool)
+							temp.secondValue.proccessTime = delta;
+						temp.proccessTime = delta;
 						setFrameData(temp);
 					}
-					timer.reset();
+					vidOut.putFrame(mat);
 				}
-				out.putFrame(mat);
 			}
-		});
-		processingThread.setDaemon(true);
-		processingThread.start();
+		}, 0, 10);
 		return this;
 	}
 	
@@ -153,6 +180,13 @@ public class visionProc {
 		threadOut temp = getFrameData();
 		if(temp.hasData){
 			gotten = temp;
+			SmartDashboard.putNumber("visionArea",temp.area);
+			SmartDashboard.putNumber("visionFrameWidth",temp.frameWidth);
+			SmartDashboard.putNumber("visionRectHeight",temp.rectHeight);
+			SmartDashboard.putNumber("visionRectWidth",temp.rectWidth);
+			SmartDashboard.putNumber("visionX",temp.x);
+			SmartDashboard.putNumber("visionY",temp.y);
+			SmartDashboard.putNumber("visionProccessTime",temp.proccessTime);
 			return true;
 		}
 		return false;
@@ -189,6 +223,9 @@ public class visionProc {
 		public double frameWidth;
 		public double x;
 		public double y;
-		boolean hasData = false;
+		public threadOut secondValue;
+		public long proccessTime;
+		public boolean hasSecond = false;
+		public boolean hasData = false;
 	}
 }
