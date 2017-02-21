@@ -7,8 +7,8 @@ public class visionField {
 	 * 
 	 * V is the shortest distance to the plane of the camera from the center of the tape.
 	 * 
-	 * Zeta has is -1 when the object is to the left of the robot, 0 when the object is aproximately directly
-	 * infront of the robot, and 1 when the object is the the right of the robot
+	 * Zeta how to the left or right the object is of the robot measured from -1 (all the way to the left)
+	 * to +1 (all the way to the right)
 	 * 
 	 * Omega is the distance from the camera to the point on the plane of the robot that is used for the calculation of v.
 	 * 

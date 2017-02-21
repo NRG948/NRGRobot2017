@@ -123,7 +123,7 @@ public class visionProc {
 		double x = in[3];
 		double wF = in[5];
 		double epsilon = x - (wF/2);
-		double zeta = Math.abs(epsilon) > (1/40.0)*wF ? Math.copySign(1.0, epsilon) : 0;
+		double zeta = epsilon/(wF/2);
 		return zeta;
 	}
 	
