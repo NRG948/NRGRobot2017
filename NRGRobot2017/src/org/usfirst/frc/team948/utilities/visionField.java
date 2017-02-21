@@ -16,25 +16,9 @@ public class visionField {
 	 * 
 	 * All distances are measured in inches.
 	 */
-	public final double theta;
-	public final double v;
-	public final double zeta;
-	public final double omega;
-	public final double gamma;
-	public visionField(double[] in){
-		theta = in[0];
-		v = in[1];
-		zeta = in[2];
-		omega = in[3];
-		gamma = in[4];
-	}
-	
-	@SuppressWarnings("null")
-	public visionField(){
-		theta = (Double) null;
-		v = (Double) null;
-		zeta = (Double) null;
-		omega = (Double) null;
-		gamma = (Double) null;
-	}
+	public double theta;
+	public double v;
+	public double zeta;
+	public double omega;
+	public double gamma;
 }
