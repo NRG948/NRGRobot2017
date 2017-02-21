@@ -1,15 +1,11 @@
 package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.Robot;
-import org.usfirst.frc.team948.robot.RobotMap;
-import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Sets the Robot's drive gearbox to high or low gear.
  */
 public class ShiftGears extends Command {
 	private boolean highGear;

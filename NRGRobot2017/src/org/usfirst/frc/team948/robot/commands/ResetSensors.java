@@ -7,10 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ResetSensors extends Command {
 	public ResetSensors() {
-	}
-
-	protected void initialize() {
-
+		requires(Robot.drive);
 	}
 
 	protected void execute() {
@@ -18,20 +15,9 @@ public class ResetSensors extends Command {
 		RobotMap.leftEncoder.reset();
 		RobotMap.rightEncoder.reset();
 		RobotMap.navx.reset();
-
 	}
 
 	protected boolean isFinished() {
 		return Math.abs(RobotMap.navx.getAngle()) < 0.5;
-
 	}
-
-	protected void end() {
-
-	}
-
-	protected void interrupted() {
-	}
-
 }
-
