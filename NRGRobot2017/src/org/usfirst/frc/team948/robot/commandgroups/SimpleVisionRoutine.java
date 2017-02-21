@@ -1,6 +1,8 @@
 package org.usfirst.frc.team948.robot.commandgroups;
 
+import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
+import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
@@ -29,6 +31,8 @@ public class SimpleVisionRoutine extends Command {
 		new CommandGroup(){
 			{
 				final double scalar = 1/12.0;
+				addSequential(new FlipCameraLight(true));
+				addSequential(new DelaySeconds(0.1));
 				boolean bool = proc.dataExists();
 				if(bool){
 					visionField a = proc.getData();
@@ -39,12 +43,13 @@ public class SimpleVisionRoutine extends Command {
 					SmartDashboard.putNumber("Vision: Gamma", a.gamma);
 					addSequential(new ShiftGears(false));
 					if(a.zeta != 0){
-						addSequential(new Turn(90.0*a.zeta, 0.5));
-						addSequential(new DriveStraightDistance(Math.abs(a.zeta)*scalar, Drive.Direction.FORWARD,0.5));
-						addSequential(new Turn(-90.0*a.zeta,0.5));
+//						addSequential(new Turn(90.0*a.zeta, 0.5));
+//						addSequential(new DriveStraightDistance(Math.abs(a.zeta)*scalar, Drive.Direction.FORWARD,0.5));
+//						addSequential(new Turn(-90.0*a.zeta,0.5));
 					}
-					addSequential(new DriveStraightDistance(Math.abs(a.v)*scalar, Drive.Direction.FORWARD,0.5));
+//					addSequential(new DriveStraightDistance(Math.abs(a.v)*scalar, Drive.Direction.FORWARD,0.5));
 				}
+				addSequential(new FlipCameraLight(false));
 			}
 		}.start();
     }
