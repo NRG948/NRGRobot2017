@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_RIGHT, BLUE_CENTER, BLUE_LEFT, STAY;
 	}
 	public enum AutoMovement {
-		STOP_AT_AIRSHIP, CONTINUE_TO_AUTOLINE, CONTINUE_TO_END;
+		STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
 	}
 
 	@Override
@@ -87,11 +87,12 @@ public class Robot extends IterativeRobot {
 		
 		autoMovementChooser = new SendableChooser<AutoMovement>();
 		autoMovementChooser.addObject("Continue to end", AutoMovement.CONTINUE_TO_END);
-		autoMovementChooser.addObject("Continue to auto", AutoMovement.CONTINUE_TO_AUTOLINE);
+		autoMovementChooser.addObject("Continue to auto", AutoMovement.STOP_AT_AUTOLINE);
 		autoMovementChooser.addDefault("Stop at airship", AutoMovement.STOP_AT_AIRSHIP);
 	
 		// SmartDashboard for Drive SubSystem Commands
-		SmartDashboard.putData("Choose autonomous routine", autoPositionChooser);
+		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
+		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
 		SmartDashboard.putData(drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, TURN_POWER));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, TURN_POWER));

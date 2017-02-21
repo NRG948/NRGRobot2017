@@ -49,7 +49,7 @@ public class OI {
 	public static Joystick rightJoystick = new Joystick(2);
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
-	public static JoystickButton interruptButton = new JoystickButton(rightJoystick, 10);
+	public static JoystickButton interruptButton = new JoystickButton(leftJoystick, 10);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 10);
 	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 11);
