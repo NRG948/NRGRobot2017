@@ -76,7 +76,7 @@ public class AutonomousRoutines extends CommandGroup {
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
 					addSequential(new DriveStraightDistance(300, FORWARD));
 				} else {
-					addSequential(new DriveStraightDistance(40, FORWARD));
+					addSequential(new DriveStraightDistance(35, FORWARD));
 				}
 				addSequential(new ShiftGears(false));
 			}
@@ -157,7 +157,7 @@ public class AutonomousRoutines extends CommandGroup {
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
 					addSequential(new DriveStraightDistance(300, FORWARD));
 				} else {
-					addSequential(new DriveStraightDistance(40, FORWARD));
+					addSequential(new DriveStraightDistance(35, FORWARD));
 				}
 				addSequential(new ShiftGears(false));
 			}
