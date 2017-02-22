@@ -143,12 +143,12 @@ public class AutonomousRoutines extends CommandGroup {
 
 		public BlueRight(double delayTime) {
 			this.delayTime = delayTime;
-			addSequential(new FlipCameraLight(true));
+			//addSequential(new FlipCameraLight(true));
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(75, FORWARD));
+			addSequential(new DriveStraightDistance(74.5, FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(73, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			addSequential(new DriveStraightDistance(71, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new DelaySeconds(this.delayTime));
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
