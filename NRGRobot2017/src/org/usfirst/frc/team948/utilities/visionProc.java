@@ -60,12 +60,14 @@ public class visionProc {
 					int cont = cameraIn.size();
 					int kprime = 0;
 					int k = 0;
+					double secondMaxSize = 0;
 					double maxSize = 0;
 					for(int i = 0; i < cont;i++){
 						MatOfPoint temp0 = cameraIn.get(i);
 						Rect temp1 = Imgproc.boundingRect(temp0);
 						if(temp1.height*temp1.width >= maxSize){
 							kprime = k;
+							secondMaxSize = maxSize;
 							k = i;
 							maxSize = temp1.height*temp1.width;
 						}
@@ -83,7 +85,7 @@ public class visionProc {
 						temp.x = (j.tl().x + j.br().x)/2;
 						temp.y = (j.tl().y + j.br().y)/2;
 						temp.frameWidth = mat.width();
-						if(cont > 1){
+						if(secondMaxSize > 0){
 							boool = true;
 							MatOfPoint lprime = cameraIn.get(kprime);
 							Rect jprime = Imgproc.boundingRect(lprime);
