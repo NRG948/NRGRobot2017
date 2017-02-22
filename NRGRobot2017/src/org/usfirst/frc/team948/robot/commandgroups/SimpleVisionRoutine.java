@@ -30,7 +30,8 @@ public class SimpleVisionRoutine extends Command {
     protected void execute() {
 		new CommandGroup(){
 			{
-				final double scalar = 1/12.0;
+				final double wallDistance = 0.0;
+				final double scalar = 1.0;
 				addSequential(new FlipCameraLight(true));
 				addSequential(new DelaySeconds(0.1));
 				boolean bool = proc.dataExists();
@@ -43,13 +44,9 @@ public class SimpleVisionRoutine extends Command {
 					SmartDashboard.putNumber("Vision: Gamma", a.gamma);
 					addSequential(new ShiftGears(false));
 					addSequential(new Turn(-1.0*(a.gamma*180.0)/Math.PI));
-					addSequential(new DriveStraightDistance(Math.sqrt((a.omega*a.omega)+(a.v*a.v)), Drive.Direction.FORWARD));
+					addSequential(new DriveStraightDistance(Math.sqrt((a.omega*a.omega)+((a.v-wallDistance)*(a.v-wallDistance)))*scalar, Drive.Direction.FORWARD));
 					if(a.zeta != 0){
-//						addSequential(new Turn(90.0*a.zeta, 0.5));
-//						addSequential(new DriveStraightDistance(Math.abs(a.zeta)*scalar, Drive.Direction.FORWARD,0.5));
-//						addSequential(new Turn(-90.0*a.zeta,0.5));
 					}
-//					addSequential(new DriveStraightDistance(Math.abs(a.v)*scalar, Drive.Direction.FORWARD,0.5));
 				}
 				addSequential(new FlipCameraLight(false));
 			}

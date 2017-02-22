@@ -95,6 +95,7 @@ public class visionProc {
 							nestedTemp.x = (jprime.tl().x + jprime.br().x)/2;
 							nestedTemp.y = (jprime.tl().y + jprime.br().y)/2;
 							nestedTemp.frameWidth = mat.width();
+							Imgproc.rectangle(mat, jprime.br(), jprime.tl(), new Scalar(255, 0, 0), 1);
 							temp.secondValue = nestedTemp;
 							temp.hasSecond = true;
 						}
