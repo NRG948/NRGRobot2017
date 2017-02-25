@@ -4,6 +4,7 @@ import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.BACKWARD;
 import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.FORWARD;
 
 import org.usfirst.frc.team948.robot.Robot;
+import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
@@ -12,7 +13,9 @@ import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetAutonomousHeading;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
+import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
+import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,31 +29,32 @@ public class AutonomousRoutines extends CommandGroup {
 	public AutonomousRoutines(Robot.AutoPosition autoPosition, Robot.AutoMovement autoMovement) {
 		this.autoPosition = autoPosition;
 		this.autoMovement = autoMovement;
+		if (autoMovement == AutoMovement.STAY) {
+			addSequential(new Stay());
+			return;
+		}
+		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 1.5);
 
 		switch (this.autoPosition) {
 		case RED_LEFT:
-			addSequential(new RedLeft(3));
+			addSequential(new RedLeft(delay));
 			break;
 		case RED_CENTER:
-			addSequential(new RedCenter(3));
+			addSequential(new RedCenter(delay));
 			break;
 		case RED_RIGHT:
-			addSequential(new RedRight(3));
+			addSequential(new RedRight(delay));
 			break;
 		case BLUE_RIGHT:
-			addSequential(new BlueRight(3));
+			addSequential(new BlueRight(delay));
 			break;
 		case BLUE_CENTER:
-			addSequential(new BlueCenter(3));
+			addSequential(new BlueCenter(delay));
 			break;
 		case BLUE_LEFT:
-			addSequential(new BlueLeft(3));
-			break;
-		case STAY:
-			addSequential(new Stay());
+			addSequential(new BlueLeft(delay));
 			break;
 		}
-
 	}
 
 	public Robot.AutoPosition returnPosition() {
@@ -62,14 +66,13 @@ public class AutonomousRoutines extends CommandGroup {
 
 		public RedLeft(double delayTime) {
 			this.delayTime = delayTime;
-
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(53.5, FORWARD));
 			addSequential(new TurnToHeading(60));
 			addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
 				addSequential(new TurnToHeading(-6));
 				addSequential(new ShiftGears(true));
@@ -93,7 +96,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			addSequential(new DelaySeconds(this.delayTime));
+			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new DriveStraightDistance(60, BACKWARD));
 				addSequential(new TurnToHeading(-65));
@@ -122,7 +125,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(-60));
 			addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
@@ -132,6 +135,7 @@ public class AutonomousRoutines extends CommandGroup {
 					addSequential(new DriveStraightDistance(200, FORWARD));
 					addSequential(new TurnToHeading(-5));
 				} else {
+					// we already went pass the auto line
 				}
 				addSequential(new ShiftGears(false));
 			}
@@ -150,7 +154,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(-60));
 			addSequential(new DriveStraightDistance(73, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
 				addSequential(new TurnToHeading(6));
 				addSequential(new ShiftGears(true));
@@ -175,7 +179,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			addSequential(new DelaySeconds(this.delayTime));
+			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new DriveStraightDistance(60, BACKWARD));
 				addSequential(new TurnToHeading(65));
@@ -204,7 +208,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(60));
 			addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				addSequential(new DelaySeconds(this.delayTime));
+				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
@@ -214,6 +218,7 @@ public class AutonomousRoutines extends CommandGroup {
 					addSequential(new DriveStraightDistance(200, FORWARD));
 					addSequential(new TurnToHeading(5));
 				} else {
+					// we already went pass the auto line
 				}
 				addSequential(new ShiftGears(false));
 			}
@@ -224,4 +229,3 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 
 }
-
