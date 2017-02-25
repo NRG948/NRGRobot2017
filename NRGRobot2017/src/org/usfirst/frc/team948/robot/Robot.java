@@ -14,7 +14,7 @@ import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
-import org.usfirst.frc.team948.utilities.visionProc;
+import org.usfirst.frc.team948.utilities.VisionProc;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 	private static final double TURN_POWER = 1.0;
 
 	public static UsbCamera camera;
-	visionProc VisionProccesor;
+	VisionProc visionProcessor;
 
 	Command autonomousCommand;
 	SendableChooser<AutoPosition> autoPositionChooser;
@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 		// camera.setResolution(640, 380);x
 		camera.setExposureManual(-11);
 		cameraLight.turnOff();
-		VisionProccesor = new visionProc().start();
+		visionProcessor = new VisionProc().start();
 
 		// Driver Station
 		OI.buttonInit();
@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5 * 12.0, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
-		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(VisionProccesor));
+		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(visionProcessor));
 		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
 		// Start in Low gear
 		gearbox.setLowGear();
@@ -264,6 +264,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Lower gear sensor", haveGear);
 		RobotMap.gearLights.set(haveGear);
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
-		VisionProccesor.dataExists();
+		visionProcessor.dataExists();
 	}
 }

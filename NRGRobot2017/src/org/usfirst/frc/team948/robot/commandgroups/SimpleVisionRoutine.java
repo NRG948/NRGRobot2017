@@ -6,8 +6,8 @@ import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
-import org.usfirst.frc.team948.utilities.visionField;
-import org.usfirst.frc.team948.utilities.visionProc;
+import org.usfirst.frc.team948.utilities.VisionField;
+import org.usfirst.frc.team948.utilities.VisionProc;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class SimpleVisionRoutine extends Command {
-	private final visionProc proc;
+	private final VisionProc proc;
 
-    public SimpleVisionRoutine(visionProc proccesor) {
+    public SimpleVisionRoutine(VisionProc proccesor) {
     	proc = proccesor;
     }
 
@@ -36,7 +36,7 @@ public class SimpleVisionRoutine extends Command {
 				addSequential(new DelaySeconds(0.1));
 				boolean bool = proc.dataExists();
 				if(bool){
-					visionField a = proc.getData();
+					VisionField a = proc.getData();
 					SmartDashboard.putNumber("Vision: Theta", a.theta);
 					SmartDashboard.putNumber("Vision: V", a.v);
 					SmartDashboard.putNumber("Vision: Zeta", a.zeta);
