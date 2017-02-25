@@ -11,6 +11,7 @@ import org.usfirst.frc.team948.robot.commands.StopTestDrive;
 import org.usfirst.frc.team948.robot.commands.TestDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -59,7 +60,14 @@ public class OI {
 	public static JoystickButton stopDriveButton = new JoystickButton(rightJoystick, 9);
 	public static JoystickButton ejectBalls = new JoystickButton(rightJoystick, 6);
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
-	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1); 
+	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
+
+	public static final Joystick arduinoJoystick = new Joystick(0);
+	public static final Button fieldSide = new JoystickButton(arduinoJoystick, 8);
+	public static final Button pos1Button = new JoystickButton(arduinoJoystick, 9);
+	public static final Button pos2Button = new JoystickButton(arduinoJoystick, 10);
+	public static final Button pos3Button = new JoystickButton(arduinoJoystick, 12);
+	public static final Button stay = new JoystickButton(arduinoJoystick, 11);
 
 	public static void buttonInit() {
 		rightTrigger.whenPressed(new ShiftGears(true));
