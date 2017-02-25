@@ -9,7 +9,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team948.utilities.tempPipe;
+import org.usfirst.frc.team948.utilities.TempGripPipe;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
@@ -20,33 +20,33 @@ import java.util.TimerTask;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class visionProc {
+public class VisionProc {
 	private static final double initialDistance = 32.6;
 	private static final double initialHeight = 26.0;
 	private static final double initialWidth = 10.5;
 	private static final double initialX = 39.5;
 	private static final double initialGamma = ((-5)*Math.PI)/180;
 	private threadOut gotten;
-	private visionField lastOut;
+	private VisionField lastOut;
 	
 	private Timer proccessingTimer;
 	private CvSink cvSink;
 	private CvSource vidOut;
-	private tempPipe pipeLine;
+	private TempGripPipe pipeLine;
 	private Mat mat;
 	Thread processingThread;
 	threadOut threadObjectData;
 	
-	public visionProc(){}
+	public VisionProc(){}
 	
-	public visionProc start(){
+	public VisionProc start(){
 		gotten = new threadOut();
-		lastOut = new visionField();
+		lastOut = new VisionField();
 		threadObjectData = new threadOut();
 		cvSink = CameraServer.getInstance().getVideo();
 		vidOut = CameraServer.getInstance().putVideo("Processed", 640, 480);
 		mat = new Mat();
-		pipeLine = new tempPipe();
+		pipeLine = new TempGripPipe();
 		proccessingTimer = new Timer();
 		proccessingTimer.schedule(new TimerTask(){
 			@Override
@@ -236,10 +236,10 @@ public class visionProc {
 		return false;
 	}
 	
-	public visionField getData(){
+	public VisionField getData(){
 		if(gotten.hasData){
 			if(gotten.hasSecond){
-				visionField out = new visionField();
+				VisionField out = new VisionField();
 				out.theta = getThetaSingleTape(gotten, true);
 				out.v = getCenterDistance(gotten, Math.abs(out.theta), true);
 				out.zeta = simpleHeading(gotten, true);
@@ -249,7 +249,7 @@ public class visionProc {
 				lastOut = out;
 				return out;
 			}else{
-				visionField out = new visionField();
+				VisionField out = new VisionField();
 				out.theta = getThetaSingleTape(gotten,false);
 				out.v = getCenterDistance(gotten, out.theta,false);
 				out.zeta = simpleHeading(gotten,false);
@@ -262,7 +262,7 @@ public class visionProc {
 		}else if(!lastOut.equals(new threadOut())){
 			return lastOut;
 		}
-		return new visionField();
+		return new VisionField();
 	}
 	
 	public synchronized void setFrameData(threadOut in){

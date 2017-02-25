@@ -1,6 +1,6 @@
 package org.usfirst.frc.team948.utilities;
 
-public class visionField {
+public class VisionField {
 	/**
 	 * Theta is the angle wich the plane of the wall of the air-ship and
 	 * the plane of the of robot's front intersect.
