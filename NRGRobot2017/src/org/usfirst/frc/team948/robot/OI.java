@@ -62,7 +62,8 @@ public class OI {
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1); 
 
 	public static void buttonInit() {
-		rightTrigger.toggleWhenActive(new ShiftGears(true));
+		rightTrigger.whenPressed(new ShiftGears(true));
+		rightTrigger.whenReleased(new ShiftGears(false));
 		leftTrigger.whileHeld(new ManualDriveStraight());
 		resetSensorsButton.whenPressed(new ResetSensors());
 		switchHighGear.whenPressed(new ShiftGears(true));
