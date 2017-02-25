@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
  * floating around.
  */
 public class RobotMap {
-
+	public static boolean usePositionChooser = true;
 	// public static final double STRAIGHT_KP = 0.06;
 	// public static final double STRAIGHT_KI = 0.003;
 	// public static final double STRAIGHT_KD = 0.3;
@@ -61,7 +61,8 @@ public class RobotMap {
 	
 	public static LiveWindowSendable gyroChannel;
 	public static AnalogInput ultrasound = new AnalogInput(0);
-	public static DigitalInput gearSensor = new DigitalInput(8);
+	public static DigitalInput upperGearSensor = new DigitalInput(8);
+	public static DigitalInput lowerGearSensor = new DigitalInput(9);
 	
 	public static Encoder shooterEncoder = new Encoder(4, 5);
 
@@ -73,6 +74,7 @@ public class RobotMap {
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
+	public static Solenoid gearLights = new Solenoid(0);
 	public static Solenoid cameraLight = new Solenoid(5);
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
