@@ -7,6 +7,7 @@ import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
+import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.robot.subsystems.BallCollector;
 import org.usfirst.frc.team948.robot.subsystems.CameraLight;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,24 +44,26 @@ public class Robot extends IterativeRobot {
 
 	private static final double TURN_POWER = 1.0;
 
-	private static boolean moveAfterGear = true;
-
 	public static UsbCamera camera;
 	visionProc VisionProccesor;
 
 	Command autonomousCommand;
 	SendableChooser<AutoPosition> autoPositionChooser;
 	SendableChooser<AutoMovement> autoMovementChooser;
+
+	private AutoPosition autoPosition;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 
 	public enum AutoPosition {
-		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_RIGHT, BLUE_CENTER, BLUE_LEFT, STAY;
+		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_RIGHT, BLUE_CENTER, BLUE_LEFT;
 	}
+
 	public enum AutoMovement {
-		STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
+		STAY, STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
 	}
 
 	@Override
@@ -83,16 +87,18 @@ public class Robot extends IterativeRobot {
 		autoPositionChooser.addObject("Blue left", AutoPosition.BLUE_LEFT);
 		autoPositionChooser.addObject("Blue center", AutoPosition.BLUE_CENTER);
 		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
-		autoPositionChooser.addDefault("Stay", AutoPosition.STAY);
-		
+
 		autoMovementChooser = new SendableChooser<AutoMovement>();
+		autoMovementChooser.addDefault("Stay", AutoMovement.STAY);
 		autoMovementChooser.addObject("Continue to end", AutoMovement.CONTINUE_TO_END);
 		autoMovementChooser.addObject("Continue to auto", AutoMovement.STOP_AT_AUTOLINE);
 		autoMovementChooser.addDefault("Stop at airship", AutoMovement.STOP_AT_AIRSHIP);
-	
+
 		// SmartDashboard for Drive SubSystem Commands
 		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
-		SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+		if (RobotMap.usePositionChooser) {
+			SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+		}
 		SmartDashboard.putData(drive);
 		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, TURN_POWER));
 		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, TURN_POWER));
@@ -100,12 +106,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, TURN_POWER));
 		SmartDashboard.putData("Turn -90", new Turn(-90, TURN_POWER));
 		SmartDashboard.putData("Turn +90", new Turn(90, TURN_POWER));
-		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15*12.0, Drive.Direction.FORWARD, 1.0));
-		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5*12.0, Drive.Direction.FORWARD, 1.0));
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15 * 12.0, Drive.Direction.FORWARD, 1.0));
+		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5 * 12.0, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(VisionProccesor));
-
+		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
 		// Start in Low gear
 		gearbox.setLowGear();
 	}
@@ -139,17 +145,54 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = new AutonomousRoutines(autoPositionChooser.getSelected(), autoMovementChooser.getSelected());
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		if (RobotMap.usePositionChooser) {
+			autoPosition = autoPositionChooser.getSelected();
+		} else {
+			if (OI.fieldSide.get()) {
+				if (OI.pos1Button.get()) {
+					System.out.println("Pos 1");
+					autoPosition = AutoPosition.RED_LEFT;
+				} else if (OI.pos2Button.get()) {
+					System.out.println("Pos 2");
+					autoPosition = AutoPosition.RED_CENTER;
+				} else if (OI.pos3Button.get()) {
+					System.out.println("Pos 3");
+					autoPosition = AutoPosition.RED_RIGHT;
+				} else {
+					System.out.println("Invalid Position");
+				}
+			} else {
+				if (OI.pos1Button.get()) {
+					System.out.println("Pos 1");
+					autoPosition = AutoPosition.BLUE_RIGHT;
+				} else if (OI.pos2Button.get()) {
+					System.out.println("Pos 2");
+					autoPosition = AutoPosition.BLUE_CENTER;
+				} else if (OI.pos3Button.get()) {
+					System.out.println("Pos 3");
+					autoPosition = AutoPosition.BLUE_LEFT;
+				} else {
+					System.out.println("Invalid Position");
+				}
+			}
+		}
+		// String autoSelected = SmartDashboard.getString("Auto Selector",
+		// "Default");
+		// switch(autoSelected){
+		// case "My Auto":
+		// autonomousCommand =new MyAutoCommand();
+		// break;
+		// case "Default Auto":
+		// default:
+		// autonomousCommand = new ExampleCommand();
+		// break;
+		// }
 
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		// schedule the autonomous command
+		autonomousCommand = new AutonomousRoutines(autoPosition, autoMovementChooser.getSelected());
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
 	}
 
 	/**
@@ -216,7 +259,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());
 		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
 		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
-		SmartDashboard.putBoolean("gear sensor", RobotMap.gearSensor.get());
+		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
+		boolean haveGear = !RobotMap.lowerGearSensor.get();
+		SmartDashboard.putBoolean("Lower gear sensor", haveGear);
+		RobotMap.gearLights.set(haveGear);
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 		VisionProccesor.dataExists();
 	}
