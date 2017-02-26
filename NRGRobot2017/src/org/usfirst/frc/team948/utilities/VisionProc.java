@@ -159,22 +159,22 @@ public class VisionProc {
 		return (Double) null;
 	}
 
-	private double getHeadingOffeset(ThreadOut in, double theta, boolean peg) {
-		if (in.hasData && peg) {
-			if (in.hasSecond) {
-				double x = (in.x + in.secondValue.x) / 2.0;
+	private double getHeadingOffeset(threadOut in, double theta, boolean peg){
+		if(in.hasData && peg){
+			if(in.hasSecond){
+				double x = (in.x + in.secondValue.x)/2.0;
 				double wF = in.frameWidth;
-				double epsilon = x - (wF / 2.0);
-				double initialEpsilon = initialX - (wF / 2.0);
-				double gamma = Math.atan((epsilon / initialEpsilon) * Math.tan(initialGamma));
+				double epsilon = x - (wF/2.0);
+//				2.0 is width in inches of tape
+				double gamma = Math.atan((epsilon*2.0)/(initialDistance*initialWidth));
 				return gamma;
 			}
-		} else if (in.hasData) {
+		}else if(in.hasData){
 			double x = in.x;
 			double wF = in.frameWidth;
-			double epsilon = x - (wF / 2.0);
-			double initialEpsilon = initialX - (wF / 2.0);
-			double gamma = Math.atan((epsilon / initialEpsilon) * Math.tan(initialGamma));
+			double epsilon = x - (wF/2.0);
+//			2.0 is width in inches of tape
+			double gamma = Math.atan((epsilon*2.0)/(initialDistance*initialWidth));
 			return gamma;
 		}
 		return (Double) null;
