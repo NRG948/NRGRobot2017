@@ -8,6 +8,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team948.robot.RobotMap;
 
 /**
 * TempGripPipe class.
@@ -32,9 +33,9 @@ public class TempGripPipe {
 	public void process(Mat source0) {
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = source0;
-		double[] hsvThresholdHue = {54.0, 110.0};
-		double[] hsvThresholdSaturation = {159.0, 255.0};
-		double[] hsvThresholdValue = {156.0, 255.0};
+		double[] hsvThresholdHue = {RobotMap.preferences.getInt("Hue_Low", 55), RobotMap.preferences.getInt("Hue_High", 125)};// {54.0, 110.0};
+		double[] hsvThresholdSaturation = {RobotMap.preferences.getInt("Saturation_Low", 159), RobotMap.preferences.getInt("Saturation_High", 255)};
+		double[] hsvThresholdValue = {RobotMap.preferences.getInt("Value_Low", 156), RobotMap.preferences.getInt("Value_High", 255)};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step Find_Contours0:
