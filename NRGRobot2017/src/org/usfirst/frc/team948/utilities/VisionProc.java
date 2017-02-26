@@ -1,8 +1,9 @@
 package org.usfirst.frc.team948.utilities;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedDeque;
+//import edu.wpi.first.wpilibj.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -10,15 +11,10 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team948.robot.Robot;
-import org.usfirst.frc.team948.utilities.TempGripPipe;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
-//import edu.wpi.first.wpilibj.Timer;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionProc {
@@ -234,7 +230,7 @@ public class VisionProc {
 			SmartDashboard.putNumber("visionY", temp.y);
 			SmartDashboard.putNumber("visionProccessTime", temp.proccessTime);
 			SmartDashboard.putNumber("Distance to target", rectDistance(temp));
-			SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta);
+			SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta * 180 / Math.PI);
 			return true;
 		}
 		return false;
