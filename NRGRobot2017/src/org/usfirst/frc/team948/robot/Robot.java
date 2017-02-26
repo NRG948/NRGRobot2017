@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		// camera.setResolution(640, 380);x
+		// camera.setResolution(640, 380);
 		camera.setExposureManual(-11);
 		cameraLight.turnOff();
 		visionProcessor = new VisionProc().start();

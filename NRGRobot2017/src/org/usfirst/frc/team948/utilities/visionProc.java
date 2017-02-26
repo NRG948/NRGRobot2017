@@ -26,7 +26,7 @@ public class VisionProc {
 	private static final double initialWidth = 10.5;
 	private static final double initialX = 39.5;
 	private static final double initialGamma = ((-5)*Math.PI)/180;
-	private threadOut gotten;
+	private ThreadOut gotten;
 	private VisionField lastOut;
 	
 	private Timer proccessingTimer;
@@ -35,14 +35,14 @@ public class VisionProc {
 	private TempGripPipe pipeLine;
 	private Mat mat;
 	Thread processingThread;
-	threadOut threadObjectData;
+	ThreadOut threadObjectData;
 	
 	public VisionProc(){}
 	
 	public VisionProc start(){
-		gotten = new threadOut();
+		gotten = new ThreadOut();
 		lastOut = new VisionField();
-		threadObjectData = new threadOut();
+		threadObjectData = new ThreadOut();
 		cvSink = CameraServer.getInstance().getVideo();
 		vidOut = CameraServer.getInstance().putVideo("Processed", 640, 480);
 		mat = new Mat();
@@ -76,7 +76,7 @@ public class VisionProc {
 						MatOfPoint l = cameraIn.get(k);
 						Rect j = Imgproc.boundingRect(l);
 						Imgproc.rectangle(mat, j.br(), j.tl(), new Scalar(255, 255, 255), 1);
-						threadOut temp = new threadOut();
+						ThreadOut temp = new ThreadOut();
 						boolean boool = false;
 						temp.hasData = true;
 						temp.area = l.size().area();
@@ -89,7 +89,7 @@ public class VisionProc {
 							boool = true;
 							MatOfPoint lprime = cameraIn.get(kprime);
 							Rect jprime = Imgproc.boundingRect(lprime);
-							threadOut nestedTemp = new threadOut();
+							ThreadOut nestedTemp = new ThreadOut();
 							nestedTemp.hasData = true;
 							nestedTemp.area = lprime.size().area();
 							nestedTemp.rectWidth = jprime.width;
@@ -115,7 +115,7 @@ public class VisionProc {
 		return this;
 	}
 	
-	private double rectDistance(threadOut in){
+	private double rectDistance(ThreadOut in){
 		if(in.hasData){
 			double H = in.rectHeight;
 			return (initialHeight*initialDistance)/H;
@@ -123,7 +123,7 @@ public class VisionProc {
 		return (Double) null;
 	}
 	
-	private double getThetaSingleTape(threadOut in, boolean peg){
+	private double getThetaSingleTape(ThreadOut in, boolean peg){
 		if(in.hasData && peg){
 			if(in.hasSecond){
 				double W = in.rectWidth;
@@ -143,7 +143,7 @@ public class VisionProc {
 		return (Double) null;
 	}
 	
-	private double getCenterDistance(threadOut in, double theta, boolean peg){
+	private double getCenterDistance(ThreadOut in, double theta, boolean peg){
 		if(in.hasData && peg){
 			if(in.hasSecond){
 				double closestDistance = rectDistance(in);
@@ -157,7 +157,7 @@ public class VisionProc {
 		return (Double) null;
 	}
 	
-	private double getHeadingOffeset(threadOut in, double theta, boolean peg){
+	private double getHeadingOffeset(ThreadOut in, double theta, boolean peg){
 		if(in.hasData && peg){
 			if(in.hasSecond){
 				double x = (in.x + in.secondValue.x)/2.0;
@@ -178,7 +178,7 @@ public class VisionProc {
 		return (Double) null;
 	}
 	
-	private double simpleHeading(threadOut in, boolean peg){
+	private double simpleHeading(ThreadOut in, boolean peg){
 		if(in.hasData && peg){
 			if(in.hasSecond){
 				double x = (in.x + in.secondValue.x)/2.0;
@@ -197,7 +197,7 @@ public class VisionProc {
 		return (Double) null;
 	}
 	
-	private double getOmega(threadOut in, double centerDistance, boolean peg){
+	private double getOmega(ThreadOut in, double centerDistance, boolean peg){
 		if(in.hasData && peg){
 			if(in.hasSecond){
 				double x = (in.x + in.secondValue.x)/2.0;
@@ -221,7 +221,7 @@ public class VisionProc {
 	}
 	
 	public boolean dataExists(){
-		threadOut temp = getFrameData();
+		ThreadOut temp = getFrameData();
 		if(temp.hasData){
 			gotten = temp;
 			SmartDashboard.putNumber("visionArea",temp.area);
@@ -259,28 +259,28 @@ public class VisionProc {
 				lastOut = out;
 				return out;
 			}
-		}else if(!lastOut.equals(new threadOut())){
+		}else if(!lastOut.equals(new ThreadOut())){
 			return lastOut;
 		}
 		return new VisionField();
 	}
 	
-	public synchronized void setFrameData(threadOut in){
+	public synchronized void setFrameData(ThreadOut in){
 		threadObjectData = in;
 	}
 	
-	public synchronized threadOut getFrameData(){
+	public synchronized ThreadOut getFrameData(){
 		return threadObjectData;
 	}
 	
-	private class threadOut{
+	private class ThreadOut{
 		public double area;
 		public double rectWidth;
 		public double rectHeight;
 		public double frameWidth;
 		public double x;
 		public double y;
-		public threadOut secondValue;
+		public ThreadOut secondValue;
 		public long proccessTime;
 		public boolean hasSecond = false;
 		public boolean hasData = false;
