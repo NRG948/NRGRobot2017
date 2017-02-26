@@ -45,13 +45,13 @@ public class Robot extends IterativeRobot {
 	private static final double TURN_POWER = 1.0;
 
 	public static UsbCamera camera;
-	VisionProc visionProcessor;
+	public static VisionProc visionProcessor;
 
-	Command autonomousCommand;
-	SendableChooser<AutoPosition> autoPositionChooser;
-	SendableChooser<AutoMovement> autoMovementChooser;
+	public static Command autonomousCommand;
+	public static SendableChooser<AutoPosition> autoPositionChooser;
+	public static SendableChooser<AutoMovement> autoMovementChooser;
 
-	private AutoPosition autoPosition;
+	private static AutoPosition autoPosition;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		// camera.setResolution(640, 380);
-		camera.setExposureManual(-11);
+		camera.setExposureManual(0);
 		cameraLight.turnOff();
 		visionProcessor = new VisionProc().start();
 

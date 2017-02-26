@@ -4,17 +4,15 @@ import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.BACKWARD;
 import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.FORWARD;
 
 import org.usfirst.frc.team948.robot.Robot;
-import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
-import org.usfirst.frc.team948.robot.commands.DelaySeconds;
+import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
-import org.usfirst.frc.team948.robot.commands.SetAutonomousHeading;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
+import org.usfirst.frc.team948.robot.commands.TurnToPegCenter;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
-import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -150,9 +148,11 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new FlipCameraLight(true));
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(75, FORWARD));
+			addSequential(new DriveStraightDistance(82, FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(73, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			// Turn to peg center
+			addSequential(new TurnToPegCenter());
+			addSequential(new DriveStraightDistance(42, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));

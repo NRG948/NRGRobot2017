@@ -30,6 +30,7 @@ public class DriveStraightDistance extends Command {
 	private double ticksTraveled;
 	private double desiredHeading;
 
+	private final double SLOW_DOWN_DISTANCE = 6.0;
 	private Direction direction;
 
 	public DriveStraightDistance(double distance, Drive.Direction direction, double power) {
@@ -50,7 +51,8 @@ public class DriveStraightDistance extends Command {
 		encoderRightStart = RobotMap.rightEncoder.get();
 		desiredHeading = Robot.drive.getAutonomousHeading();
 		if (power == 0.0) {
-			String key=Robot.gearbox.isHighGear() ? PreferenceKeys.AUTONOMOUS_HIGHGEAR_POWER : PreferenceKeys.AUTONOMOUS_LOWGEAR_POWER;
+			String key = Robot.gearbox.isHighGear() ? PreferenceKeys.AUTONOMOUS_HIGHGEAR_POWER
+					: PreferenceKeys.AUTONOMOUS_LOWGEAR_POWER;
 			power = Math.abs(RobotMap.preferences.getDouble(key, DEFAULT_AUTONOMOUS_POWER));
 			if (direction == Drive.Direction.BACKWARD) {
 				power = -power;
@@ -63,10 +65,13 @@ public class DriveStraightDistance extends Command {
 	protected void execute() {
 		double leftTicks = Math.abs(RobotMap.leftEncoder.get() - encoderLeftStart);
 		double rightTicks = Math.abs(RobotMap.rightEncoder.get() - encoderRightStart);
-		ticksTraveled = Math.max(leftTicks, rightTicks); // we don't average the two in case one encoder dies
+		ticksTraveled = Math.max(leftTicks, rightTicks); // we don't average the
+															// two in case one
+															// encoder dies
 		SmartDashboard.putNumber("DriveStraightDistance distance traveled",
 				ticksTraveled / Robot.drive.getTicksPerInch());
-		double currentPower = power * Math.min(1, 2 * (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerInch());
+		double distanceRemaining = (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerInch();
+		double currentPower = power * Math.min(1, distanceRemaining / SLOW_DOWN_DISTANCE);
 		Robot.drive.driveOnHeading(currentPower, desiredHeading);
 	}
 
