@@ -17,7 +17,7 @@ public class TurnToPegCenter extends Command {
 	public TurnToPegCenter() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.drive);
+//		requires(Robot.drive);
 	}
 
 	// Called just before this Command runs the first time
@@ -26,17 +26,14 @@ public class TurnToPegCenter extends Command {
 		if (Robot.visionProcessor.dataExists()) {
 			turnAngle = Robot.visionProcessor.getData().theta*180/Math.PI;
 		} else {
-			turnAngle = 0;
+			turnAngle = -1;
 		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		new CommandGroup(){
-			{
-				addSequential(new Turn(turnAngle, RobotMap.preferences.getDouble(PreferenceKeys.AUTONOMOUS_TURN_POWER, 0.5)), 0.5);
-			}
-		}.start();
+//		turnAngle = Math.copySign(180, turnAngle);
+		Robot.drive.setAutonomousHeading(turnAngle + Robot.drive.getAutonomousHeading());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
