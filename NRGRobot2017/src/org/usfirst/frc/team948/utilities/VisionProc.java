@@ -29,7 +29,7 @@ public class VisionProc {
 	private Timer proccessingTimer;
 	private CvSink cvSink;
 	private CvSource vidOut;
-	private TempGripPipe pipeLine;
+	private TempGripPipeTwo pipeLine;
 	private Mat mat;
 	Thread processingThread;
 	ThreadOut threadObjectData;
@@ -44,7 +44,7 @@ public class VisionProc {
 		cvSink = CameraServer.getInstance().getVideo();
 		vidOut = CameraServer.getInstance().putVideo("Processed", 640, 480);
 		mat = new Mat();
-		pipeLine = new TempGripPipe();
+		pipeLine = new TempGripPipeTwo();
 		proccessingTimer = new Timer();
 		proccessingTimer.schedule(new TimerTask() {
 			@Override
@@ -155,7 +155,7 @@ public class VisionProc {
 		return (Double) null;
 	}
 
-	private double getHeadingOffeset(threadOut in, double theta, boolean peg){
+	private double getHeadingOffeset(ThreadOut in, double theta, boolean peg){
 		if(in.hasData && peg){
 			if(in.hasSecond){
 				double x = (in.x + in.secondValue.x)/2.0;
