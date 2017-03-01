@@ -52,60 +52,60 @@ public class VisionProc {
 				long start = System.currentTimeMillis();
 				if (cvSink.grabFrame(mat) == 0) {
 					vidOut.notifyError(cvSink.getError());
-				} else {
-					pipeLine.process(mat);
-					ArrayList<MatOfPoint> cameraIn = pipeLine.findContoursOutput();
-					int cont = cameraIn.size();
-					int kprime = 0;
-					int k = 0;
-					double secondMaxSize = 0;
-					double maxSize = 0;
-					for (int i = 0; i < cont; i++) {
-						MatOfPoint temp0 = cameraIn.get(i);
-						Rect temp1 = Imgproc.boundingRect(temp0);
-						if (temp1.height * temp1.width >= maxSize) {
-							kprime = k;
-							secondMaxSize = maxSize;
-							k = i;
-							maxSize = temp1.height * temp1.width;
-						}
+					return;
+				} 
+				pipeLine.process(mat);
+				ArrayList<MatOfPoint> cameraIn = pipeLine.findContoursOutput();
+				int cont = cameraIn.size();
+				int kprime = 0;
+				int k = 0;
+				double secondMaxSize = 0;
+				double maxSize = 0;
+				for (int i = 0; i < cont; i++) {
+					MatOfPoint temp0 = cameraIn.get(i);
+					Rect temp1 = Imgproc.boundingRect(temp0);
+					if (temp1.height * temp1.width >= maxSize) {
+						kprime = k;
+						secondMaxSize = maxSize;
+						k = i;
+						maxSize = temp1.height * temp1.width;
 					}
-					if (maxSize > 0) {
-						MatOfPoint l = cameraIn.get(k);
-						Rect j = Imgproc.boundingRect(l);
-						Imgproc.rectangle(mat, j.br(), j.tl(), new Scalar(255, 255, 255), 1);
-						ThreadOut temp = new ThreadOut();
-						boolean boool = false;
-						temp.hasData = true;
-						temp.area = l.size().area();
-						temp.rectWidth = j.width;
-						temp.rectHeight = j.height;
-						temp.x = (j.tl().x + j.br().x) / 2;
-						temp.y = (j.tl().y + j.br().y) / 2;
-						temp.frameWidth = mat.width();
-						if (secondMaxSize > 0) {
-							boool = true;
-							MatOfPoint lprime = cameraIn.get(kprime);
-							Rect jprime = Imgproc.boundingRect(lprime);
-							ThreadOut nestedTemp = new ThreadOut();
-							nestedTemp.hasData = true;
-							nestedTemp.area = lprime.size().area();
-							nestedTemp.rectWidth = jprime.width;
-							nestedTemp.rectHeight = jprime.height;
-							nestedTemp.x = (jprime.tl().x + jprime.br().x) / 2;
-							nestedTemp.y = (jprime.tl().y + jprime.br().y) / 2;
-							nestedTemp.frameWidth = mat.width();
-							Imgproc.rectangle(mat, jprime.br(), jprime.tl(), new Scalar(255, 0, 0), 1);
-							temp.secondValue = nestedTemp;
-							temp.hasSecond = true;
-						}
-						long end = System.currentTimeMillis();
-						long delta = end - start;
-						if (boool)
-							temp.secondValue.proccessTime = delta;
-						temp.proccessTime = delta;
-						setFrameData(temp);
+				}
+				if (maxSize > 0) {
+					MatOfPoint l = cameraIn.get(k);
+					Rect j = Imgproc.boundingRect(l);
+					Imgproc.rectangle(mat, j.br(), j.tl(), new Scalar(255, 255, 255), 1);
+					ThreadOut temp = new ThreadOut();
+					boolean boool = false;
+					temp.hasData = true;
+					temp.area = l.size().area();
+					temp.rectWidth = j.width;
+					temp.rectHeight = j.height;
+					temp.x = (j.tl().x + j.br().x) / 2;
+					temp.y = (j.tl().y + j.br().y) / 2;
+					temp.frameWidth = mat.width();
+					if (secondMaxSize > 0) {
+						boool = true;
+						MatOfPoint lprime = cameraIn.get(kprime);
+						Rect jprime = Imgproc.boundingRect(lprime);
+						ThreadOut nestedTemp = new ThreadOut();
+						nestedTemp.hasData = true;
+						nestedTemp.area = lprime.size().area();
+						nestedTemp.rectWidth = jprime.width;
+						nestedTemp.rectHeight = jprime.height;
+						nestedTemp.x = (jprime.tl().x + jprime.br().x) / 2;
+						nestedTemp.y = (jprime.tl().y + jprime.br().y) / 2;
+						nestedTemp.frameWidth = mat.width();
+						Imgproc.rectangle(mat, jprime.br(), jprime.tl(), new Scalar(255, 0, 0), 1);
+						temp.secondValue = nestedTemp;
+						temp.hasSecond = true;
 					}
+					long end = System.currentTimeMillis();
+					long delta = end - start;
+					if (boool)
+						temp.secondValue.proccessTime = delta;
+					temp.proccessTime = delta;
+					setFrameData(temp);
 				}
 				vidOut.putFrame(mat);
 			}
