@@ -7,6 +7,7 @@ import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
+import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.robot.subsystems.BallCollector;
 import org.usfirst.frc.team948.robot.subsystems.CameraLight;
@@ -112,6 +113,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(visionProcessor));
 		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
+		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg(visionProcessor));
 		// Start in Low gear
 		gearbox.setLowGear();
 	}

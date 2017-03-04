@@ -2,7 +2,7 @@ package org.usfirst.frc.team948.utilities;
 
 public class VisionField {
 	/**
-	 * Theta is the angle wich the plane of the wall of the air-ship and
+	 * Theta is the angle which the plane of the wall of the air-ship and
 	 * the plane of the of robot's front intersect.
 	 * 
 	 * V is the shortest distance to the plane of the camera from the center of the tape.

@@ -32,7 +32,7 @@ public class VisionProc {
 	private TempGripPipeTwo pipeLine;
 	private Mat mat;
 	Thread processingThread;
-	ThreadOut threadObjectData;
+	volatile ThreadOut threadObjectData;
 
 	public VisionProc() {
 	}
@@ -109,7 +109,7 @@ public class VisionProc {
 				}
 				vidOut.putFrame(mat);
 			}
-		}, 0, 10);
+		}, 0, 50);
 		return this;
 	}
 
