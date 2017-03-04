@@ -129,6 +129,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		periodicAll();
+		SmartDashboard.putString("Auto position", OI.getAutoPosition().toString());
 		Scheduler.getInstance().run();
 	}
 
@@ -145,51 +146,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		if (RobotMap.usePositionChooser) {
-			autoPosition = autoPositionChooser.getSelected();
-		} else {
-			if (OI.fieldSide.get()) {
-				if (OI.pos1Button.get()) {
-					System.out.println("Pos 1");
-					autoPosition = AutoPosition.RED_LEFT;
-				} else if (OI.pos2Button.get()) {
-					System.out.println("Pos 2");
-					autoPosition = AutoPosition.RED_CENTER;
-				} else if (OI.pos3Button.get()) {
-					System.out.println("Pos 3");
-					autoPosition = AutoPosition.RED_RIGHT;
-				} else {
-					System.out.println("Invalid Position");
-				}
-			} else {
-				if (OI.pos1Button.get()) {
-					System.out.println("Pos 1");
-					autoPosition = AutoPosition.BLUE_RIGHT;
-				} else if (OI.pos2Button.get()) {
-					System.out.println("Pos 2");
-					autoPosition = AutoPosition.BLUE_CENTER;
-				} else if (OI.pos3Button.get()) {
-					System.out.println("Pos 3");
-					autoPosition = AutoPosition.BLUE_LEFT;
-				} else {
-					System.out.println("Invalid Position");
-				}
-			}
-		}
-		// String autoSelected = SmartDashboard.getString("Auto Selector",
-		// "Default");
-		// switch(autoSelected){
-		// case "My Auto":
-		// autonomousCommand =new MyAutoCommand();
-		// break;
-		// case "Default Auto":
-		// default:
-		// autonomousCommand = new ExampleCommand();
-		// break;
-		// }
-
 		// schedule the autonomous command
-		autonomousCommand = new AutonomousRoutines(autoPosition, autoMovementChooser.getSelected());
+		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), autoMovementChooser.getSelected());
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}

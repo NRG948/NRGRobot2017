@@ -1,5 +1,6 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.Robot.AutoPosition;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
@@ -19,33 +20,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
-
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
-
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
 	public static Joystick leftJoystick = new Joystick(1);
 	public static Joystick rightJoystick = new Joystick(2);
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
@@ -63,11 +37,16 @@ public class OI {
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
 	public static final Joystick arduinoJoystick = new Joystick(0);
-	public static final Button fieldSide = new JoystickButton(arduinoJoystick, 8);
-	public static final Button pos1Button = new JoystickButton(arduinoJoystick, 9);
-	public static final Button pos2Button = new JoystickButton(arduinoJoystick, 10);
-	public static final Button pos3Button = new JoystickButton(arduinoJoystick, 12);
-	public static final Button stay = new JoystickButton(arduinoJoystick, 11);
+	public static final Button climberButton = new JoystickButton(arduinoJoystick, 8);
+	public static final Button fieldSide = new JoystickButton(arduinoJoystick, 0);
+	public static final Button autoLeft = new JoystickButton(arduinoJoystick, 10);
+	// the middle position is when both the left and right button states are
+	// false
+	public static final Button autoRight = new JoystickButton(arduinoJoystick, 9);
+	public static final Button stay = new JoystickButton(arduinoJoystick, 5);
+	public static final Button driveAirship = new JoystickButton(arduinoJoystick, 6);
+	public static final Button driveAuto = new JoystickButton(arduinoJoystick, 7);
+	public static final Button driveLong = new JoystickButton(arduinoJoystick, 1);
 
 	public static void buttonInit() {
 		rightTrigger.whenPressed(new ShiftGears(true));
@@ -84,5 +63,38 @@ public class OI {
 		acquireBalls.toggleWhenActive(new BallCollect(true));
 		ejectBalls.toggleWhenActive(new BallCollect(false));
 		interruptButton.whenPressed(new Interrupt());
+	}
+
+	public static AutoPosition getAutoPosition() {
+		AutoPosition autoPosition;
+		if (RobotMap.usePositionChooser) {
+			autoPosition = Robot.autoPositionChooser.getSelected();
+		} else {
+			if (OI.fieldSide.get()) {
+				if (OI.autoLeft.get()) {
+					System.out.println("Red Left");
+					autoPosition = AutoPosition.RED_LEFT;
+				} else if (OI.autoRight.get()) {
+					System.out.println("Red Right");
+					autoPosition = AutoPosition.RED_RIGHT;
+				} else {
+					System.out.println("Red Center");
+					autoPosition = AutoPosition.RED_CENTER;
+				}
+			} else {
+				if (OI.autoLeft.get()) {
+					System.out.println("Blue Left");
+					autoPosition = AutoPosition.BLUE_LEFT;
+				} else if (OI.autoRight.get()) {
+					System.out.println("Blue Right");
+					autoPosition = AutoPosition.BLUE_RIGHT;
+				} else {
+					System.out.println("Blue Center");
+					autoPosition = AutoPosition.BLUE_CENTER;
+				}
+			}
+		}
+
+		return autoPosition;
 	}
 }
