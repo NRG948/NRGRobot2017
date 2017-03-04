@@ -35,7 +35,7 @@ public class BallCollect extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.ballCollector.rawCollect(0);
+		Robot.ballCollector.rawStop();
 	}
 
 	// Called when another command which requires one or more of the same
