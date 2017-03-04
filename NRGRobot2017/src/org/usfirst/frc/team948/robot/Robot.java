@@ -129,7 +129,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		periodicAll();
-		SmartDashboard.putString("Auto position", OI.getAutoPosition().toString());
+		AutoPosition position = OI.getAutoPosition();
+		if (position != null) {//if smart dashboard is not open it gives a null pointer exception.
+			SmartDashboard.putString("Auto position", position.toString());
+		}
 		Scheduler.getInstance().run();
 	}
 
