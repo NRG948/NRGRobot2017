@@ -15,6 +15,7 @@ import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
+import org.usfirst.frc.team948.utilities.VisionField;
 import org.usfirst.frc.team948.utilities.VisionProc;
 
 import edu.wpi.cscore.UsbCamera;
@@ -22,7 +23,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -101,9 +101,13 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
 		}
 		SmartDashboard.putData(drive);
-		SmartDashboard.putData("Turn to -90", new TurnToHeading(-90, TURN_POWER));
-		SmartDashboard.putData("Turn to 180", new TurnToHeading(180, TURN_POWER));
-		SmartDashboard.putData("Turn to +90", new TurnToHeading(90, TURN_POWER));
+		// SmartDashboard.putData("Turn to -90", new TurnToHeading(-90,
+		// TURN_POWER));
+		// SmartDashboard.putData("Turn to 180", new
+		// TurnToHeading(180,TURN_POWER));
+		// SmartDashboard.putData("Turn to +90", new TurnToHeading(90,
+		// TURN_POWER));
+
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, TURN_POWER));
 		SmartDashboard.putData("Turn -90", new Turn(-90, TURN_POWER));
 		SmartDashboard.putData("Turn +90", new Turn(90, TURN_POWER));
@@ -111,7 +115,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5 * 12.0, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
-		SmartDashboard.putData("Activate simple vision", new SimpleVisionRoutine(visionProcessor));
+		// SmartDashboard.putData("Activate simple vision", new
+		// SimpleVisionRoutine(visionProcessor));
 		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
 		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg(visionProcessor));
 		// Start in Low gear
@@ -132,7 +137,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		periodicAll();
 		AutoPosition position = OI.getAutoPosition();
-		if (position != null) {//if smart dashboard is not open it gives a null pointer exception.
+		if (position != null) {// if smart dashboard is not open it gives a null
+								// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
 		Scheduler.getInstance().run();
@@ -185,7 +191,13 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		periodicAll();
 		Scheduler.getInstance().run();
-
+		boolean visionHasData = visionProcessor.dataExists();
+		if (visionHasData) {
+			VisionField field = visionProcessor.getData();
+			SmartDashboard.putNumber("Vision: V", field.v);
+			SmartDashboard.putNumber("Vision: Zeta", field.zeta);
+		}
+		SmartDashboard.putBoolean("Vision has Data", visionHasData);
 	}
 
 	/**

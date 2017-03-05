@@ -24,7 +24,7 @@ public class TurnToPegCenter extends Command {
 	protected void initialize() {
 
 		if (Robot.visionProcessor.dataExists()) {
-			turnAngle = Robot.visionProcessor.getData().theta*180/Math.PI;
+			turnAngle = Robot.visionProcessor.getData().gamma*180/Math.PI;
 		} else {
 			turnAngle = -1;
 		}

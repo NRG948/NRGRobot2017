@@ -34,15 +34,19 @@ public class VisionDriveToPeg extends Command {
 			return;
 		}
 		VisionField field = proc.getData();
+		targetDistance = field.v;
 		SmartDashboard.putNumber("Vision: Theta", field.theta);
 		SmartDashboard.putNumber("Vision: V", field.v);
 		SmartDashboard.putNumber("Vision: Zeta", field.zeta);
 		SmartDashboard.putNumber("Vision: Omega", field.omega);
 		SmartDashboard.putNumber("Vision: Gamma", field.gamma);
-		double heading = RobotMap.continuousGyro.getAngle();
-		double updatedHeading = heading + KZETA * field.zeta;
-		Robot.drive.driveOnHeading(0.4, updatedHeading);
-		targetDistance = field.v;
+		double updatedHeading;
+		if (targetDistance > 18 || Math.abs(field.zeta) > 0.1) {
+			updatedHeading = RobotMap.continuousGyro.getAngle() + KZETA * field.zeta;
+		} else {
+			updatedHeading = Robot.drive.getAutonomousHeading();
+		}
+		Robot.drive.driveOnHeading(0.55, updatedHeading);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -61,5 +65,5 @@ public class VisionDriveToPeg extends Command {
 	protected void interrupted() {
 		System.out.println("Vision drive was interrupted");
 		end();
-	}
+	}	
 }
