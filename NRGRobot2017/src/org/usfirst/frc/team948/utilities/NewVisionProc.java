@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.utilities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 //import edu.wpi.first.wpilibj.Timer;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,130 +19,132 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NewVisionProc {
+	private static final Scalar WHITE_COLOR = new Scalar(255, 255, 255);
+	private static final Scalar BLUE_COLOR = new Scalar(255, 0, 0);
+	private static final double TAPE_HEIGHT_INCHES = 5;
 	private static final double TAPE_WIDTH_INCHES = 2.0;
-	private static final double INITIAL_DISTANCE = 32.6;
-	private static final double INITIAL_HEIGHT = 26.0;
-	private static final double INITIAL_WIDTH = 10.5;
+	private static final double TAPE_TO_TAPE_OUTER_WIDTH_INCHES = 10.25;
+	private static final double TAPE_CENTER_TO_CENTER_INCHES = 8.25;
+
+	// These values were empirically measured from the robot camera
+
+	private static final double TAPE_DISTANCE_INCHES = 32.6;
+	private static final double TAPE_HEIGHT_PIXELS = 26.0;
+	private static final double TAPE_WIDTH_PIXELS = TAPE_HEIGHT_PIXELS * TAPE_WIDTH_INCHES / TAPE_HEIGHT_INCHES;
 	private static final double initialX = 39.5;
 	private static final double initialGamma = ((-5) * Math.PI) / 180;
-	private ThreadOut gotten;
-	private VisionField lastOut;
 
-	private Timer proccessingTimer;
+	private static final double AREA_THRESHOLD = 20;
+	private ProcessedImage lastGoodImage;
+	private VisionField lastField;
+
+	private Timer processingTimer;
 	private CvSink cvSink;
 	private CvSource vidOut;
 	private TempGripPipeTwo pipeLine;
 	private Mat mat;
 	Thread processingThread;
-	volatile ThreadOut threadObjectData;
+	volatile ProcessedImage threadObjectData;
 
 	public NewVisionProc() {
 	}
 
 	public NewVisionProc start() {
-		gotten = new ThreadOut();
-		lastOut = new VisionField();
-		threadObjectData = new ThreadOut();
+		lastGoodImage = new ProcessedImage();
+		lastField = new VisionField();
+		threadObjectData = new ProcessedImage();
 		cvSink = CameraServer.getInstance().getVideo();
-		vidOut = CameraServer.getInstance().putVideo("Processed", 640, 480);
+		vidOut = CameraServer.getInstance().putVideo("Processed", /*Robot.CAMERA_RESOLUTION_WIDTH, Robot.CAMERA_RESOLUTION_HEIGHT*/ 640, 480);
 		mat = new Mat();
 		pipeLine = new TempGripPipeTwo();
-		proccessingTimer = new Timer();
-		proccessingTimer.schedule(new TimerTask() {
+		processingTimer = new Timer();
+		processingTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				long start = System.currentTimeMillis();
+				long start = System.nanoTime();
 				if (cvSink.grabFrame(mat) == 0) {
 					vidOut.notifyError(cvSink.getError());
 					return;
 				}
 				pipeLine.process(mat);
 				ArrayList<MatOfPoint> cameraIn = pipeLine.findContoursOutput();
-				int cont = cameraIn.size();
-				int kprime = 0;
-				int k = 0;
-				double secondMaxSize = 0;
-				double maxSize = 0;
-				for (int i = 0; i < cont; i++) {
-					MatOfPoint temp0 = cameraIn.get(i);
-					Rect temp1 = Imgproc.boundingRect(temp0);
-					if (temp1.height * temp1.width >= maxSize) {
-						kprime = k;
-						secondMaxSize = maxSize;
-						k = i;
-						maxSize = temp1.height * temp1.width;
+				int numOfContoursSeen = cameraIn.size();
+				ProcessedImage image = new ProcessedImage();
+				image.frameWidth = mat.width();
+				for (int i = 0; i < numOfContoursSeen; i++) {
+					MatOfPoint matrix = cameraIn.get(i);
+					Contour contour = new Contour(matrix);
+					if (contour.area > AREA_THRESHOLD) {
+						image.contours.add(contour);
 					}
 				}
-				if (maxSize > 0) {
-					MatOfPoint l = cameraIn.get(k);
-					Rect j = Imgproc.boundingRect(l);
-					Imgproc.rectangle(mat, j.br(), j.tl(), new Scalar(255, 255, 255), 1);
-					ThreadOut temp = new ThreadOut();
-					boolean boool = false;
-					temp.hasData = true;
-					temp.area = l.size().area();
-					temp.rectWidth = j.width;
-					temp.rectHeight = j.height;
-					temp.x = (j.tl().x + j.br().x) / 2;
-					temp.y = (j.tl().y + j.br().y) / 2;
-					temp.frameWidth = mat.width();
-					if (secondMaxSize > 0) {
-						boool = true;
-						MatOfPoint lprime = cameraIn.get(kprime);
-						Rect jprime = Imgproc.boundingRect(lprime);
-						ThreadOut nestedTemp = new ThreadOut();
-						nestedTemp.hasData = true;
-						nestedTemp.area = lprime.size().area();
-						nestedTemp.rectWidth = jprime.width;
-						nestedTemp.rectHeight = jprime.height;
-						nestedTemp.x = (jprime.tl().x + jprime.br().x) / 2;
-						nestedTemp.y = (jprime.tl().y + jprime.br().y) / 2;
-						nestedTemp.frameWidth = mat.width();
-						Imgproc.rectangle(mat, jprime.br(), jprime.tl(), new Scalar(255, 0, 0), 1);
-						temp.secondValue = nestedTemp;
-						temp.hasSecond = true;
+
+				if (image.contours.size() > 0) {
+					Collections.sort(image.contours);
+					Rect rect = image.contours.get(0).boundingRect;
+					Imgproc.rectangle(mat, rect.br(), rect.tl(), WHITE_COLOR, 1);
+					if (image.contours.size() > 1) {
+						rect = image.contours.get(1).boundingRect;
+						Imgproc.rectangle(mat, rect.br(), rect.tl(), BLUE_COLOR, 1);
 					}
-					long end = System.currentTimeMillis();
-					long delta = end - start;
-					if (boool)
-						temp.secondValue.proccessTime = delta;
-					temp.proccessTime = delta;
-					setFrameData(temp);
+					image.processTime = (System.nanoTime() - start) / 1000000;
+					setFrameData(image);
 				}
 				vidOut.putFrame(mat);
 			}
-		}, 0, 20);
+		}, 0, 10);
 		return this;
 	}
 
-	private double rectDistance(ThreadOut in) {
-		return INITIAL_DISTANCE * INITIAL_HEIGHT / in.rectHeight;
+	private double rectDistance(ProcessedImage image) {
+		return TAPE_DISTANCE_INCHES * TAPE_HEIGHT_PIXELS / image.contours.get(0).height;
 	}
 
-	private double getTheta(ThreadOut in) {
-		double uW = (in.rectHeight / INITIAL_HEIGHT) * INITIAL_WIDTH;
-		double theta = Math.acos(in.rectWidth / uW);
-		if (in.hasSecond) {
-			theta = Math.copySign(theta, in.x - in.secondValue.x);
+	private double getTheta(ProcessedImage image) {
+		Contour c1 = image.contours.get(0);
+		double theta;
+		if (image.contours.size() > 1) {
+			Contour c2 = image.contours.get(1);
+			double outerEdgeToOuterEdgeWidth = Math.abs(c1.centerX - c2.centerX) + (c1.width - c2.width) / 2;
+			double straightOnWidth = (c1.height / TAPE_HEIGHT_INCHES) * TAPE_TO_TAPE_OUTER_WIDTH_INCHES;
+			theta = Math.acos(Math.min(1.0, outerEdgeToOuterEdgeWidth / straightOnWidth));
+			// TODO verify the validity of the formula.
+			theta = Math.copySign(theta, c1.centerX - c2.centerX); 
+		} else {
+			double straightOnWidth = (c1.height / TAPE_HEIGHT_PIXELS) * TAPE_WIDTH_PIXELS;
+			theta = Math.acos(Math.min(1.0, c1.width / straightOnWidth));
 		}
 		return theta;
 	}
-
-	private double getCenterDistance(ThreadOut in, double theta) {
-		double width = in.hasSecond ? TAPE_WIDTH_INCHES : (INITIAL_WIDTH * INITIAL_DISTANCE) / rectDistance(in);
-		return rectDistance(in) + (Math.tan(theta) * (width / 2.0));
+	public Point2D getRobotLocation(ProcessedImage image) {
+		if (image.contours.size() > 1) {
+			double r1 = TAPE_DISTANCE_INCHES * TAPE_HEIGHT_PIXELS / image.contours.get(0).height;
+			double r2 = TAPE_DISTANCE_INCHES * TAPE_HEIGHT_PIXELS / image.contours.get(1).height;
+			double x2 = TAPE_CENTER_TO_CENTER_INCHES;
+			double x = (r1 * r1 - r2 * r2 + x2 * x2) / 2 / x2;
+			double y = Math.sqrt(r1 * r1 - x * x);
+			Point2D robotLocation = new Point2D(x, y);
+			SmartDashboard.putString("Robot Location", robotLocation.toString());
+			return robotLocation;
+		}
+		return null;
+	}
+	private double getCenterDistance(ProcessedImage image, double theta) {
+		double width = image.contours.size() > 1 ? TAPE_WIDTH_INCHES
+				: (TAPE_WIDTH_PIXELS * TAPE_DISTANCE_INCHES) / rectDistance(image);
+		return rectDistance(image) + (Math.tan(theta) * (width / 2.0));
 	}
 
-	private double getHeadingOffset(ThreadOut in, double theta) {
+	private double getHeadingOffset(ProcessedImage in, double theta) {
 		double x = getTargetX(in);
 		double wF = in.frameWidth;
 		double epsilon = x - (wF / 2.0);
 		// 2.0 is width in inches of tape
-		double gamma = Math.atan((epsilon * 2.0) / (INITIAL_DISTANCE * INITIAL_WIDTH));
+		double gamma = Math.atan((epsilon * 2.0) / (TAPE_DISTANCE_INCHES * TAPE_WIDTH_PIXELS));
 		return gamma;
 	}
 
-	private double simpleHeading(ThreadOut in) {
+	private double simpleHeading(ProcessedImage in) {
 		double x = getTargetX(in);
 		double wF = in.frameWidth;
 		double epsilon = x - (wF / 2.0);
@@ -149,7 +152,7 @@ public class NewVisionProc {
 		return zeta;
 	}
 
-	private double getOmega(ThreadOut in, double centerDistance) {
+	private double getOmega(ProcessedImage in, double centerDistance) {
 		double x = getTargetX(in);
 		double wF = in.frameWidth;
 		double epsilon = x - (wF / 2);
@@ -159,22 +162,24 @@ public class NewVisionProc {
 		return omega;
 	}
 
-	private double getTargetX(ThreadOut in) {
-		return in.hasSecond ? (in.x + in.secondValue.x) / 2.0 : in.x;
+	private double getTargetX(ProcessedImage image) {
+		double x1 = image.contours.get(0).centerX;
+		return image.contours.size() > 1 ? (x1 + image.contours.get(1).centerX) / 2.0 : x1;
 	}
 
 	public boolean dataExists() {
-		ThreadOut temp = getFrameData();
-		if (temp.hasData) {
-			gotten = temp;
-			SmartDashboard.putNumber("visionArea", temp.area);
-			SmartDashboard.putNumber("visionFrameWidth", temp.frameWidth);
-			SmartDashboard.putNumber("visionRectHeight", temp.rectHeight);
-			SmartDashboard.putNumber("visionRectWidth", temp.rectWidth);
-			SmartDashboard.putNumber("visionX", temp.x);
-			SmartDashboard.putNumber("visionY", temp.y);
-			SmartDashboard.putNumber("visionProccessTime", temp.proccessTime);
-			SmartDashboard.putNumber("Distance to target", rectDistance(temp));
+		ProcessedImage image = getFrameData();
+		if (image.contours.size() > 0) {
+			lastGoodImage = image;
+			Contour c1 = image.contours.get(0);
+			SmartDashboard.putNumber("visionArea", c1.area);
+			SmartDashboard.putNumber("visionRectHeight", c1.height);
+			SmartDashboard.putNumber("visionRectWidth", c1.width);
+			SmartDashboard.putNumber("visionX", c1.centerX);
+			SmartDashboard.putNumber("visionY", c1.centerX);
+			SmartDashboard.putNumber("visionFrameWidth", image.frameWidth);
+			SmartDashboard.putNumber("visionProcessTime", image.processTime);
+			SmartDashboard.putNumber("Distance to target", rectDistance(image));
 			SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta * 180 / Math.PI);
 			return true;
 		}
@@ -182,45 +187,59 @@ public class NewVisionProc {
 	}
 
 	public VisionField getData() {
-		VisionField field = new VisionField();
-		if (gotten.hasData) {
-			field.theta = getTheta(gotten);
-			field.zeta = simpleHeading(gotten);
-			field.omega = getOmega(gotten, field.v);
-			if (gotten.hasSecond) {
-				field.v = getCenterDistance(gotten, Math.abs(field.theta));
-				field.gamma = getHeadingOffset(gotten, Math.abs(field.theta));
+		if (lastGoodImage.contours.size() > 0) {
+			VisionField field = new VisionField();
+			getRobotLocation(lastGoodImage);
+			field.theta = getTheta(lastGoodImage);
+			field.zeta = simpleHeading(lastGoodImage);
+			field.omega = getOmega(lastGoodImage, field.v);
+			field.distanceToTarget = rectDistance(lastGoodImage);
+			if (lastGoodImage.contours.size() > 1) {
+				field.v = getCenterDistance(lastGoodImage, Math.abs(field.theta));
+				field.gamma = getHeadingOffset(lastGoodImage, Math.abs(field.theta));
 				field.isTape = false;
 			} else {
-				field.v = getCenterDistance(gotten, field.theta);
-				field.gamma = getHeadingOffset(gotten, field.theta);
+				field.v = getCenterDistance(lastGoodImage, field.theta);
+				field.gamma = getHeadingOffset(lastGoodImage, field.theta);
 				field.isTape = true;
 			}
-			lastOut = field;
-		} else if (!lastOut.equals(new ThreadOut())) {
-			return lastOut;
+			lastField = field;
+			return field;
 		}
-		return field;
+		return lastField;
 	}
 
-	public synchronized void setFrameData(ThreadOut in) {
+	public synchronized void setFrameData(ProcessedImage in) {
 		threadObjectData = in;
 	}
 
-	public synchronized ThreadOut getFrameData() {
+	public synchronized ProcessedImage getFrameData() {
 		return threadObjectData;
 	}
 
-	private class ThreadOut {
-		public double area;
-		public double rectWidth;
-		public double rectHeight;
+	private class ProcessedImage {
+		public ArrayList<Contour> contours = new ArrayList<Contour>();
 		public double frameWidth;
-		public double x;
-		public double y;
-		public ThreadOut secondValue;
-		public long proccessTime;
-		public boolean hasSecond = false;
-		public boolean hasData = false;
+		public long processTime;
+	}
+
+	private class Contour implements Comparable<Contour> {
+		public double area;
+		public double width;
+		public double height;
+		public double centerX;
+		public Rect boundingRect;
+
+		public Contour(MatOfPoint mat) {
+			boundingRect = Imgproc.boundingRect(mat);
+			width = boundingRect.width;
+			height = boundingRect.height;
+			area = width * height;
+			centerX = (boundingRect.tl().x + boundingRect.br().x) / 2;
+		}
+
+		public int compareTo(Contour ci) {
+			return (int) Math.signum(ci.area - area);
+		}
 	}
 }

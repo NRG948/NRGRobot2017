@@ -2,8 +2,8 @@ package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.utilities.NewVisionProc;
 import org.usfirst.frc.team948.utilities.VisionField;
-import org.usfirst.frc.team948.utilities.VisionProc;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class VisionDriveToPeg extends Command {
+	private static final double DRIVE_POWER = 0.65;
 	private static final double KZETA = 20;
-	private final VisionProc proc;
+	private final NewVisionProc proc;
 	private double targetDistance = Double.MAX_VALUE;
 
-	public VisionDriveToPeg(VisionProc proc) {
+	public VisionDriveToPeg(NewVisionProc proc) {
 		this.proc = proc;
 		requires(Robot.drive);
 	}
@@ -46,7 +47,7 @@ public class VisionDriveToPeg extends Command {
 		} else {
 			updatedHeading = Robot.drive.getAutonomousHeading();
 		}
-		Robot.drive.driveOnHeading(0.55, updatedHeading);
+		Robot.drive.driveOnHeading(DRIVE_POWER, updatedHeading);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

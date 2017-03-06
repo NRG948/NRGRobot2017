@@ -15,6 +15,7 @@ import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
+import org.usfirst.frc.team948.utilities.NewVisionProc;
 import org.usfirst.frc.team948.utilities.VisionField;
 import org.usfirst.frc.team948.utilities.VisionProc;
 
@@ -36,6 +37,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+	public static final int CAMERA_RESOLUTION_WIDTH = 160;
+	public static final int CAMERA_RESOLUTION_HEIGHT = 120;
 	public static final Drive drive = new Drive();
 	public static final Climber climb = new Climber();
 	public static final Shooter shooter = new Shooter();
@@ -46,7 +49,8 @@ public class Robot extends IterativeRobot {
 	private static final double TURN_POWER = 1.0;
 
 	public static UsbCamera camera;
-	public static VisionProc visionProcessor;
+//	public static VisionProc visionProcessor;
+	public static NewVisionProc visionProcessor;
 
 	public static Command autonomousCommand;
 	public static SendableChooser<AutoPosition> autoPositionChooser;
@@ -72,10 +76,10 @@ public class Robot extends IterativeRobot {
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
-		// camera.setResolution(640, 380);
+//		camera.setResolution(CAMERA_RESOLUTION_WIDTH, CAMERA_RESOLUTION_HEIGHT);
 		camera.setExposureManual(0);
 		cameraLight.turnOff();
-		visionProcessor = new VisionProc().start();
+		visionProcessor = new NewVisionProc().start();
 
 		// Driver Station
 		OI.buttonInit();
@@ -196,6 +200,7 @@ public class Robot extends IterativeRobot {
 			VisionField field = visionProcessor.getData();
 			SmartDashboard.putNumber("Vision: V", field.v);
 			SmartDashboard.putNumber("Vision: Zeta", field.zeta);
+			SmartDashboard.putNumber("Vision: distance to target", field.distanceToTarget);
 		}
 		SmartDashboard.putBoolean("Vision has Data", visionHasData);
 	}
@@ -220,10 +225,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
-		try {
-			SmartDashboard.putData("PDP", RobotMap.pdp);
-		} catch (Exception e) {
-		}
+//		try {
+//			SmartDashboard.putData("PDP", RobotMap.pdp);
+//		} catch (Exception e) {
+//		}
 		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
 		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
 		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));

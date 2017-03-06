@@ -18,6 +18,7 @@ public class VisionField {
 	 * 
 	 * All distances are measured in inches.
 	 */
+	public double distanceToTarget;
 	public double theta;
 	public double v;
 	public double zeta;

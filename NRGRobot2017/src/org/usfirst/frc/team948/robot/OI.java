@@ -30,9 +30,6 @@ public class OI {
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
 	public static JoystickButton climberReverse = new JoystickButton(leftJoystick, 7);
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
-	public static JoystickButton startDriveButton = new JoystickButton(rightJoystick, 8);
-	public static JoystickButton stopDriveButton = new JoystickButton(rightJoystick, 9);
-	public static JoystickButton ejectBalls = new JoystickButton(rightJoystick, 6);
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
@@ -58,10 +55,7 @@ public class OI {
 		climberForwards.whileHeld(new ClimbPower(true));
 		climberReverse.whileHeld(new ClimbPower(false));
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
-		startDriveButton.whenPressed(new TestDrive());
-		stopDriveButton.whenPressed(new StopTestDrive());
-		acquireBalls.toggleWhenActive(new BallCollect(true));
-		ejectBalls.toggleWhenActive(new BallCollect(false));
+		acquireBalls.toggleWhenActive(new BallCollect());
 		interruptButton.whenPressed(new Interrupt());
 	}
 
