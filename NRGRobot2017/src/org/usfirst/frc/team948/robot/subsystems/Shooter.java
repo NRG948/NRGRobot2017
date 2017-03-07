@@ -49,11 +49,7 @@ public class Shooter extends Subsystem {
 		numberOfValues = Math.min(numberOfValues, currentCount);
 		double sum = 0;
 		for (int i = 1; i <= numberOfValues; i++) {
-			if (index - i >= 0) {
-				sum += RPMValues[index - i];
-			} else {
-				sum += RPMValues[RPMValues.length + index - i];
-			}
+			sum += RPMValues[(index - i)%RPMValues.length];
 		}
 		return sum / numberOfValues;
 	}
