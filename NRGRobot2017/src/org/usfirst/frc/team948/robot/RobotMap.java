@@ -62,6 +62,7 @@ public class RobotMap {
 	
 	public static LiveWindowSendable gyroChannel;
 	public static AnalogInput ultrasound = new AnalogInput(0);
+	
 	public static DigitalInput upperGearSensor = new DigitalInput(8);
 	public static DigitalInput lowerGearSensor = new DigitalInput(9);
 	
@@ -71,7 +72,7 @@ public class RobotMap {
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
 
 	public static Preferences preferences = Preferences.getInstance();
-			
+	
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);

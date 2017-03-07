@@ -34,16 +34,18 @@ public class OI {
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
 	public static final Joystick arduinoJoystick = new Joystick(0);
-	public static final Button climberButton = new JoystickButton(arduinoJoystick, 8);
-	public static final Button fieldSide = new JoystickButton(arduinoJoystick, 0);
-	public static final Button autoLeft = new JoystickButton(arduinoJoystick, 10);
+	public static final Button climberButton = new JoystickButton(arduinoJoystick, 1);
+	public static final Button fieldBlue = new JoystickButton(arduinoJoystick, 3);
+	public static final Button fieldRed = new JoystickButton(arduinoJoystick, 2);
+	public static final Button autoLeft = new JoystickButton(arduinoJoystick, 4);
 	// the middle position is when both the left and right button states are
 	// false
-	public static final Button autoRight = new JoystickButton(arduinoJoystick, 9);
-	public static final Button stay = new JoystickButton(arduinoJoystick, 5);
-	public static final Button driveAirship = new JoystickButton(arduinoJoystick, 6);
-	public static final Button driveAuto = new JoystickButton(arduinoJoystick, 7);
-	public static final Button driveLong = new JoystickButton(arduinoJoystick, 1);
+	public static final Button autoMiddle = new JoystickButton(arduinoJoystick, 5);
+	public static final Button autoRight = new JoystickButton(arduinoJoystick, 6);
+	public static final Button stay = new JoystickButton(arduinoJoystick, 10);
+	public static final Button driveAirship = new JoystickButton(arduinoJoystick, 9);
+	public static final Button driveShort = new JoystickButton(arduinoJoystick, 8);
+	public static final Button driveLong = new JoystickButton(arduinoJoystick, 7);
 
 	public static void buttonInit() {
 		rightTrigger.whenPressed(new ShiftGears(true));
@@ -60,29 +62,29 @@ public class OI {
 	}
 
 	public static AutoPosition getAutoPosition() {
-		AutoPosition autoPosition;
+		AutoPosition autoPosition = null;
 		if (RobotMap.usePositionChooser) {
 			autoPosition = Robot.autoPositionChooser.getSelected();
 		} else {
-			if (OI.fieldSide.get()) {
+			if (OI.fieldRed.get()) {
 				if (OI.autoLeft.get()) {
 					System.out.println("Red Left");
 					autoPosition = AutoPosition.RED_LEFT;
 				} else if (OI.autoRight.get()) {
 					System.out.println("Red Right");
 					autoPosition = AutoPosition.RED_RIGHT;
-				} else {
+				} else if (OI.autoMiddle.get()) {
 					System.out.println("Red Center");
 					autoPosition = AutoPosition.RED_CENTER;
 				}
-			} else {
+			} else if (OI.fieldBlue.get()) {
 				if (OI.autoLeft.get()) {
 					System.out.println("Blue Left");
 					autoPosition = AutoPosition.BLUE_LEFT;
 				} else if (OI.autoRight.get()) {
 					System.out.println("Blue Right");
 					autoPosition = AutoPosition.BLUE_RIGHT;
-				} else {
+				} else if (OI.autoMiddle.get()) {
 					System.out.println("Blue Center");
 					autoPosition = AutoPosition.BLUE_CENTER;
 				}
