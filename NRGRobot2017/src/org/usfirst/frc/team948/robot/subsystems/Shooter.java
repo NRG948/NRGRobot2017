@@ -83,7 +83,7 @@ public class Shooter extends Subsystem {
 			double htanValue = (RobotMap.preferences.getDouble("SHOOTER_CORRECTION_CONSTANT_M", 2.0)*delta) / targetValue;
 			htanValue = Math.tanh(htanValue);
 			htanValue += RobotMap.preferences.getDouble("SHOOTER_CORRECTION_CONSTANT_A", 0.0);
-			htanValue = Math.copySign(Math.min(1.0, htanValue),htanValue);
+			htanValue = Math.copySign(Math.min(1.0, Math.abs(htanValue)),htanValue);
 			currentPower += htanValue;
 		}
 		RobotMap.shooterWheel.set(currentPower);
