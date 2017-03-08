@@ -79,8 +79,13 @@ public class Shooter extends Subsystem {
 		}
 		double targetValue = RobotMap.preferences.getDouble("SHOOTER_TOP_PERCENTAGE", TOP_PERCENTAGE)*RobotMap.preferences.getDouble("TARGET_SHOOTER_RPM", TARGET_RPM);
 		double delta = MathUtil.deadband(rollingAvRPM -targetValue ,RobotMap.preferences.getDouble("SHOOTER_RPM_TOLERENCE ", RPM_TOLERENCE));
-		if(delta != 0)
-			currentPower += Math.tanh((RobotMap.preferences.getDouble("SHOOTER_CORRECTIONCONSTANT", 2.0)*delta) / targetValue);
+		if(delta != 0){
+			double htanValue = (RobotMap.preferences.getDouble("SHOOTER_CORRECTION_CONSTANT_M", 2.0)*delta) / targetValue;
+			htanValue = Math.tanh(htanValue);
+			htanValue += RobotMap.preferences.getDouble("SHOOTER_CORRECTION_CONSTANT_A", 0.0);
+			htanValue = Math.copySign(Math.min(1.0, htanValue),htanValue);
+			currentPower += htanValue;
+		}
 		RobotMap.shooterWheel.set(currentPower);
 	}
 
