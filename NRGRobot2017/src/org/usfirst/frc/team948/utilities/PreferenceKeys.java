@@ -34,6 +34,7 @@ public class PreferenceKeys {
 	public static final String AUTONOMOUS_LOWGEAR_POWER = "Autonomous_Lowgear_Power";
 	public static final String AUTONOMOUS_HIGHGEAR_POWER = "Autonomous_Highgear_Power";
 	public static final String AUTONOMOUS_TURN_POWER = "Autonomous_Turn_Power";
+	public static final String USE_POSITION_CHOOSER = "Use_Position_Chooser";
 	
 	public static final String GEAR_DROP_TIME = "Gear Drop Time";
 	public static final String TAKE_HALF_BACK_P = "Take_Half_Back_P";

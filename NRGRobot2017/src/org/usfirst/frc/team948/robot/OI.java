@@ -10,7 +10,9 @@ import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.StopTestDrive;
 import org.usfirst.frc.team948.robot.commands.TestDrive;
+import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	public static Joystick arduinoJoystick = new Joystick(0);
 	public static Joystick leftJoystick = new Joystick(1);
 	public static Joystick rightJoystick = new Joystick(2);
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
@@ -33,19 +36,18 @@ public class OI {
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 
-	public static final Joystick arduinoJoystick = new Joystick(0);
-	public static final Button climberButton = new JoystickButton(arduinoJoystick, 1);
-	public static final Button fieldBlue = new JoystickButton(arduinoJoystick, 3);
-	public static final Button fieldRed = new JoystickButton(arduinoJoystick, 2);
-	public static final Button autoLeft = new JoystickButton(arduinoJoystick, 4);
+	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
+	public static final JoystickButton fieldBlue = new JoystickButton(arduinoJoystick, 3);
+	public static final JoystickButton fieldRed = new JoystickButton(arduinoJoystick, 2);
+	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 4);
 	// the middle position is when both the left and right button states are
-	// false
-	public static final Button autoMiddle = new JoystickButton(arduinoJoystick, 5);
-	public static final Button autoRight = new JoystickButton(arduinoJoystick, 6);
-	public static final Button stay = new JoystickButton(arduinoJoystick, 10);
-	public static final Button driveAirship = new JoystickButton(arduinoJoystick, 9);
-	public static final Button driveShort = new JoystickButton(arduinoJoystick, 8);
-	public static final Button driveLong = new JoystickButton(arduinoJoystick, 7);
+	// false            
+	public static final JoystickButton autoMiddle = new JoystickButton(arduinoJoystick, 5);
+	public static final JoystickButton autoRight = new JoystickButton(arduinoJoystick, 6);
+	public static final JoystickButton stay = new JoystickButton(arduinoJoystick, 10);
+	public static final JoystickButton driveAirship = new JoystickButton(arduinoJoystick, 9);
+	public static final JoystickButton driveShort = new JoystickButton(arduinoJoystick, 8);
+	public static final JoystickButton driveLong = new JoystickButton(arduinoJoystick, 7);
 
 	public static void buttonInit() {
 		rightTrigger.whenPressed(new ShiftGears(true));
@@ -63,10 +65,11 @@ public class OI {
 
 	public static AutoPosition getAutoPosition() {
 		AutoPosition autoPosition = null;
-		if (RobotMap.usePositionChooser) {
+		DriverStation ds = DriverStation.getInstance();
+		if (RobotMap.preferences.getBoolean(PreferenceKeys.USE_POSITION_CHOOSER, true)) {
 			autoPosition = Robot.autoPositionChooser.getSelected();
 		} else {
-			if (OI.fieldRed.get()) {
+			if (ds.getAlliance() == DriverStation.Alliance.Red) {
 				if (OI.autoLeft.get()) {
 					System.out.println("Red Left");
 					autoPosition = AutoPosition.RED_LEFT;
@@ -77,7 +80,7 @@ public class OI {
 					System.out.println("Red Center");
 					autoPosition = AutoPosition.RED_CENTER;
 				}
-			} else if (OI.fieldBlue.get()) {
+			} else {
 				if (OI.autoLeft.get()) {
 					System.out.println("Blue Left");
 					autoPosition = AutoPosition.BLUE_LEFT;

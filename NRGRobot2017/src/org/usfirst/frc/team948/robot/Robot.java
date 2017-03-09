@@ -2,7 +2,6 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
-import org.usfirst.frc.team948.robot.commandgroups.SimpleVisionRoutine;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Turn;
@@ -16,8 +15,8 @@ import org.usfirst.frc.team948.robot.subsystems.Drive;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
+import org.usfirst.frc.team948.utilities.PreferenceKeys;
 import org.usfirst.frc.team948.utilities.VisionField;
-import org.usfirst.frc.team948.utilities.VisionProc;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -56,7 +55,6 @@ public class Robot extends IterativeRobot {
 	public static SendableChooser<AutoPosition> autoPositionChooser;
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 
-	private static AutoPosition autoPosition;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -101,7 +99,7 @@ public class Robot extends IterativeRobot {
 
 		// SmartDashboard for Drive SubSystem Commands
 		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
-		if (RobotMap.usePositionChooser) {
+		if (RobotMap.preferences.getBoolean(PreferenceKeys.USE_POSITION_CHOOSER, true)) {
 			SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
 		}
 		SmartDashboard.putData(drive);
@@ -122,7 +120,7 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putData("Activate simple vision", new
 		// SimpleVisionRoutine(visionProcessor));
 		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
-		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg(visionProcessor));
+		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg());
 		// Start in Low gear
 		gearbox.setLowGear();
 	}
@@ -162,6 +160,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command
+		RobotMap.autoWithVision = OI.fieldBlue.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), autoMovementChooser.getSelected());
 		if (autonomousCommand != null) {
 			autonomousCommand.start();

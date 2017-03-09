@@ -12,6 +12,7 @@ import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.commands.TurnToPegCenter;
+import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
@@ -93,7 +94,12 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (RobotMap.autoWithVision) {
+				addSequential(new FlipCameraLight(true));
+				addSequential(new VisionDriveToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
 			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new DriveStraightDistance(60, BACKWARD));

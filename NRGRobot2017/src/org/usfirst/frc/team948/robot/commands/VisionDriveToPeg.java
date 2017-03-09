@@ -17,8 +17,8 @@ public class VisionDriveToPeg extends Command {
 	private final NewVisionProc proc;
 	private double targetDistance = Double.MAX_VALUE;
 
-	public VisionDriveToPeg(NewVisionProc proc) {
-		this.proc = proc;
+	public VisionDriveToPeg() {
+		this.proc = Robot.visionProcessor;
 		requires(Robot.drive);
 	}
 

@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
  * floating around.
  */
 public class RobotMap {
-	public static boolean usePositionChooser = true;
 
 	// public static final double STRAIGHT_KP = 0.06;
 	// public static final double STRAIGHT_KI = 0.003;
@@ -82,7 +81,7 @@ public class RobotMap {
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-
+	public static boolean autoWithVision;
 	static void init() {
 		LiveWindow.addActuator("Drive Subsystem", "Front Left Victor", motorFrontLeft);
 		LiveWindow.addActuator("Drive Subsystem", "Front Right Victor", motorFrontRight);
