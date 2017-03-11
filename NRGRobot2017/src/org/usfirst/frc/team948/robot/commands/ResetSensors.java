@@ -15,6 +15,7 @@ public class ResetSensors extends Command {
 		RobotMap.leftEncoder.reset();
 		RobotMap.rightEncoder.reset();
 		RobotMap.navx.reset();
+		RobotMap.pdp.clearStickyFaults();
 	}
 
 	protected boolean isFinished() {
