@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
 import org.usfirst.frc.team948.utilities.VisionField;
 
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class VisionDriveToPeg extends Command {
-	private static final double DRIVE_POWER = 1.0;
+	private static final double SLOW_DOWN_DISTANCE = 24;
 	private static final double KZETA = 20;
 	private final NewVisionProc proc;
 	private double targetDistance = Double.MAX_VALUE;
@@ -47,7 +48,7 @@ public class VisionDriveToPeg extends Command {
 		} else {
 			updatedHeading = Robot.drive.getAutonomousHeading();
 		}
-		double power = targetDistance > 20 ? DRIVE_POWER : DRIVE_POWER * 0.4;
+		double power = MathUtil.clamp(targetDistance / SLOW_DOWN_DISTANCE, 0.2, 1);
 		Robot.drive.driveOnHeading(power, updatedHeading);
 	}
 
