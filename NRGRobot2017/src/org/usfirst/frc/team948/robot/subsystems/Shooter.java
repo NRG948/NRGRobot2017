@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * 
  */
-
 public class Shooter extends Subsystem {
 
 	public static final int MAX_RPM_SAMPLES = 10;
 
-	private static final double TICKS_PER_REVOLUTION = 256;// value needs to be
-															// tested
+	private static final double TICKS_PER_REVOLUTION = 18933.45;//measured 3/11/2017
 	private double[] RPMValues = new double[MAX_RPM_SAMPLES];
 	private double TARGET_RPM = 9001.0;
 	private double TOP_PERCENTAGE = 0.7;
@@ -24,6 +22,14 @@ public class Shooter extends Subsystem {
 	private int currentCount = 0;
 
 	public volatile double currentRPM = 0.0;
+
+	private double currentEncoder;
+	private double prevEncoder;
+
+	private long currentTime;
+
+
+	private long prevTime;
 
 	@Override
 	protected void initDefaultCommand() {
@@ -64,7 +70,13 @@ public class Shooter extends Subsystem {
 	}
 
 	public void updateRPM() {
-		currentRPM = (RobotMap.shooterEncoder.getRate() / TICKS_PER_REVOLUTION) * 60;
+
+		currentEncoder = RobotMap.shooterEncoder.getDistance();
+		currentTime = System.nanoTime();
+		currentRPM = ((currentEncoder - prevEncoder) / (currentTime - prevTime)) * 60000000000.0;
+		prevEncoder = currentEncoder;
+		prevTime = currentTime;
+		currentRPM /= TICKS_PER_REVOLUTION;
 		addRPMValueToArray();
 	}
 	
