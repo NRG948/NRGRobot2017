@@ -25,7 +25,7 @@ public class ManualDrive extends Command {
 	protected void execute() {
 		if(Robot.cameraLight.isOn() && Robot.visionProcessor.dataExists()){
 			Robot.ledStrip.setGettingData(true);
-			if(Robot.visionProcessor.getData().zeta <= 0.1){
+			if(Math.abs(Robot.visionProcessor.getData().zeta) <= 0.08){
 				Robot.ledStrip.writeData(true);
 			}else{
 				Robot.ledStrip.writeData(false);
