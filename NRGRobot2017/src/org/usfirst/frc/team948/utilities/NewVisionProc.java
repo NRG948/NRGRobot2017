@@ -31,6 +31,8 @@ public class NewVisionProc {
 	private static final double TAPE_DISTANCE_INCHES = 32.6;
 	private static final double TAPE_HEIGHT_PIXELS = 26.0;
 	private static final double TAPE_WIDTH_PIXELS = TAPE_HEIGHT_PIXELS * TAPE_WIDTH_INCHES / TAPE_HEIGHT_INCHES;
+	private static final double TAPE_SEPERATION_PIXELS = 69.0;
+	private static final double SEPERATION_DISTANCE_INCHES = 14.5;
 	private static final double initialX = 39.5;
 	private static final double initialGamma = ((-5) * Math.PI) / 180;
 
@@ -97,6 +99,13 @@ public class NewVisionProc {
 	}
 
 	private double rectDistance(ProcessedImage image) {
+		if(image.contours.size() > 1 && image.contours.get(0).topY <= 2){
+			Contour c1 = image.contours.get(0);
+			Contour c2 = image.contours.get(1);
+			double pixelDistance = Math.min(Math.abs(c1.leftX-c2.rightX), Math.abs(c1.rightX-c2.leftX));
+			SmartDashboard.putNumber("Pixel Seperation", pixelDistance);
+			return TAPE_SEPERATION_PIXELS * SEPERATION_DISTANCE_INCHES / pixelDistance;
+		}
 		return TAPE_DISTANCE_INCHES * TAPE_HEIGHT_PIXELS / image.contours.get(0).height;
 	}
 
@@ -228,6 +237,9 @@ public class NewVisionProc {
 		public double width;
 		public double height;
 		public double centerX;
+		public double rightX;
+		public double topY;
+		public double leftX;
 		public Rect boundingRect;
 
 		public Contour(MatOfPoint mat) {
@@ -236,6 +248,9 @@ public class NewVisionProc {
 			height = boundingRect.height;
 			area = width * height;
 			centerX = (boundingRect.tl().x + boundingRect.br().x) / 2;
+			leftX = boundingRect.tl().x;
+			topY = boundingRect.tl().y;
+			rightX = boundingRect.br().x;
 		}
 
 		public int compareTo(Contour ci) {
