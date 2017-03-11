@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem {
 
-	public static final int MAX_RPM_SAMPLES = 100;
+	public static final int MAX_RPM_SAMPLES = 10;
 
 	private static final double TICKS_PER_REVOLUTION = 256;// value needs to be
 															// tested
@@ -40,7 +40,7 @@ public class Shooter extends Subsystem {
 		RobotMap.shooterWheel.disable();
 	}
 
-	public void addRPMValueToArrays() {
+	private void addRPMValueToArray() {
 		RPMValues[index] = currentRPM;
 		index++;
 		index %= RPMValues.length;
@@ -49,7 +49,7 @@ public class Shooter extends Subsystem {
 
 	public double getAverageRPM(int numberOfValues) throws Exception {
 		if(currentCount == 0)
-			throw new Exception("No samples to average!");
+			return 0;
 		if (numberOfValues <= 0) {
 			numberOfValues = 1;
 		}else if(currentCount < numberOfValues){
@@ -65,7 +65,7 @@ public class Shooter extends Subsystem {
 
 	public void updateRPM() {
 		currentRPM = (RobotMap.shooterEncoder.getRate() / TICKS_PER_REVOLUTION) * 60;
-		addRPMValueToArrays();
+		addRPMValueToArray();
 	}
 	
 	public void updatePower(){
