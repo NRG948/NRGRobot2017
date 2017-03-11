@@ -55,9 +55,9 @@ public class RobotMap {
 	public static Victor ballCollectorInOutMotor = new Victor(5);
 	public static Victor ballCollectorUpDownMotor = new Victor(4);
 
-	public static Victor shooterWheel = new Victor(6);
-	//public static Victor shooterWheelBottom = new Victor(7);
-	//public static Victor conveyorBelt = new Victor(8);
+	public static Victor shooterWheelTop = new Victor(6);
+	public static Victor shooterWheelBottom = new Victor(9);
+	public static Victor conveyorBelt = new Victor(7);
 	
 	public static Encoder leftEncoder = new Encoder(0, 1, true);
 	public static Encoder rightEncoder = new Encoder(2, 3, false);

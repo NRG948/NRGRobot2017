@@ -33,11 +33,11 @@ public class Shooter extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	public void rawShoot(double power) {
-		RobotMap.shooterWheel.set(power);
+		RobotMap.shooterWheelTop.set(power);
 	}
 
 	public void stop() {
-		RobotMap.shooterWheel.disable();
+		RobotMap.shooterWheelTop.disable();
 	}
 
 	private void addRPMValueToArray() {
@@ -86,7 +86,7 @@ public class Shooter extends Subsystem {
 			htanValue = Math.copySign(Math.min(1.0, Math.abs(htanValue)),htanValue);
 			currentPower += htanValue;
 		}
-		RobotMap.shooterWheel.set(currentPower);
+		RobotMap.shooterWheelTop.set(currentPower);
 	}
 
 }

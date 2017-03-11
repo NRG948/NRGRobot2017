@@ -54,7 +54,7 @@ public class RampToRPM extends Command {
 			}
 			prevDiff = diff;
 		}
-		RobotMap.shooterWheel.set(wheelOutput);
+		RobotMap.shooterWheelTop.set(wheelOutput);
 		SmartDashboard.putNumber("Shooter output", wheelOutput);
 	}
 
