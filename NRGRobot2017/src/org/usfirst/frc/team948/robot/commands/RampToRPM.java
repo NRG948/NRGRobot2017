@@ -35,29 +35,27 @@ public class RampToRPM extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		shooterWheel.updateRPM();
-		shooterWheel.addRPMValueToArrays();
 		if (!passedThreshold) {
-			RobotMap.shooterWheel.set(wheelOutput);
-			if (shooterWheel.currentRPM - targetRPM > 0) {
+			if (shooterWheel.currentRPM > targetRPM) {
 				passedThreshold = true;
 				wheelOutput = 0.42;
 			}
-			SmartDashboard.putNumber("shooter output", wheelOutput);
 		} else {
 			//Turn_Half_Back_P
 			double diff = targetRPM - shooterWheel.currentRPM;
 			wheelOutput += diff * p;
 			wheelOutput = MathUtil.clamp(wheelOutput, -1.0, 1.0);
+			// if we just crossed over the target RPM, take back half
 			if (diff * prevDiff < 0) {
 				if (H0 != 0) {
 					wheelOutput = (wheelOutput + H0) / 2;
 				}
 				H0 = wheelOutput;
 			}
-			RobotMap.shooterWheel.set(wheelOutput);
-			SmartDashboard.putNumber("Shooter output", wheelOutput);
 			prevDiff = diff;
 		}
+		RobotMap.shooterWheel.set(wheelOutput);
+		SmartDashboard.putNumber("Shooter output", wheelOutput);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
