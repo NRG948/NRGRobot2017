@@ -26,6 +26,7 @@ public class VisionDriveToPeg extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.drive.driveOnHeadingInit(RobotMap.continuousGyro.getAngle());
+		Robot.ledStrip.setGettingData(true);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -45,7 +46,9 @@ public class VisionDriveToPeg extends Command {
 		double updatedHeading;
 		if (targetDistance > 18 || Math.abs(field.zeta) > 0.1) {
 			updatedHeading = RobotMap.continuousGyro.getAngle() + KZETA * field.zeta;
+			Robot.ledStrip.writeData(false);
 		} else {
+			Robot.ledStrip.writeData(true);
 			updatedHeading = Robot.drive.getAutonomousHeading();
 		}
 		double distanceToSlow = RobotMap.preferences.getDouble("SLOW_DOWN_DISTANCE", SLOW_DOWN_DISTANCE);
@@ -61,6 +64,7 @@ public class VisionDriveToPeg extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.ledStrip.setGettingData(false);
 		Robot.drive.driveOnHeadingEnd();
 	}
 

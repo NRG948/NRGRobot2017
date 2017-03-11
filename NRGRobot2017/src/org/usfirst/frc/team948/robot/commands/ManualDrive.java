@@ -23,6 +23,16 @@ public class ManualDrive extends Command {
 
 	@Override
 	protected void execute() {
+		if(Robot.cameraLight.isOn() && Robot.visionProcessor.dataExists()){
+			Robot.ledStrip.setGettingData(true);
+			if(Robot.visionProcessor.getData().zeta <= 0.1){
+				Robot.ledStrip.writeData(true);
+			}else{
+				Robot.ledStrip.writeData(false);
+			}
+		}else{
+			Robot.ledStrip.setGettingData(false);
+		}
 		double leftJoystick = MathUtil.deadband(-OI.leftJoystick.getY(), 0.1);
 		double rightJoystick = MathUtil.deadband(-OI.rightJoystick.getY(), 0.1);
 		Robot.drive.tankDrive(leftJoystick, rightJoystick);
@@ -30,6 +40,7 @@ public class ManualDrive extends Command {
 
 	@Override
 	protected void end() {
+		Robot.ledStrip.setGettingData(false);
 		Robot.drive.stop();
 	}
 
