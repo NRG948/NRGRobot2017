@@ -8,13 +8,15 @@ import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
  *
  */
-public class Drive extends Subsystem implements PIDOutput {
+public class Drive extends Subsystem implements PIDOutput, Sendable {
 
 	public enum Direction {
 		FORWARD, BACKWARD
@@ -286,4 +288,35 @@ public class Drive extends Subsystem implements PIDOutput {
 		this.autonomousHeading = autonomousHeading;
 	}
 
+	@Override
+	public String getSmartDashboardType() {
+		return "Drive";
+	}
+	private ITable m_table;
+
+	@Override
+	public void initTable(ITable subtable) {
+		m_table = subtable;
+		updateTable();
+	}
+
+	@Override
+	public ITable getTable() {
+		return m_table;
+	}
+
+	public void updateTable() {
+		if (m_table != null) {
+			if(drivePID != null){
+				m_table.putString("Drive PID kp, ki, kd, kf",
+						drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD() + ", " + drivePID.getF());
+				m_table.putNumber("Drive PID setpoint", drivePID.getSetpoint());
+			}else{
+				m_table.putString("Drive PID kp, ki, kd, kf", "drivePID is null.");
+				m_table.putNumber("Drive PID setpoint", 0.0);
+			}
+			m_table.putNumber("Left Power", RobotMap.motorBackLeft.get());
+			m_table.putNumber("Right Power", RobotMap.motorBackRight.get());
+		}
+	}
 }
