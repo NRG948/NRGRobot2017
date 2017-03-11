@@ -75,7 +75,7 @@ public class RobotMap {
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
-	public static MultichanelLED gearLight = new MultichanelLED(0,1,2);
+	public static MultichanelLED gearLight = new MultichanelLED(1,0,2); //1,0,2 stand for Red (Top), Green (Both), Blue (Bottom)
 	
 	public static Solenoid cameraLight = new Solenoid(5);
 

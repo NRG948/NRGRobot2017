@@ -12,6 +12,7 @@ import org.usfirst.frc.team948.robot.subsystems.BallCollector;
 import org.usfirst.frc.team948.robot.subsystems.CameraLight;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
+import org.usfirst.frc.team948.robot.subsystems.GearLEDControler;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
 	public static final BallCollector ballCollector = new BallCollector();
+	public static GearLEDControler ledStrip;
 
 	private static final double TURN_POWER = 1.0;
 
@@ -71,6 +73,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+		
+		ledStrip = new GearLEDControler(RobotMap.gearLight);
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
@@ -239,8 +243,24 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
 		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
 		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
-		boolean haveGear = !RobotMap.lowerGearSensor.get();
-		SmartDashboard.putBoolean("Lower gear sensor", haveGear);
+		boolean haveGearLow = !RobotMap.lowerGearSensor.get();
+		boolean haveGearHigh = !RobotMap.upperGearSensor.get();
+		// boolean visionOnTarget = !RobotMap.visionOnTarget.get();
+		
+		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
+		SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
+//		SmartDashboard.putBoolean("Vision on target", visionOnTarget);
+		
+//		if (visionOnTarget){
+//			RobotMap.gearLight.turnGreenOn();
+//		}
+//		else{
+//			RobotMap.gearLight.turnGreenOff();
+//		}
+	
+			ledStrip.updateLights();
+		
+		
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 		visionProcessor.dataExists();
 	}

@@ -10,7 +10,7 @@ public class MultichanelLED {
 	private final Solenoid blue;
 	private final Solenoid green;
 	
-	public MultichanelLED(int redChannelNumber, int blueChannelNumber, int greenChannelNumber){
+	public MultichanelLED(int redChannelNumber, int greenChannelNumber, int blueChannelNumber){
 		red = new Solenoid(redChannelNumber);
 		blue = new Solenoid(blueChannelNumber);
 		green = new Solenoid(greenChannelNumber);
