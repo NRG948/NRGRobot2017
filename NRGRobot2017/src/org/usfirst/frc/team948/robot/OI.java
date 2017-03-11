@@ -29,8 +29,8 @@ public class OI {
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton interruptButton = new JoystickButton(leftJoystick, 2);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
-	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 2);
-	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 11);
+	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
+	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 10);
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
 	public static JoystickButton climberReverse = new JoystickButton(leftJoystick, 7);
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
