@@ -232,6 +232,10 @@ public class Robot extends IterativeRobot {
 //			SmartDashboard.putData("PDP", RobotMap.pdp);
 //		} catch (Exception e) {
 //		}
+		try {
+			SmartDashboard.putData("Drive", Robot.drive);
+		} catch (Exception e) {
+		}
 		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
 		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
 		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));
