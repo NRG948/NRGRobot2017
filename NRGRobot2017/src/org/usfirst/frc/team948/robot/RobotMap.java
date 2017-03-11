@@ -85,7 +85,7 @@ public class RobotMap {
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;
 //	Need to set the real values
-//	public static final UltrasonicSensor rangeFinder = new UltrasonicSensor(0,-1.04, 0.242);
+	public static final UltrasonicSensor rangeFinder = new UltrasonicSensor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	public static boolean autoWithVision;
 	static void init() {
