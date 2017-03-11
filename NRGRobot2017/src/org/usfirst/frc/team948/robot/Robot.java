@@ -241,7 +241,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
 		boolean haveGear = !RobotMap.lowerGearSensor.get();
 		SmartDashboard.putBoolean("Lower gear sensor", haveGear);
-		RobotMap.gearLights.set(haveGear);
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 		visionProcessor.dataExists();
 	}

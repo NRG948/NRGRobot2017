@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.utilities.ContinuousGyro;
+import org.usfirst.frc.team948.utilities.MultichanelLED;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -71,11 +72,11 @@ public class RobotMap {
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
 
 	public static Preferences preferences = Preferences.getInstance();
-	
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
-	public static Solenoid gearLights = new Solenoid(0);
+	public static MultichanelLED gearLight = new MultichanelLED(0,1,2);
+	
 	public static Solenoid cameraLight = new Solenoid(5);
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
