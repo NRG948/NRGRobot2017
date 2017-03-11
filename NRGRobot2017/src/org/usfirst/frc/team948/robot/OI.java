@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.Robot.AutoPosition;
+import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
@@ -26,16 +27,17 @@ public class OI {
 	public static Joystick leftJoystick = new Joystick(1);
 	public static Joystick rightJoystick = new Joystick(2);
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
-	public static JoystickButton interruptButton = new JoystickButton(leftJoystick, 10);
+	public static JoystickButton interruptButton = new JoystickButton(leftJoystick, 2);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
-	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 10);
+	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 2);
 	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 11);
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
 	public static JoystickButton climberReverse = new JoystickButton(leftJoystick, 7);
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
-
+	public static JoystickButton pressToPeg = new JoystickButton(leftJoystick,3);
+	
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton fieldBlue = new JoystickButton(arduinoJoystick, 3);
 	public static final JoystickButton fieldRed = new JoystickButton(arduinoJoystick, 2);
@@ -61,6 +63,7 @@ public class OI {
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
 		acquireBalls.toggleWhenActive(new BallCollect());
 		interruptButton.whenPressed(new Interrupt());
+		pressToPeg.whenReleased(new PressToPeg());
 	}
 
 	public static AutoPosition getAutoPosition() {

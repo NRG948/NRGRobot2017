@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class VisionDriveToPeg extends Command {
-	private static final double DRIVE_POWER = 0.65;
+	private static final double DRIVE_POWER = 1.0;
 	private static final double KZETA = 20;
 	private final NewVisionProc proc;
 	private double targetDistance = Double.MAX_VALUE;
@@ -47,7 +47,8 @@ public class VisionDriveToPeg extends Command {
 		} else {
 			updatedHeading = Robot.drive.getAutonomousHeading();
 		}
-		Robot.drive.driveOnHeading(DRIVE_POWER, updatedHeading);
+		double power = targetDistance > 20 ? DRIVE_POWER : DRIVE_POWER * 0.4;
+		Robot.drive.driveOnHeading(power, updatedHeading);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
