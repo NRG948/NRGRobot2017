@@ -48,7 +48,8 @@ public class VisionDriveToPeg extends Command {
 		} else {
 			updatedHeading = Robot.drive.getAutonomousHeading();
 		}
-		double power = MathUtil.clamp(targetDistance / SLOW_DOWN_DISTANCE, 0.2, 1);
+		double distanceToSlow = RobotMap.preferences.getDouble("SLOW_DOWN_DISTANCE", SLOW_DOWN_DISTANCE);
+		double power = MathUtil.clamp(targetDistance / distanceToSlow, 0.2, 1);
 		Robot.drive.driveOnHeading(power, updatedHeading);
 	}
 
