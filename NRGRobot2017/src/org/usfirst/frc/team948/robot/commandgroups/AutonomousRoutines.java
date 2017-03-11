@@ -70,8 +70,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(53.5, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
-				addSequential(new FlipCameraLight(true));
-				addSequential(new VisionDriveToPeg());
+				addSequential(new VisionRoutine());
 			} else {
 				addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
@@ -101,8 +100,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			if (RobotMap.autoWithVision) {
-				addSequential(new FlipCameraLight(true));
-				addSequential(new VisionDriveToPeg());
+				addSequential(new VisionRoutine());
 			} else {
 				addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
@@ -134,8 +132,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(56.537, FORWARD));
 			addSequential(new TurnToHeading(-60));
 			if (RobotMap.autoWithVision) {
-				addSequential(new FlipCameraLight(true));
-				addSequential(new VisionDriveToPeg());
+				addSequential(new VisionRoutine());
 			} else {
 				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
@@ -170,8 +167,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(-60));
 			// Turn to peg center
 			if (RobotMap.autoWithVision) {
-				addSequential(new FlipCameraLight(true));
-				addSequential(new VisionDriveToPeg());
+				addSequential(new VisionRoutine());
 			} else {
 				addSequential(new DriveStraightDistance(42, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
@@ -202,8 +198,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			if (RobotMap.autoWithVision) {
-				addSequential(new FlipCameraLight(true));
-				addSequential(new VisionDriveToPeg());
+				addSequential(new VisionRoutine());
 			} else {
 				addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
@@ -235,8 +230,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(56.537, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
-				addSequential(new FlipCameraLight(true));
-				addSequential(new VisionDriveToPeg());
+				addSequential(new VisionRoutine());
 			} else {
 				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
