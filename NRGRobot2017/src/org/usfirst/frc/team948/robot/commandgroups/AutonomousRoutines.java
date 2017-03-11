@@ -69,7 +69,13 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(53.5, FORWARD));
 			addSequential(new TurnToHeading(60));
-			addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (RobotMap.autoWithVision) {
+				addSequential(new FlipCameraLight(true));
+				addSequential(new VisionDriveToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
+			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
@@ -127,7 +133,13 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(56.537, FORWARD));
 			addSequential(new TurnToHeading(-60));
-			addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (RobotMap.autoWithVision) {
+				addSequential(new FlipCameraLight(true));
+				addSequential(new VisionDriveToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
+			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20, BACKWARD));
@@ -157,8 +169,13 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new DriveStraightDistance(82, FORWARD));
 			addSequential(new TurnToHeading(-60));
 			// Turn to peg center
-			addSequential(new TurnToPegCenter());
-			addSequential(new DriveStraightDistance(42, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (RobotMap.autoWithVision) {
+				addSequential(new FlipCameraLight(true));
+				addSequential(new VisionDriveToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(42, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
+			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
@@ -184,7 +201,12 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (RobotMap.autoWithVision) {
+				addSequential(new FlipCameraLight(true));
+				addSequential(new VisionDriveToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
 			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new DriveStraightDistance(60, BACKWARD));
@@ -212,7 +234,13 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ShiftGears(false));
 			addSequential(new DriveStraightDistance(56.537, FORWARD));
 			addSequential(new TurnToHeading(60));
-			addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			if (RobotMap.autoWithVision) {
+				addSequential(new FlipCameraLight(true));
+				addSequential(new VisionDriveToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
+			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20, BACKWARD));
