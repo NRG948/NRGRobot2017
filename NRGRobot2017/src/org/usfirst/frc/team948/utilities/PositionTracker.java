@@ -51,9 +51,21 @@ public class PositionTracker {
 
 		}, 0, 50);
 	}
+
 	@Override
 	public String toString() {
-		return x + " , " + y;
-		
+		int xFeet = (int) (x / 12);
+		int xInches = (int) (x - xFeet * 12);
+		int yFeet = (int) (y / 12);
+		int yInches = (int) (y - yFeet * 12);
+		return xFeet + "'" + xInches + "\" , " + yFeet + "'" + yInches + "\"";
+
+	}
+
+	public synchronized void reset() {
+		prevLeftEncoder = 0;
+		prevRightEncoder = 0;
+		x = 0;
+		y = 0;
 	}
 }
