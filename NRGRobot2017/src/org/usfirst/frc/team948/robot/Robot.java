@@ -164,7 +164,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command
-		RobotMap.autoWithVision = OI.fieldBlue.get();
+		RobotMap.autoWithVision = true;  // temp change OI.driveWithVision.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), autoMovementChooser.getSelected());
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
@@ -218,6 +218,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void periodicAll() {
+		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
 		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());
 		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());

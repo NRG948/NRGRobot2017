@@ -39,7 +39,7 @@ public class OI {
 	public static JoystickButton pressToPeg = new JoystickButton(leftJoystick,3);
 	
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
-	public static final JoystickButton fieldBlue = new JoystickButton(arduinoJoystick, 3);
+	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
 	public static final JoystickButton fieldRed = new JoystickButton(arduinoJoystick, 2);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 4);
 	// the middle position is when both the left and right button states are

@@ -69,7 +69,7 @@ public class RobotMap {
 	public static DigitalInput upperGearSensor = new DigitalInput(8);
 	public static DigitalInput lowerGearSensor = new DigitalInput(9);
 	
-	public static Encoder shooterEncoder = new Encoder(4, 5);
+	public static Encoder shooterEncoder = new Encoder(4, 5, true);
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
@@ -85,7 +85,7 @@ public class RobotMap {
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;
 //	Need to set the real values
-	public static final UltrasonicSensor rangeFinder = new UltrasonicSensor(0);
+//	public static final UltrasonicSensor rangeFinder = new UltrasonicSensor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	public static boolean autoWithVision;
 	static void init() {
