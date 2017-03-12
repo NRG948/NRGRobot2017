@@ -9,8 +9,10 @@ import org.usfirst.frc.team948.robot.commands.Interrupt;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
+import org.usfirst.frc.team948.robot.commands.Shoot;
 import org.usfirst.frc.team948.robot.commands.StopTestDrive;
 import org.usfirst.frc.team948.robot.commands.TestDrive;
+import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -37,6 +39,7 @@ public class OI {
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 	public static JoystickButton pressToPeg = new JoystickButton(leftJoystick,3);
+	public static JoystickButton shoot = new JoystickButton(rightJoystick,3);
 	
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
@@ -64,6 +67,7 @@ public class OI {
 		acquireBalls.toggleWhenActive(new BallCollect());
 		interruptButton.whenPressed(new Interrupt());
 		pressToPeg.whenReleased(new PressToPeg());
+		shoot.whileHeld(new Shoot());
 	}
 
 	public static AutoPosition getAutoPosition() {
