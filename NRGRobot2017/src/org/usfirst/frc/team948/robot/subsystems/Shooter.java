@@ -16,9 +16,7 @@ public class Shooter extends Subsystem {
 	private static final double TICKS_PER_REVOLUTION = 1024;// measured
 															// 3/11/2017
 	private double[] RPMValues = new double[MAX_RPM_SAMPLES];
-	private double TARGET_RPM = 9001.0;
-	private double TOP_PERCENTAGE = 0.7;
-	private double RPM_TOLERENCE = 3.0;
+	public final static double RPM_TOLERANCE = 3.0;
 	private double currentPower = 0.0;
 	private int index;
 	private int currentCount = 0;
@@ -31,7 +29,8 @@ public class Shooter extends Subsystem {
 	private double prevDiff;
 	private double h0;
 	private double kp;
-
+	private boolean onTargetRPM;
+	
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
@@ -79,35 +78,13 @@ public class Shooter extends Subsystem {
 		addRPMValueToArray();
 	}
 
-	public void updatePower() {
-		updateRPM();
-		double rollingAvRPM;
-		try {
-			rollingAvRPM = getAverageRPM(10);
-		} catch (Exception e) {
-			e.printStackTrace();
-			rollingAvRPM = currentRPM;
-		}
-		double targetValue = RobotMap.preferences.getDouble("SHOOTER_TOP_PERCENTAGE", TOP_PERCENTAGE)
-				* RobotMap.preferences.getDouble("TARGET_SHOOTER_RPM", TARGET_RPM);
-		double delta = MathUtil.deadband(rollingAvRPM - targetValue,
-				RobotMap.preferences.getDouble("SHOOTER_RPM_TOLERENCE ", RPM_TOLERENCE));
-		if (delta != 0) {
-			double htanValue = (RobotMap.preferences.getDouble("SHOOTER_CORRECTION_CONSTANT_M", 2.0) * delta)
-					/ targetValue;
-			htanValue = Math.tanh(htanValue);
-			htanValue += RobotMap.preferences.getDouble("SHOOTER_CORRECTION_CONSTANT_A", 0.0);
-			htanValue = Math.copySign(Math.min(1.0, Math.abs(htanValue)), htanValue);
-			currentPower += htanValue;
-		}
-		setPower(currentPower);
-	}
-
 	public void setPower(double power) {
-		RobotMap.shooterWheelTop.set(power);
+		//ejecting is always negative.
+		RobotMap.shooterWheelTop.set(-power);
 	}
 
 	public void rampToRPMinit() {
+		onTargetRPM = false;
 		passedThreshold = false;
 		h0 = 0;
 		prevDiff = 0;
@@ -126,6 +103,7 @@ public class Shooter extends Subsystem {
 		} else {
 			// Turn_Half_Back_P
 			double diff = targetRPM - currentRPM;
+			onTargetRPM = Math.abs(diff) <= RPM_TOLERANCE;
 			wheelPower += diff * kp;
 			wheelPower = MathUtil.clamp(wheelPower, -1.0, 1.0);
 			// if we just crossed over the target RPM, take back half
@@ -141,7 +119,10 @@ public class Shooter extends Subsystem {
 		SmartDashboard.putNumber("Shooter output", wheelPower);
 		
 	}
-
+	public boolean onTargetRPM(){
+		return onTargetRPM;
+	}
+	
 	public void rampToRPMEnd() {
 		setPower(0);
 	}

@@ -10,6 +10,7 @@ import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.robot.subsystems.BallCollector;
+import org.usfirst.frc.team948.robot.subsystems.BallFeeder;
 import org.usfirst.frc.team948.robot.subsystems.CameraLight;
 import org.usfirst.frc.team948.robot.subsystems.Climber;
 import org.usfirst.frc.team948.robot.subsystems.Drive;
@@ -17,6 +18,7 @@ import org.usfirst.frc.team948.robot.subsystems.GearLEDControler;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
+import org.usfirst.frc.team948.utilities.PositionTracker;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 import org.usfirst.frc.team948.utilities.VisionField;
 
@@ -46,18 +48,19 @@ public class Robot extends IterativeRobot {
 	public static final Gearbox gearbox = new Gearbox();
 	public static final CameraLight cameraLight = new CameraLight();
 	public static final BallCollector ballCollector = new BallCollector();
+	public static final BallFeeder ballFeeder = new BallFeeder();
 	public static GearLEDControler ledStrip;
 
 	private static final double TURN_POWER = 1.0;
 
 	public static UsbCamera camera;
-//	public static VisionProc visionProcessor;
+	// public static VisionProc visionProcessor;
 	public static NewVisionProc visionProcessor;
 
 	public static Command autonomousCommand;
 	public static SendableChooser<AutoPosition> autoPositionChooser;
 	public static SendableChooser<AutoMovement> autoMovementChooser;
-
+	public static PositionTracker positionTracker = new PositionTracker();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -74,15 +77,17 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		
+
 		ledStrip = new GearLEDControler(RobotMap.gearLight);
 
 		// Vision Tracking
 		camera = CameraServer.getInstance().startAutomaticCapture();
-//		camera.setResolution(CAMERA_RESOLUTION_WIDTH, CAMERA_RESOLUTION_HEIGHT);
+		// camera.setResolution(CAMERA_RESOLUTION_WIDTH,
+		// CAMERA_RESOLUTION_HEIGHT);
 		camera.setExposureManual(0);
 		cameraLight.turnOff();
 		visionProcessor = new NewVisionProc().start();
+		positionTracker.start();
 
 		// Driver Station
 		OI.buttonInit();
@@ -128,6 +133,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg());
 		// Start in Low gear
 		gearbox.setLowGear();
+
 	}
 
 	/**
@@ -165,7 +171,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command
-		RobotMap.autoWithVision = true;  // temp change OI.driveWithVision.get();
+		RobotMap.autoWithVision = true; // temp change OI.driveWithVision.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), autoMovementChooser.getSelected());
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
@@ -230,10 +236,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
-//		try {
-//			SmartDashboard.putData("PDP", RobotMap.pdp);
-//		} catch (Exception e) {
-//		}
+		// try {
+		// SmartDashboard.putData("PDP", RobotMap.pdp);
+		// } catch (Exception e) {
+		// }
 		try {
 			SmartDashboard.putData("Drive", Robot.drive);
 		} catch (Exception e) {
@@ -251,23 +257,23 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
 		boolean haveGearLow = !RobotMap.lowerGearSensor.get();
 		boolean haveGearHigh = !RobotMap.upperGearSensor.get();
-    	SmartDashboard.putNumber("Test Target RPM", TestShooterRPM.getTargetRPM());
+		SmartDashboard.putNumber("Test Target RPM", TestShooterRPM.getTargetRPM());
 		// boolean visionOnTarget = !RobotMap.visionOnTarget.get();
-		
+
 		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
 		SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
-//		SmartDashboard.putBoolean("Vision on target", visionOnTarget);
-		
-//		if (visionOnTarget){
-//			RobotMap.gearLight.turnGreenOn();
-//		}
-//		else{
-//			RobotMap.gearLight.turnGreenOff();
-//		}
-	
-			ledStrip.updateLights();
-		
-		
+		SmartDashboard.putString("Position Tracker" , positionTracker.toString());
+		// SmartDashboard.putBoolean("Vision on target", visionOnTarget);
+
+		// if (visionOnTarget){
+		// RobotMap.gearLight.turnGreenOn();
+		// }
+		// else{
+		// RobotMap.gearLight.turnGreenOff();
+		// }
+
+		ledStrip.updateLights();
+
 		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 		visionProcessor.dataExists();
 	}

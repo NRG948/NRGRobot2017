@@ -69,7 +69,7 @@ public class RobotMap {
 	public static DigitalInput upperGearSensor = new DigitalInput(8);
 	public static DigitalInput lowerGearSensor = new DigitalInput(9);
 	
-	public static Encoder shooterEncoder = new Encoder(4, 5, true);
+	public static Encoder shooterEncoder = new Encoder(5, 4);
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);

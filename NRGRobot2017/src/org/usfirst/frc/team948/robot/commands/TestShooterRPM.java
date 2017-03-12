@@ -26,7 +26,7 @@ public class TestShooterRPM extends Command {
     }
 
 	public static double getTargetRPM() {
-		return (OI.leftJoystick.getZ() + 1) * 5000;//0 - 10000 RPM.
+		return (OI.leftJoystick.getZ() + 1) * 10 + 2900;//2700 - 3300 RPM.
 	}
 
     // Make this return true when this Command no longer needs to run execute()

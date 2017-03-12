@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.Robot.AutoPosition;
 import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
+import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
@@ -42,6 +43,7 @@ public class OI {
 	public static JoystickButton pressToPeg = new JoystickButton(leftJoystick,3);
 	public static JoystickButton shoot = new JoystickButton(rightJoystick,3);
 	public static JoystickButton testShooterRPM = new JoystickButton(leftJoystick,9);
+	public static JoystickButton shootSequence = new JoystickButton(rightJoystick,9);
 	
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
@@ -71,6 +73,7 @@ public class OI {
 		pressToPeg.whenReleased(new PressToPeg());
 		shoot.whileHeld(new Shoot());
 		testShooterRPM.toggleWhenActive(new TestShooterRPM());
+		shootSequence.whenPressed(new ShootSequence());
 	}
 
 	public static AutoPosition getAutoPosition() {
