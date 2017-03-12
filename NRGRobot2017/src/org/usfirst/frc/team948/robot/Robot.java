@@ -87,6 +87,7 @@ public class Robot extends IterativeRobot {
 		camera.setExposureManual(0);
 		cameraLight.turnOff();
 		visionProcessor = new NewVisionProc().start();
+		positionTracker.init(0, 0);
 		positionTracker.start();
 
 		// Driver Station
