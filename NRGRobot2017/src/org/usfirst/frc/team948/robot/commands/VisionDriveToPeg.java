@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class VisionDriveToPeg extends Command {
-	private static final double SLOW_DOWN_DISTANCE = 24;
+	private static final double SLOW_DOWN_DISTANCE = 30;
 	private static final double KZETA = 20;
 	private final NewVisionProc proc;
 	private double targetDistance = Double.MAX_VALUE;
@@ -52,7 +52,7 @@ public class VisionDriveToPeg extends Command {
 			updatedHeading = Robot.drive.getAutonomousHeading();
 		}
 		double distanceToSlow = RobotMap.preferences.getDouble("SLOW_DOWN_DISTANCE", SLOW_DOWN_DISTANCE);
-		double power = MathUtil.clamp(targetDistance / distanceToSlow, 0.2, 1);
+		double power = MathUtil.clamp(targetDistance / distanceToSlow, 0.15, 1);
 		Robot.drive.driveOnHeading(power, updatedHeading);
 	}
 
