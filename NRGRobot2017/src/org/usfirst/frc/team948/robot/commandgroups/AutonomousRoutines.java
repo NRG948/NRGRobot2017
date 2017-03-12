@@ -32,7 +32,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new Stay());
 			return;
 		}
-		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 1.5);
+		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 1);
 
 		switch (this.autoPosition) {
 		case RED_LEFT:
@@ -67,7 +67,7 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(53.5, FORWARD));
+			addSequential(new DriveStraightDistance(69, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
@@ -129,7 +129,7 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(56.537, FORWARD));
+			addSequential(new DriveStraightDistance(85.537, FORWARD));
 			addSequential(new TurnToHeading(-60));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
@@ -163,7 +163,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new FlipCameraLight(true));
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(82, FORWARD));
+			addSequential(new DriveStraightDistance(69, FORWARD));
 			addSequential(new TurnToHeading(-60));
 			// Turn to peg center
 			if (RobotMap.autoWithVision) {
@@ -227,7 +227,7 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(56.537, FORWARD));
+			addSequential(new DriveStraightDistance(85.537, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
