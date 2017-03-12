@@ -72,7 +72,7 @@ public class AutonomousRoutines extends CommandGroup {
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
 			} else {
-				addSequential(new DriveStraightDistance(59.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+				addSequential(new DriveStraightDistance(42.0, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
 			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {

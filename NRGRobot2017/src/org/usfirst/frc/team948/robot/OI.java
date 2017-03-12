@@ -12,6 +12,7 @@ import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Shoot;
 import org.usfirst.frc.team948.robot.commands.StopTestDrive;
 import org.usfirst.frc.team948.robot.commands.TestDrive;
+import org.usfirst.frc.team948.robot.commands.TestShooterRPM;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
@@ -40,6 +41,7 @@ public class OI {
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 	public static JoystickButton pressToPeg = new JoystickButton(leftJoystick,3);
 	public static JoystickButton shoot = new JoystickButton(rightJoystick,3);
+	public static JoystickButton testShooterRPM = new JoystickButton(leftJoystick,9);
 	
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
@@ -68,6 +70,7 @@ public class OI {
 		interruptButton.whenPressed(new Interrupt());
 		pressToPeg.whenReleased(new PressToPeg());
 		shoot.whileHeld(new Shoot());
+		testShooterRPM.toggleWhenActive(new TestShooterRPM());
 	}
 
 	public static AutoPosition getAutoPosition() {

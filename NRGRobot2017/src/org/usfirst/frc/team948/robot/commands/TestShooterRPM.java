@@ -4,6 +4,7 @@ import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -20,9 +21,13 @@ public class TestShooterRPM extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double targetRPM = ((OI.leftJoystick.getZ() + 1) * 5000);//0 - 10000 RPM.
+    	double targetRPM = getTargetRPM();
     	Robot.shooter.rampToRPM(targetRPM);
     }
+
+	public static double getTargetRPM() {
+		return (OI.leftJoystick.getZ() + 1) * 5000;//0 - 10000 RPM.
+	}
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

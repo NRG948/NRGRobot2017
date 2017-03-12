@@ -117,6 +117,7 @@ public class Shooter extends Subsystem {
 
 	public void rampToRPM(double targetRPM) {
 		updateRPM();
+		SmartDashboard.putNumber("Current RPM", currentRPM);
 		if (!passedThreshold) {
 			if (currentRPM > targetRPM) {
 				passedThreshold = true;
