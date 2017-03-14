@@ -3,6 +3,7 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
+import org.usfirst.frc.team948.robot.commands.DriveToXY;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.Turn;
@@ -120,7 +121,6 @@ public class Robot extends IterativeRobot {
 		// TurnToHeading(180,TURN_POWER));
 		// SmartDashboard.putData("Turn to +90", new TurnToHeading(90,
 		// TURN_POWER));
-
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, TURN_POWER));
 		SmartDashboard.putData("Turn -90", new Turn(-90, TURN_POWER));
 		SmartDashboard.putData("Turn +90", new Turn(90, TURN_POWER));
@@ -132,9 +132,10 @@ public class Robot extends IterativeRobot {
 		// SimpleVisionRoutine(visionProcessor));
 		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
 		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg());
+		//To test Drive to XY command
+		SmartDashboard.putData("Test DriveToXY", new DriveToXY());
 		// Start in Low gear
 		gearbox.setLowGear();
-
 	}
 
 	/**

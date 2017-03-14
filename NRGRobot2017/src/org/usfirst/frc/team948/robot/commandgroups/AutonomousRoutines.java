@@ -129,8 +129,8 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(85.537, FORWARD));
-			addSequential(new TurnToHeading(-60));
+			addSequential(new DriveStraightDistance(83.537, FORWARD));
+			addSequential(new TurnToHeading(-61));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
 			} else {
@@ -154,7 +154,7 @@ public class AutonomousRoutines extends CommandGroup {
 			}
 		}
 	}
-
+	
 	private class BlueRight extends CommandGroup {
 		private double delayTime;
 

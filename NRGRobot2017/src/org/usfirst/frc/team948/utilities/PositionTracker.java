@@ -23,8 +23,9 @@ public class PositionTracker {
 		double rightEncoder = RobotMap.rightEncoder.get();
 		double leftDelta = leftEncoder - prevLeftEncoder;
 		double rightDelta = rightEncoder - prevRightEncoder;
-		double distance = ((Math.abs(leftDelta) > Math.abs(rightDelta)) ? leftDelta : rightDelta)
-				/ Robot.drive.getTicksPerInch();
+//		double distance = ((Math.abs(leftDelta) > Math.abs(rightDelta)) ? leftDelta : rightDelta)
+//				/ Robot.drive.getTicksPerInch();
+		double distance = (leftDelta + rightDelta) / 2 / Robot.drive.getTicksPerInch();
 		double heading = RobotMap.continuousGyro.getAngle() * Math.PI / 180;
 		x += distance * Math.sin(heading);
 		y += distance * Math.cos(heading);

@@ -38,6 +38,8 @@ public class PreferenceKeys {
 	
 	public static final String GEAR_DROP_TIME = "Gear Drop Time";
 	public static final String TAKE_HALF_BACK_P = "Take_Half_Back_P";
+	public static final String X2 = "Destination x";
+	public static final String Y2 = "Destination y";
 	
 }
 	
