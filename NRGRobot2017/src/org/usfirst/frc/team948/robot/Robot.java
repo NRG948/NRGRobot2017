@@ -4,7 +4,7 @@ package org.usfirst.frc.team948.robot;
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
-import org.usfirst.frc.team948.robot.commands.TestShooterRPM;
+import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
@@ -258,7 +258,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
 		boolean haveGearLow = !RobotMap.lowerGearSensor.get();
 		boolean haveGearHigh = !RobotMap.upperGearSensor.get();
-		SmartDashboard.putNumber("Test Target RPM", TestShooterRPM.getTargetRPM());
+		SmartDashboard.putNumber("Test Target RPM", SpinShooterToRPM.getTargetRPM());
 		// boolean visionOnTarget = !RobotMap.visionOnTarget.get();
 
 		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);

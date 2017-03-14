@@ -13,7 +13,7 @@ import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Shoot;
 import org.usfirst.frc.team948.robot.commands.StopTestDrive;
 import org.usfirst.frc.team948.robot.commands.TestDrive;
-import org.usfirst.frc.team948.robot.commands.TestShooterRPM;
+import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
@@ -72,7 +72,7 @@ public class OI {
 		interruptButton.whenPressed(new Interrupt());
 		pressToPeg.whenReleased(new PressToPeg());
 		shoot.whileHeld(new Shoot());
-		testShooterRPM.toggleWhenActive(new TestShooterRPM());
+		testShooterRPM.toggleWhenActive(new SpinShooterToRPM());
 		shootSequence.whenPressed(new ShootSequence());
 	}
 

@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class TestShooterRPM extends Command {
-    public TestShooterRPM() {
+public class SpinShooterToRPM extends Command {
+    public SpinShooterToRPM() {
         requires(Robot.shooter);
     }
 
