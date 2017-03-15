@@ -7,8 +7,13 @@ import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 
 public class PositionTracker {
+	private static final double percentForSignificance = 0.75;
+	private static final double objectDetectionDistance = 3.0;
+	private static final int updatesBack = 10;
 	private double x, y;
 	private double prevLeftEncoder, prevRightEncoder;
+	private double[] ultraSonicReadouts = new double[updatesBack];
+	private int index = 0;
 	private Timer timer;
 
 	public void init(double x, double y) {
@@ -18,7 +23,7 @@ public class PositionTracker {
 		prevRightEncoder = RobotMap.rightEncoder.get();
 	}
 
-	public void updatePosition() {
+	public synchronized void updatePosition() {
 		double leftEncoder = RobotMap.leftEncoder.get();
 		double rightEncoder = RobotMap.rightEncoder.get();
 		double leftDelta = leftEncoder - prevLeftEncoder;
@@ -31,6 +36,9 @@ public class PositionTracker {
 		y += distance * Math.cos(heading);
 		prevLeftEncoder = leftEncoder;
 		prevRightEncoder = rightEncoder;
+		ultraSonicReadouts[index] = RobotMap.ultrasound.getVoltage();
+		index++;
+		index %= updatesBack;
 	}
 
 	public double getX() {
@@ -39,6 +47,12 @@ public class PositionTracker {
 
 	public double getY() {
 		return y;
+	}
+	
+	public boolean objectInfront(){
+		for(double a :ultraSonicReadouts){
+					Robot.drive.getFeetFromUltrasoundVolts(a)/12.0 >= objectDetectionDistance ? 1.0 : 0.0;
+		}
 	}
 
 	public void start() {

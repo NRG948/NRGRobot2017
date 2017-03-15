@@ -262,6 +262,10 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 	public double getFeetFromUltrasoundVolts() {
 		return (RobotMap.ultrasound.getVoltage() - 0.0255) / (.0242 * 12);
 	}
+	
+	public double getFeetFromUltrasoundVolts(double volts) {
+		return (volts - 0.0255) / (.0242 * 12);
+	}
 
 	public double getUltrasoundVolts() {
 		return RobotMap.ultrasound.getVoltage();
