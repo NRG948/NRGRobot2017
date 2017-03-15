@@ -50,9 +50,12 @@ public class PositionTracker {
 	}
 	
 	public boolean objectInfront(){
+		double agglutinatedNumber = 0.0;
 		for(double a :ultraSonicReadouts){
+			agglutinatedNumber +=
 					Robot.drive.getFeetFromUltrasoundVolts(a)/12.0 >= objectDetectionDistance ? 1.0 : 0.0;
 		}
+		return agglutinatedNumber/((double) updatesBack) >= percentForSignificance;
 	}
 
 	public void start() {
