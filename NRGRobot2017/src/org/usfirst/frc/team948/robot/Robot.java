@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
 		// SimpleVisionRoutine(visionProcessor));
 		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
 		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg());
-		//To test Drive to XY command
+		// To test Drive to XY command
 		SmartDashboard.putData("Test DriveToXY", new DriveToXY());
 		// Start in Low gear
 		gearbox.setLowGear();
@@ -234,7 +234,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
 		SmartDashboard.putNumber("Right encoder", RobotMap.rightEncoder.get());
-		SmartDashboard.putNumber("Ultrasound sensor", RobotMap.ultraSound.getVoltage());
+		String ultraSoundData = String.format("%.2f, %.2f", RobotMap.ultraSound.getVoltage(),
+				RobotMap.ultraSound.getDistanceInches());
+		SmartDashboard.putString("Ultrasound sensor: volts , Inches", ultraSoundData);
 		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
@@ -264,7 +266,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
 		SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
-		SmartDashboard.putString("Position Tracker" , positionTracker.toString());
+		SmartDashboard.putString("Position Tracker", positionTracker.toString());
 		// SmartDashboard.putBoolean("Vision on target", visionOnTarget);
 
 		// if (visionOnTarget){

@@ -28,8 +28,9 @@ public class PositionTracker {
 		double rightEncoder = RobotMap.rightEncoder.get();
 		double leftDelta = leftEncoder - prevLeftEncoder;
 		double rightDelta = rightEncoder - prevRightEncoder;
-//		double distance = ((Math.abs(leftDelta) > Math.abs(rightDelta)) ? leftDelta : rightDelta)
-//				/ Robot.drive.getTicksPerInch();
+		// double distance = ((Math.abs(leftDelta) > Math.abs(rightDelta)) ?
+		// leftDelta : rightDelta)
+		// / Robot.drive.getTicksPerInch();
 		double distance = (leftDelta + rightDelta) / 2 / Robot.drive.getTicksPerInch();
 		double heading = RobotMap.continuousGyro.getAngle() * Math.PI / 180;
 		x += distance * Math.sin(heading);
@@ -48,14 +49,13 @@ public class PositionTracker {
 	public double getY() {
 		return y;
 	}
-	
-	public boolean objectInfront(){
+
+	public boolean objectInfront() {
 		double agglutinatedNumber = 0.0;
-		for(double a :ultraSonicReadouts){
-			agglutinatedNumber +=
-					RobotMap.ultraSound.getFeetFromUltrasoundVolts(a)/12.0 <= objectDetectionDistance ? 1.0 : 0.0;
+		for (double a : ultraSonicReadouts) {
+			agglutinatedNumber += RobotMap.ultraSound.getDistanceInches(a) <= objectDetectionDistance ? 1.0 : 0.0;
 		}
-		return agglutinatedNumber/((double) updatesBack) >= percentForSignificance;
+		return agglutinatedNumber / updatesBack >= percentForSignificance;
 	}
 
 	public void start() {

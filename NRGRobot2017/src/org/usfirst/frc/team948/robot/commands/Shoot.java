@@ -6,7 +6,7 @@ import org.usfirst.frc.team948.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Shoot extends Command{
+public class Shoot extends Command {
 
 	public Shoot() {
 		this.requires(Robot.shooter);
@@ -23,8 +23,9 @@ public class Shoot extends Command{
 
 	@Override
 	protected void execute() {
-		double shooterPower = OI.leftJoystick.getZ();
-		Robot.shooter.rawShoot(shooterPower);
+		double shooterPower = (OI.leftJoystick.getZ() + 1) / 2;
+		// negative power to eject the ball
+		Robot.shooter.rawShoot(-shooterPower);
 		SmartDashboard.putNumber("Shooter power", shooterPower);
 	}
 

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveStraightToDistanceFromWall extends Command {
 	private double power;
-	private double distanceFromWall;
+	private double distanceFromWallInches;
 	//position 3 13ft 9-1/2 in
 	
 
@@ -23,16 +23,16 @@ public class DriveStraightToDistanceFromWall extends Command {
 	private double ticksTraveled;
 	private double desiredHeading;
 	
-	public DriveStraightToDistanceFromWall(double power, double distanceFromWall) {
+	public DriveStraightToDistanceFromWall(double power, double distanceFromWallInches) {
 		requires(Robot.drive);
 		this.power = power;
-		this.distanceFromWall = distanceFromWall;
+		this.distanceFromWallInches = distanceFromWallInches;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		double currentDistanceFromWall = MathUtil.clamp(RobotMap.ultraSound.getFeetFromUltrasoundVolts(), 0.91 /*10.93 in*/, 16.51 /*198.12 in*/);
-		ticksToTravel = Robot.drive.getTicksFromInches(currentDistanceFromWall - distanceFromWall); //how far to move in terms of ticks
+		double currentDistanceFromWallInches = MathUtil.clamp(RobotMap.ultraSound.getDistanceInches(), 10.93 ,198.12 );
+		ticksToTravel = Robot.drive.getTicksFromInches(currentDistanceFromWallInches - distanceFromWallInches); //how far to move in terms of ticks
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
 		desiredHeading = Robot.drive.getAutonomousHeading();
