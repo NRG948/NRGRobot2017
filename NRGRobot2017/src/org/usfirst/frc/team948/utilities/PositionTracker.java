@@ -8,7 +8,7 @@ import org.usfirst.frc.team948.robot.RobotMap;
 
 public class PositionTracker {
 	private static final double percentForSignificance = 0.75;
-	private static final double objectDetectionDistance = 3.0;
+	private static final double objectDetectionDistance = 3.0; // inches
 	private static final int updatesBack = 10;
 	private double x, y;
 	private double prevLeftEncoder, prevRightEncoder;
