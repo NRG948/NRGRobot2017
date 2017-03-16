@@ -31,7 +31,7 @@ public class DriveStraightToDistanceFromWall extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		double currentDistanceFromWall = MathUtil.clamp(Robot.drive.getFeetFromUltrasoundVolts(), 0.91 /*10.93 in*/, 16.51 /*198.12 in*/);
+		double currentDistanceFromWall = MathUtil.clamp(RobotMap.ultraSound.getFeetFromUltrasoundVolts(), 0.91 /*10.93 in*/, 16.51 /*198.12 in*/);
 		ticksToTravel = Robot.drive.getTicksFromInches(currentDistanceFromWall - distanceFromWall); //how far to move in terms of ticks
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();

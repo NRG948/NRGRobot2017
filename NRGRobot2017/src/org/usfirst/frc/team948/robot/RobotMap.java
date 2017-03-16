@@ -64,7 +64,8 @@ public class RobotMap {
 	public static Encoder rightEncoder = new Encoder(2, 3, false);
 	
 	public static LiveWindowSendable gyroChannel;
-	public static AnalogInput ultrasound = new AnalogInput(0);
+	//public static AnalogInput ultrasound = new AnalogInput(0);
+	public static UltrasonicSensor ultraSound = new UltrasonicSensor(0);
 	
 	public static DigitalInput upperGearSensor = new DigitalInput(8);
 	public static DigitalInput lowerGearSensor = new DigitalInput(9);

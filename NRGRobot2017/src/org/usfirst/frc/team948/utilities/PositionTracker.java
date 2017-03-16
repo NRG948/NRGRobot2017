@@ -36,7 +36,7 @@ public class PositionTracker {
 		y += distance * Math.cos(heading);
 		prevLeftEncoder = leftEncoder;
 		prevRightEncoder = rightEncoder;
-		ultraSonicReadouts[index] = RobotMap.ultrasound.getVoltage();
+		ultraSonicReadouts[index] = RobotMap.ultraSound.getVoltage();
 		index++;
 		index %= updatesBack;
 	}
@@ -53,7 +53,7 @@ public class PositionTracker {
 		double agglutinatedNumber = 0.0;
 		for(double a :ultraSonicReadouts){
 			agglutinatedNumber +=
-					Robot.drive.getFeetFromUltrasoundVolts(a)/12.0 >= objectDetectionDistance ? 1.0 : 0.0;
+					RobotMap.ultraSound.getFeetFromUltrasoundVolts(a)/12.0 <= objectDetectionDistance ? 1.0 : 0.0;
 		}
 		return agglutinatedNumber/((double) updatesBack) >= percentForSignificance;
 	}

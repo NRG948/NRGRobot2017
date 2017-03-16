@@ -1,5 +1,7 @@
 package org.usfirst.frc.team948.robot.commands;
 
+import java.util.Timer;
+
 import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -7,7 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class FeedBall extends Command {
 	private boolean waitForRPM;
 	private double power;
-	
+	private double startTime;
+
 	public FeedBall(double power, boolean waitForRPM) {
 		this.waitForRPM = waitForRPM;
 		this.power = power;
@@ -16,11 +19,14 @@ public class FeedBall extends Command {
 
 	@Override
 	protected void initialize() {
+		// delay
+		startTime = System.currentTimeMillis() + 1000;
 	}
 
 	@Override
 	protected void execute() {
-		if(!waitForRPM || Robot.shooter.onTargetRPM()){
+		// if(!waitForRPM || Robot.shooter.onTargetRPM()){
+		if (!waitForRPM || startTime <= System.currentTimeMillis()) {
 			Robot.ballFeeder.start(power);
 		}
 	}
@@ -35,7 +41,7 @@ public class FeedBall extends Command {
 	protected void end() {
 		Robot.ballFeeder.stop();
 	}
-	
+
 	@Override
 	protected void interrupted() {
 		end();

@@ -234,7 +234,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
 		SmartDashboard.putNumber("Right encoder", RobotMap.rightEncoder.get());
-		SmartDashboard.putNumber("Ultrasound sensor", RobotMap.ultrasound.getVoltage());
+		SmartDashboard.putNumber("Ultrasound sensor", RobotMap.ultraSound.getVoltage());
 		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
