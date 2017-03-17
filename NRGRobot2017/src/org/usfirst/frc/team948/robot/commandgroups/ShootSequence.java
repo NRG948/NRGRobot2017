@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ShootSequence extends CommandGroup {
 	public ShootSequence(){
-		//addParallel(new SpinShooterToRPM()); encoder not working
-		addParallel(new Shoot());
+		addParallel(new SpinShooterToRPM());
+		//addParallel(new Shoot());
 		addSequential(new FeedBall(.5,true));
 	}
 	

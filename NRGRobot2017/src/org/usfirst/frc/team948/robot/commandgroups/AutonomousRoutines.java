@@ -6,6 +6,7 @@ import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.FORWARD;
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
@@ -80,10 +81,11 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
 				addSequential(new TurnToHeading(-6));
 				addSequential(new ShiftGears(true));
+				addSequential(new DelaySeconds(0.1));
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
 					addSequential(new DriveStraightDistance(300, FORWARD));
 				} else {
-					addSequential(new DriveStraightDistance(40, FORWARD));
+					addSequential(new DriveStraightDistance(50, FORWARD));
 				}
 				addSequential(new ShiftGears(false));
 			}
@@ -111,6 +113,7 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(125, FORWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
+				addSequential(new DelaySeconds(0.1));
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
 					addSequential(new DriveStraightDistance(300, FORWARD));
 				} else {
@@ -142,10 +145,11 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
+				addSequential(new DelaySeconds(0.1));
 				addSequential(new DriveStraightDistance(113, FORWARD));
 				addSequential(new TurnToHeading(-40));
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
-					addSequential(new DriveStraightDistance(200, FORWARD));
+					addSequential(new DriveStraightDistance(170, FORWARD));
 					addSequential(new TurnToHeading(-5));
 				} else {
 					// we already went pass the auto line
@@ -177,10 +181,11 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(20.0, BACKWARD));
 				addSequential(new TurnToHeading(6));
 				addSequential(new ShiftGears(true));
+				addSequential(new DelaySeconds(0.1));
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
 					addSequential(new DriveStraightDistance(300, FORWARD));
 				} else {
-					addSequential(new DriveStraightDistance(40, FORWARD));
+					addSequential(new DriveStraightDistance(50, FORWARD));
 				}
 				addSequential(new ShiftGears(false));
 			}
@@ -209,6 +214,7 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(125, FORWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
+				addSequential(new DelaySeconds(0.1));
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
 					addSequential(new DriveStraightDistance(300, FORWARD));
 				} else {
@@ -240,10 +246,11 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
+				addSequential(new DelaySeconds(0.1));
 				addSequential(new DriveStraightDistance(113, FORWARD));
 				addSequential(new TurnToHeading(40));
 				if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
-					addSequential(new DriveStraightDistance(200, FORWARD));
+					addSequential(new DriveStraightDistance(170, FORWARD));
 					addSequential(new TurnToHeading(5));
 				} else {
 					// we already went pass the auto line
