@@ -14,6 +14,7 @@ public class ShootSequence extends CommandGroup {
 		addParallel(new SpinShooterToRPM());
 		//addParallel(new Shoot());
 		addSequential(new FeedBall(.5,true));
+
 	}
 	
 	

@@ -8,7 +8,7 @@ import org.usfirst.frc.team948.robot.RobotMap;
 
 public class PositionTracker {
 	private static final double percentForSignificance = 0.75;
-	private static final double objectDetectionDistance = 3.0;
+	private static final double objectDetectionDistance = 3.0; // inches
 	private static final int updatesBack = 10;
 	private double x, y;
 	private double prevLeftEncoder, prevRightEncoder;
@@ -49,13 +49,17 @@ public class PositionTracker {
 	public double getY() {
 		return y;
 	}
-
-	public boolean objectInfront() {
-		double agglutinatedNumber = 0.0;
-		for (double a : ultraSonicReadouts) {
-			agglutinatedNumber += RobotMap.ultraSound.getDistanceInches(a) <= objectDetectionDistance ? 1.0 : 0.0;
+	
+	public boolean objectInfront(boolean useAverageing) {
+		if(useAverageing){
+			double agglutinatedNumber = 0.0;
+			for (double a : ultraSonicReadouts) {
+				agglutinatedNumber += RobotMap.ultraSound.getDistanceInches(a) <= objectDetectionDistance ? 1.0 : 0.0;
+			}
+			return agglutinatedNumber / updatesBack >= percentForSignificance;
+		}else{
+			return RobotMap.ultraSound.getDistanceInches(ultraSonicReadouts[updatesBack - 1]) <= objectDetectionDistance;
 		}
-		return agglutinatedNumber / updatesBack >= percentForSignificance;
 	}
 
 	public void start() {

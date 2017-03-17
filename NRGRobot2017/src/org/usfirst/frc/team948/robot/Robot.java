@@ -267,6 +267,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
 		SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
 		SmartDashboard.putString("Position Tracker", positionTracker.toString());
+		SmartDashboard.putNumber("Blocked via averaging", positionTracker.objectInfront(true) ? 1.0 : 0.0);
+		SmartDashboard.putNumber("Blocked via raw data", positionTracker.objectInfront(false) ? 1.0 : 0.0);
 		// SmartDashboard.putBoolean("Vision on target", visionOnTarget);
 
 		// if (visionOnTarget){
