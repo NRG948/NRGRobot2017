@@ -1,5 +1,6 @@
 package org.usfirst.frc.team948.robot;
 
+import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.Robot.AutoPosition;
 import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
 import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
@@ -71,6 +72,7 @@ public class OI {
 		switchLowGear.whenPressed(new ShiftGears(false));
 		climberForwards.whileHeld(new ClimbPower(true));
 		climberReverse.whileHeld(new ClimbPower(false));
+		climberButton.whileHeld(new ClimbPower(true));
 		cameraLightSwitch.whenPressed(new FlipCameraLight());
 		interruptButton.whenPressed(new Interrupt());
 		pressToPeg.whenReleased(new PressToPeg());
@@ -115,5 +117,24 @@ public class OI {
 		}
 
 		return autoPosition;
+	}
+
+	public static AutoMovement getAutoMovement() {
+		AutoMovement autoMovement = null;
+		if (OI.driveAirship.get()) {
+			System.out.println("Drive to airship");
+			autoMovement = AutoMovement.STOP_AT_AIRSHIP;
+		} else if (OI.driveShort.get()) {
+			System.out.println("Drive to auto line");
+			autoMovement = AutoMovement.STOP_AT_AUTOLINE;
+		} else if (OI.driveLong.get()) {
+			System.out.println("Continue to end");
+			autoMovement = AutoMovement.CONTINUE_TO_END;
+		} else if (OI.stay.get()) {
+			System.out.println("Stay");
+			autoMovement = AutoMovement.STAY;
+		}
+
+		return autoMovement;
 	}
 }

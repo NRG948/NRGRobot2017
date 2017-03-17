@@ -174,7 +174,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command
 		RobotMap.autoWithVision = OI.driveWithVision.get(); // temp change OI.driveWithVision.get();
-		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), autoMovementChooser.getSelected());
+		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), OI.getAutoMovement());
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
