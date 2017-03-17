@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class BallCollect extends Command {
 	public static final double BALL_COLLECT_POWER = 0.4;
+	private boolean in;
 
-	public BallCollect() {
+	public BallCollect(boolean in) {
 		requires(Robot.ballCollector);
+		this.in = in;
 	}
 
 	// Called just before this Command runs the first time
@@ -21,7 +23,7 @@ public class BallCollect extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.ballCollector.rawCollect(BALL_COLLECT_POWER);
+		Robot.ballCollector.rawCollect(BALL_COLLECT_POWER, in);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

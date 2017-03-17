@@ -11,10 +11,17 @@ public class BallCollector extends Subsystem {
 		// TODO Auto-generated method stub
 	}
 
-	public void rawCollect(double power) {
+	public void rawCollect(double power, boolean in) {
 		// turn on the ball collector
-		RobotMap.ballCollectorInOutMotor.set(power);
-		RobotMap.ballCollectorUpDownMotor.set(power);
+		if (in)
+		{			
+			RobotMap.ballCollectorInOutMotor.set(power);
+			RobotMap.ballCollectorUpDownMotor.set(Math.abs(power)); // Math.abs() is safeguard, as up-down motor can't go in reverse
+		}
+		else
+		{
+			RobotMap.ballCollectorInOutMotor.set(-power);
+		}
 	}
 
 	public void rawStop() {
