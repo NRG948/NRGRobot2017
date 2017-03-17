@@ -36,7 +36,7 @@ public class DriveStraitToFieldPosition extends Command {
 		xCurrent = Robot.positionTracker.getX();
 		yCurrent = Robot.positionTracker.getY();
 		currentTheta = RobotMap.continuousGyro.getAngle();
-		cutOff = Robot.positionTracker.objectInfront();
+		cutOff = Robot.positionTracker.objectInfront(true);
 		thetaToTargetCurrent = Math.toDegrees(Math.atan2(xTarget - xCurrent, yTarget - yCurrent));
 		distanceToTargetCurrent = Math.sqrt((xTarget - xCurrent) * (xTarget - xCurrent) + (yTarget - yCurrent) * (yTarget - yCurrent));
 	}
