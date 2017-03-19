@@ -2,6 +2,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
+import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.DriveToXY;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -151,11 +152,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		periodicAll();
-		AutoPosition position = OI.getAutoPosition();
-		if (position != null) {// if smart dashboard is not open it gives a null
-								// pointer exception.
-			SmartDashboard.putString("Auto position", position.toString());
-		}
 		Scheduler.getInstance().run();
 	}
 
@@ -173,8 +169,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command
-		RobotMap.autoWithVision = OI.driveWithVision.get(); // temp change OI.driveWithVision.get();
+		RobotMap.autoWithVision = OI.driveWithVision.get(); // temp change
+															// OI.driveWithVision.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), OI.getAutoMovement());
+		System.out.println("Vision = " + RobotMap.autoWithVision);
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
@@ -195,9 +193,9 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
-
+		}
 	}
 
 	/**
@@ -227,6 +225,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void periodicAll() {
+		AutoPosition position = OI.getAutoPosition();
+		if (position != null) {// if smart dashboard is not open it gives a null
+			// pointer exception.
+			SmartDashboard.putString("Auto position", position.toString());
+		}
 		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
 		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());

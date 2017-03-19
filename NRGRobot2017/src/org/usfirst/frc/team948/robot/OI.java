@@ -35,17 +35,19 @@ public class OI {
 	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton interruptButton = new JoystickButton(leftJoystick, 2);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
-	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
-	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 10);
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
 	public static JoystickButton climberReverse = new JoystickButton(leftJoystick, 7);
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
-	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
-	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 	public static JoystickButton pressToPeg = new JoystickButton(leftJoystick, 3);
-	public static JoystickButton shoot = new JoystickButton(rightJoystick, 3);
 	public static JoystickButton testShooterRPM = new JoystickButton(leftJoystick, 9);
+	
+	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
+	public static JoystickButton shoot = new JoystickButton(rightJoystick, 3);
+	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
+	public static JoystickButton ejectBalls = new JoystickButton(rightJoystick, 6);
 	public static JoystickButton shootSequence = new JoystickButton(rightJoystick, 9);
+	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 10);
+	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
 
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
@@ -81,8 +83,9 @@ public class OI {
 		shootSequence.whenPressed(new ShootSequence());
 		acquirerForward.whenPressed(new BallCollect(true));
 		acquirerBackward.whenPressed(new BallCollect(false));
-		feeder.whenPressed(new FeedBall(0.5, false));
+		feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenPressed(new SpinShooterToRPM());
+		ejectBalls.toggleWhenActive(new BallCollect(false));
 	}
 
 	public static AutoPosition getAutoPosition() {
@@ -93,24 +96,18 @@ public class OI {
 		} else {
 			if (ds.getAlliance() == DriverStation.Alliance.Red) {
 				if (OI.autoLeft.get()) {
-					System.out.println("Red Left");
 					autoPosition = AutoPosition.RED_LEFT;
 				} else if (OI.autoRight.get()) {
-					System.out.println("Red Right");
 					autoPosition = AutoPosition.RED_RIGHT;
 				} else if (OI.autoMiddle.get()) {
-					System.out.println("Red Center");
 					autoPosition = AutoPosition.RED_CENTER;
 				}
 			} else {
 				if (OI.autoLeft.get()) {
-					System.out.println("Blue Left");
 					autoPosition = AutoPosition.BLUE_LEFT;
 				} else if (OI.autoRight.get()) {
-					System.out.println("Blue Right");
 					autoPosition = AutoPosition.BLUE_RIGHT;
 				} else if (OI.autoMiddle.get()) {
-					System.out.println("Blue Center");
 					autoPosition = AutoPosition.BLUE_CENTER;
 				}
 			}
@@ -122,16 +119,12 @@ public class OI {
 	public static AutoMovement getAutoMovement() {
 		AutoMovement autoMovement = null;
 		if (OI.driveAirship.get()) {
-			System.out.println("Drive to airship");
 			autoMovement = AutoMovement.STOP_AT_AIRSHIP;
 		} else if (OI.driveShort.get()) {
-			System.out.println("Drive to auto line");
 			autoMovement = AutoMovement.STOP_AT_AUTOLINE;
 		} else if (OI.driveLong.get()) {
-			System.out.println("Continue to end");
 			autoMovement = AutoMovement.CONTINUE_TO_END;
 		} else if (OI.stay.get()) {
-			System.out.println("Stay");
 			autoMovement = AutoMovement.STAY;
 		}
 

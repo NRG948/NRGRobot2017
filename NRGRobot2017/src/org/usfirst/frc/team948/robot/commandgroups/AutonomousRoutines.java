@@ -233,7 +233,7 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(85.537, FORWARD));
+			addSequential(new DriveStraightDistance(83.537, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());

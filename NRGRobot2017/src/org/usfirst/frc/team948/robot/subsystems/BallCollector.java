@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
 import org.usfirst.frc.team948.robot.RobotMap;
+import org.usfirst.frc.team948.robot.commands.BallCollect;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -8,7 +9,6 @@ public class BallCollector extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
 	}
 
 	public void rawCollect(double power, boolean in) {

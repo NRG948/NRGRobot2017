@@ -56,7 +56,10 @@ public class NewVisionProc {
 		lastField = new VisionField();
 		threadObjectData = new ProcessedImage();
 		cvSink = CameraServer.getInstance().getVideo();
-		vidOut = CameraServer.getInstance().putVideo("Processed", /*Robot.CAMERA_RESOLUTION_WIDTH, Robot.CAMERA_RESOLUTION_HEIGHT*/ 640, 480);
+		vidOut = CameraServer.getInstance().putVideo("Processed",
+				/*
+				 * Robot.CAMERA_RESOLUTION_WIDTH, Robot.CAMERA_RESOLUTION_HEIGHT
+				 */ 640, 480);
 		mat = new Mat();
 		pipeLine = new TempGripPipeTwo();
 		processingTimer = new Timer();
@@ -77,7 +80,9 @@ public class NewVisionProc {
 					MatOfPoint matrix = cameraIn.get(i);
 					Contour contour = new Contour(matrix);
 					if (contour.area > AREA_THRESHOLD) {
-						image.contours.add(contour);
+						if (contour.boundingRect.br().y < mat.height() - 5) {
+							image.contours.add(contour);
+						}
 					}
 				}
 
@@ -99,10 +104,10 @@ public class NewVisionProc {
 	}
 
 	private double rectDistance(ProcessedImage image) {
-		if(image.contours.size() > 1 && image.contours.get(0).topY <= 2){
+		if (image.contours.size() > 1 && image.contours.get(0).topY <= 2) {
 			Contour c1 = image.contours.get(0);
 			Contour c2 = image.contours.get(1);
-			double pixelDistance = Math.min(Math.abs(c1.leftX-c2.rightX), Math.abs(c1.rightX-c2.leftX));
+			double pixelDistance = Math.min(Math.abs(c1.leftX - c2.rightX), Math.abs(c1.rightX - c2.leftX));
 			SmartDashboard.putNumber("Pixel Seperation", pixelDistance);
 			return TAPE_SEPERATION_PIXELS * SEPERATION_DISTANCE_INCHES / pixelDistance;
 		}
@@ -118,13 +123,14 @@ public class NewVisionProc {
 			double straightOnWidth = (c1.height / TAPE_HEIGHT_INCHES) * TAPE_TO_TAPE_OUTER_WIDTH_INCHES;
 			theta = Math.acos(Math.min(1.0, outerEdgeToOuterEdgeWidth / straightOnWidth));
 			// TODO verify the validity of the formula.
-			theta = Math.copySign(theta, c1.centerX - c2.centerX); 
+			theta = Math.copySign(theta, c1.centerX - c2.centerX);
 		} else {
 			double straightOnWidth = (c1.height / TAPE_HEIGHT_PIXELS) * TAPE_WIDTH_PIXELS;
 			theta = Math.acos(Math.min(1.0, c1.width / straightOnWidth));
 		}
 		return theta;
 	}
+
 	public Point2D getRobotLocation(ProcessedImage image) {
 		if (image.contours.size() > 1) {
 			double r1 = TAPE_DISTANCE_INCHES * TAPE_HEIGHT_PIXELS / image.contours.get(0).height;
@@ -138,6 +144,7 @@ public class NewVisionProc {
 		}
 		return null;
 	}
+
 	private double getCenterDistance(ProcessedImage image, double theta) {
 		double width = image.contours.size() > 1 ? TAPE_WIDTH_INCHES
 				: (TAPE_WIDTH_PIXELS * TAPE_DISTANCE_INCHES) / rectDistance(image);

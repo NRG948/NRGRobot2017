@@ -25,8 +25,8 @@ public class FeedBall extends Command {
 
 	@Override
 	protected void execute() {
-		// if(!waitForRPM || Robot.shooter.onTargetRPM()){
-		if (!waitForRPM || startTime <= System.currentTimeMillis()) {
+		if (!waitForRPM || Robot.shooter.onTargetRPM()) {
+			// if (!waitForRPM || startTime <= System.currentTimeMillis()) {
 			Robot.ballFeeder.start(power);
 		}
 	}
