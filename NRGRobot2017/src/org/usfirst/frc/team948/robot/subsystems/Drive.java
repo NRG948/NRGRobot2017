@@ -6,6 +6,7 @@ import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Sendable;
@@ -44,7 +45,11 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 	private static final double DEFAULT_DRIVE_HIGHGEAR_F = 0.0;
 
 	private static final double DEFAULT_TICKS_PER_INCH = 121;
-	private static final double DEFAULT_DISTANCE_TOLERANCE = 1.0 * DEFAULT_TICKS_PER_INCH;
+	private final double DEFAULT_DISTANCE_TOLERANCE = 1.0 * DEFAULT_TICKS_PER_INCH;
+
+	private static final double GOOD_VOLTAGE_THRESHOLD = 10.0;
+	private static final double LOW_VOLTAGE_THRESHOLD = 7.0;
+	private static final double SCALE_BACK_FACTOR = 0.97;
 
 	private double kp;
 	private double ki;
@@ -53,6 +58,7 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 	private double turnError;
 	private double turnTolerance;
 	private int requiredCyclesOnTarget;
+	private double driveScaleFactor = 1.0;
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ManualDrive());
@@ -63,8 +69,7 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 		PIDOutput = output;
 	}
 
-	public void drivePIDInit(double p, double i, double d, double setPoint, double tolerance,
-			int toleranceBuffLength) {
+	public void drivePIDInit(double p, double i, double d, double setPoint, double tolerance, int toleranceBuffLength) {
 		drivePID = new PIDController(p, i, d, RobotMap.continuousGyro, this);
 		drivePID.reset();
 		drivePID.setOutputRange(-1, 1);
@@ -104,7 +109,7 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 				PID_MIN_OUTPUT + (Math.abs(error) / 15.0) * (PID_MAX_OUTPUT - PID_MIN_OUTPUT), 0, PID_MAX_OUTPUT);
 		drivePID.setOutputRange(-outputRange, outputRange);
 
-		double currentPIDOutput = MathUtil.clamp(PIDOutput+kf, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
+		double currentPIDOutput = MathUtil.clamp(PIDOutput + kf, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
 
 		SmartDashboard.putNumber("driveOnHeading PID error", drivePID.getError());
 		SmartDashboard.putNumber("driveOnHeading PID output", currentPIDOutput);
@@ -151,6 +156,17 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 	}
 
 	public void tankDrive(double leftPower, double rightPower) {
+		double batteryVoltage = DriverStation.getInstance().getBatteryVoltage();
+
+		if (batteryVoltage < LOW_VOLTAGE_THRESHOLD) {
+			driveScaleFactor *= SCALE_BACK_FACTOR;
+		} else if (batteryVoltage > GOOD_VOLTAGE_THRESHOLD) {
+			driveScaleFactor = 1.0;
+		}
+
+		leftPower *= driveScaleFactor;
+		rightPower *= driveScaleFactor;
+
 		RobotMap.motorFrontLeft.set(leftPower);
 		RobotMap.motorBackLeft.set(leftPower);
 		RobotMap.motorFrontRight.set(-rightPower);
@@ -270,8 +286,7 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 	}
 
 	public double getDistanceToleranceInTicks() {
-		return RobotMap.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE_IN_TICKS,
-				DEFAULT_DISTANCE_TOLERANCE);
+		return RobotMap.preferences.getDouble(PreferenceKeys.DISTANCE_TOLERANCE_IN_TICKS, DEFAULT_DISTANCE_TOLERANCE);
 	}
 
 	public double getAutonomousHeading() {
