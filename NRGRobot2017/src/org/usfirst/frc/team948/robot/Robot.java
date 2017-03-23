@@ -230,9 +230,7 @@ public class Robot extends IterativeRobot {
 			// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
-		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
-		SmartDashboard.putNumber("Yaw angle", RobotMap.navx.getYaw());
-		SmartDashboard.putNumber("Continuous angle", RobotMap.continuousGyro.getAngle());
+//		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
 		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
@@ -240,7 +238,6 @@ public class Robot extends IterativeRobot {
 		String ultraSoundData = String.format("%.2f, %.2f", RobotMap.ultraSound.getVoltage(),
 				RobotMap.ultraSound.getDistanceInches());
 		SmartDashboard.putString("Ultrasound sensor: volts , Inches", ultraSoundData);
-		SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
 		// try {

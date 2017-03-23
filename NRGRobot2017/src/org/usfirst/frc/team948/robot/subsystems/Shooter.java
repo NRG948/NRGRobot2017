@@ -98,7 +98,7 @@ public class Shooter extends Subsystem {
 		if (!passedThreshold) {
 			if (currentRPM > targetRPM) {
 				passedThreshold = true;
-				wheelPower = 0.42;
+				wheelPower = 0.85;
 			}
 		} else {
 			// Turn_Half_Back_P

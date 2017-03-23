@@ -32,7 +32,7 @@ public class OI {
 	public static Joystick arduinoJoystick = new Joystick(0);
 	public static Joystick leftJoystick = new Joystick(1);
 	public static Joystick rightJoystick = new Joystick(2);
-	public static JoystickButton leftTrigger = new JoystickButton(leftJoystick, 1);
+	public static JoystickButton manualDriveStraight = new JoystickButton(leftJoystick, 1);
 	public static JoystickButton interruptButton = new JoystickButton(leftJoystick, 2);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 	public static JoystickButton climberForwards = new JoystickButton(leftJoystick, 6);
@@ -68,7 +68,7 @@ public class OI {
 	public static void buttonInit() {
 		rightTrigger.whenPressed(new ShiftGears(true));
 		rightTrigger.whenReleased(new ShiftGears(false));
-		leftTrigger.whileHeld(new ManualDriveStraight());
+		manualDriveStraight.whileHeld(new ManualDriveStraight());
 		resetSensorsButton.whenPressed(new ResetSensors());
 		switchHighGear.whenPressed(new ShiftGears(true));
 		switchLowGear.whenPressed(new ShiftGears(false));
@@ -86,6 +86,7 @@ public class OI {
 		feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenPressed(new SpinShooterToRPM());
 		ejectBalls.toggleWhenActive(new BallCollect(false));
+		acquireBalls.toggleWhenActive(new BallCollect(true));
 	}
 
 	public static AutoPosition getAutoPosition() {
