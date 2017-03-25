@@ -16,6 +16,7 @@ import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Shoot;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
+import org.usfirst.frc.team948.robot.commands.StopSuckingBalls;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -83,7 +84,7 @@ public class OI {
 		acquirerForward.whenPressed(new BallCollect(true));
 		acquirerBackward.whenPressed(new BallCollect(false));
 		feedShooter.whenPressed(new FeedBall());
-		feedShooter.whenReleased(new FeedBall(0.0, false));
+		feedShooter.whenReleased(new StopSuckingBalls());
 		// feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenReleased(new SpinShooterToRPM());
 		ejectBalls.toggleWhenActive(new BallCollect(false));
