@@ -4,10 +4,11 @@ import org.usfirst.frc.team948.robot.OI;
 import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Spins up the top shooter wheel to a given RPM setpoint (either fixed, or from joystick).
+ * 
+ * Command only ends when interrupted.
  */
 public class SpinShooterToRPM extends Command {
 
