@@ -4,13 +4,13 @@ import org.usfirst.frc.team948.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class MultichanelLED {
+public class MultiChannelLED {
 	
 	private final Solenoid red;
 	private final Solenoid blue;
 	private final Solenoid green;
 	
-	public MultichanelLED(int redChannelNumber, int greenChannelNumber, int blueChannelNumber){
+	public MultiChannelLED(int redChannelNumber, int greenChannelNumber, int blueChannelNumber){
 		red = new Solenoid(redChannelNumber);
 		blue = new Solenoid(blueChannelNumber);
 		green = new Solenoid(greenChannelNumber);
