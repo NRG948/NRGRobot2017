@@ -11,6 +11,7 @@ public class Interrupt extends Command {
 	
 	public Interrupt() {
 		requires(Robot.ballCollector);
+		requires(Robot.ballFeeder);
 		requires(Robot.cameraLight);
 		requires(Robot.climb);
 		requires(Robot.drive);
