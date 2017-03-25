@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ClimbPower extends Command {
 
-	private final double DEFAULT_FORWARD_POWER = 0.75;
+	private final double DEFAULT_FORWARD_POWER = 0.9;
 	private final double DEFAULT_BACKWARD_POWER = 0.35;
 
 	private double power;
