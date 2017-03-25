@@ -89,8 +89,10 @@ public class PositionTracker {
 		// Correction to the turn angle to align the shooter with the boiler
 		// Correction gamma such that tan (gamma) = r sin(theta0 + gamma) / (d +
 		// r cos(theta0 + gamma))
+		double r = 15;
+		double theta0 = Math.PI/4;
 		double d = Math.sqrt((x - BLUE_BOILER_X) * (x - BLUE_BOILER_X) + (y - BLUE_BOILER_Y) * (y - BLUE_BOILER_Y));
-		double gamma = 15 / d / Math.sin(Math.PI / 4);// works only if d>>15
+		double gamma = r / d / Math.sin(theta0);// works only if d>>15
 		gamma *= 180 / Math.PI;
 		return turn + gamma;
 	}
