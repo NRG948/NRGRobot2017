@@ -269,19 +269,6 @@ public class AutonomousRoutines extends CommandGroup {
 		private double delayTime;
 
 		public BlueLeftShooter(double delayTime) {
-
-			this.delayTime = delayTime;
-
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(83.537, FORWARD));
-			addSequential(new TurnToHeading(60));
-			if (RobotMap.autoWithVision) {
-				addSequential(new PressToPeg());
-			} else {
-				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
-			}
-			addSequential(new WaitUntilGearDrop(this.delayTime));
 			addParallel(new SpinShooterToRPM(SHOOTER_RPM_NEAR_PEG));
 			addSequential(new DriveStraightDistance(55, BACKWARD));
 			addSequential(new TurnToHeading(165));
