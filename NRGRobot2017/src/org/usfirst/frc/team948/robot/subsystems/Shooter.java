@@ -38,9 +38,9 @@ public class Shooter extends Subsystem {
 		// setDefaultCommand(new Shoot());
 	}
 
-	// Put methods for controlling this subsystem
-	public void rawShoot(double power) {
-		RobotMap.shooterWheelTop.set(power);
+	public void setPower(double power) {
+		// Ejecting balls requires negative power values.
+		RobotMap.shooterWheelTop.set(-power);
 	}
 
 	public void stop() {
@@ -77,11 +77,6 @@ public class Shooter extends Subsystem {
 		prevEncoder = currentEncoder;
 		prevTime = currentTime;
 		addRPMValueToArray();
-	}
-
-	public void setPower(double power) {
-		//ejecting is always negative.
-		RobotMap.shooterWheelTop.set(-power);
 	}
 
 	public void rampToRPMinit() {

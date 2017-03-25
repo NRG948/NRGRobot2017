@@ -23,9 +23,8 @@ public class Shoot extends Command {
 
 	@Override
 	protected void execute() {
-		double shooterPower = 0.5 + 0.5 * (OI.leftJoystick.getZ() + 1) / 2;
-		// negative power to eject the ball
-		Robot.shooter.rawShoot(-shooterPower);
+		double shooterPower = 0.5 + 0.25 * (OI.leftJoystick.getZ() + 1);
+		Robot.shooter.setPower(shooterPower);
 		SmartDashboard.putNumber("Shooter power", shooterPower);
 	}
 
@@ -38,5 +37,4 @@ public class Shoot extends Command {
 	protected void interrupted() {
 		end();
 	}
-
 }
