@@ -212,7 +212,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Vision: distance to target", field.distanceToTarget);
 		}
 		SmartDashboard.putBoolean("Vision has Data", visionHasData);
-		RobotMap.shooterAngleServo.set((OI.rightJoystick.getZ()+1)/2);
+		RobotMap.shooterAngleServo.set((OI.rightJoystick.getZ() + 1) / 2);
 	}
 
 	/**
@@ -230,7 +230,8 @@ public class Robot extends IterativeRobot {
 			// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
-//		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
+		// SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
+		SmartDashboard.putNumber("Shooter servo value", (OI.rightJoystick.getZ() + 1) / 2);
 		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
 		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
