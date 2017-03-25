@@ -11,7 +11,7 @@ public class UltrasonicSensor {
 	}
 
 	public double getDistanceInches() {
-		// obtained from the calibration of the sensor.
+		// obtained from the calibration of the 1030 sensor.
 		return 116.63 * ultrasonicSensor.getVoltage() - 1.9821;
 	}
 
