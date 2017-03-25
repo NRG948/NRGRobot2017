@@ -8,7 +8,7 @@ import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
-import org.usfirst.frc.team948.robot.commands.FeedBall;
+import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetInitPoz;
@@ -275,7 +275,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addParallel(new SpinShooterToRPM(SHOOTER_RPM_NEAR_PEG));
 			addSequential(new DriveStraightDistance(55, BACKWARD));
 			addSequential(new TurnToHeading(165));
-			addSequential(new FeedBall());
+			addSequential(new FeedBalls());
 
 			// if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 			// addSequential(new WaitUntilGearDrop(this.delayTime));

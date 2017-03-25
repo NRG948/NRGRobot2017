@@ -3,7 +3,7 @@ package org.usfirst.frc.team948.robot.commandgroups;
 import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.BACKWARD;
 
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
-import org.usfirst.frc.team948.robot.commands.FeedBall;
+import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.SetInitPoz;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
@@ -23,6 +23,6 @@ public class ShootAfterGearDropOff extends CommandGroup {
 		addSequential(new WaitUntilGearDrop(delayTime));
 		addSequential(new DriveStraightDistance(55, BACKWARD));
 		addSequential(new TurnToHeading(165));
-		addSequential(new FeedBall());
+		addSequential(new FeedBalls());
 	}
 }

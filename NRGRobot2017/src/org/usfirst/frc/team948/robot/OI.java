@@ -8,7 +8,7 @@ import org.usfirst.frc.team948.robot.commandgroups.ShootAfterGearDropOff;
 import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
-import org.usfirst.frc.team948.robot.commands.FeedBall;
+import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.Interrupt;
 import org.usfirst.frc.team948.robot.commands.ManualDriveStraight;
@@ -53,7 +53,6 @@ public class OI {
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 4);
-	// The middle position is when both the left and right button states are false
 	public static final JoystickButton autoMiddle = new JoystickButton(arduinoJoystick, 5);
 	public static final JoystickButton autoRight = new JoystickButton(arduinoJoystick, 6);
 	public static final JoystickButton driveLong = new JoystickButton(arduinoJoystick, 7);
@@ -83,8 +82,8 @@ public class OI {
 		shootSequence.whenPressed(new ShootSequence());
 		acquirerForward.whenPressed(new BallCollect(true));
 		acquirerBackward.whenPressed(new BallCollect(false));
-		feedShooter.whenPressed(new FeedBall());
-		feedShooter.whenReleased(new StopSuckingBalls());
+		feedShooter.whenActive(new FeedBalls());
+		feedShooter.whenInactive(new StopSuckingBalls());
 		// feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenReleased(new SpinShooterToRPM());
 		ejectBalls.toggleWhenActive(new BallCollect(false));

@@ -4,15 +4,15 @@ import org.usfirst.frc.team948.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FeedBall extends Command {
+public class FeedBalls extends Command {
 	private boolean waitForRPM;
 
-	public FeedBall(boolean waitForRPM) {
+	public FeedBalls(boolean waitForRPM) {
 		this.waitForRPM = waitForRPM;
 		requires(Robot.ballFeeder);
 	}
 	
-	public FeedBall() {
+	public FeedBalls() {
 		this(true);
 	}
 
