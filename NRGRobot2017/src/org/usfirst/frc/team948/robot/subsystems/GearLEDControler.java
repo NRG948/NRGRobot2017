@@ -1,7 +1,7 @@
 package org.usfirst.frc.team948.robot.subsystems;
 
 import org.usfirst.frc.team948.robot.RobotMap;
-import org.usfirst.frc.team948.utilities.MultichanelLED;
+import org.usfirst.frc.team948.utilities.MultiChannelLED;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class GearLEDControler {
 
-	private MultichanelLED gearLEDs;
+	private MultiChannelLED gearLEDs;
 	private boolean gettingData = false;
 	private boolean onTarget = false;
 	
-	public GearLEDControler(MultichanelLED gearLEDs){
+	public GearLEDControler(MultiChannelLED gearLEDs){
 		this.gearLEDs = gearLEDs;
 	}
 	
