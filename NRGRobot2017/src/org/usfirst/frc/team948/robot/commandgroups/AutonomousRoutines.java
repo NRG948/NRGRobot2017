@@ -206,7 +206,7 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 
 			addSequential(new ResetSensors());
-			addSequential(new SetInitPoz(CENTER_STARTING_X, ROBOT_LENGTH / 2));
+			addSequential(new SetInitPoz(BLUE_CENTER_STARTING_X, BLUE_ROBOT_LENGTH / 2));
 			addSequential(new ShiftGears(false));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
