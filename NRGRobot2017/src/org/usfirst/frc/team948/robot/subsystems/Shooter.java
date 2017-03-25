@@ -18,7 +18,6 @@ public class Shooter extends Subsystem {
 															// 3/11/2017
 	private double[] RPMValues = new double[MAX_RPM_SAMPLES];
 	public final static double RPM_TOLERANCE = 50.0;
-	private double currentPower = 0.0;
 	private int index;
 	private int currentCount = 0;
 
