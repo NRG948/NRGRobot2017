@@ -75,7 +75,7 @@ public class RobotMap {
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
-	
+	public static Servo shooterAngleServo = new Servo(5);
 	public static Preferences preferences = Preferences.getInstance();
 	public static Compressor compressor = new Compressor();
 

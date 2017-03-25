@@ -90,8 +90,6 @@ public class Robot extends IterativeRobot {
 		cameraLight.turnOff();
 		visionProcessor = new NewVisionProc().start();
 		positionTracker.init(0, 0);
-		positionTracker.start();
-
 		// Driver Station
 		OI.buttonInit();
 
@@ -184,6 +182,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		periodicAll();
+		positionTracker.updatePosition();
 		Scheduler.getInstance().run();
 	}
 
@@ -213,6 +212,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Vision: distance to target", field.distanceToTarget);
 		}
 		SmartDashboard.putBoolean("Vision has Data", visionHasData);
+		RobotMap.shooterAngleServo.set((OI.rightJoystick.getZ()+1)/2);
 	}
 
 	/**

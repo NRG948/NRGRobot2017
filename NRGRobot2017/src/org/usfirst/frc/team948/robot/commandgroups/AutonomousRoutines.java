@@ -11,19 +11,21 @@ import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.FeedBall;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
+import org.usfirst.frc.team948.robot.commands.SetInitPoz;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
-import org.usfirst.frc.team948.robot.commands.TurnToPegCenter;
-import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousRoutines extends CommandGroup {
+	private static final double BLUE_LEFT_STARTING_X = 74;
+	private static final double BLUE_CENTER_STARTING_X = 161.85;
+	private static final double BLUE_RIGHT_STARTING_X= 248;
+	private static final double BLUE_ROBOT_LENGTH = 39;
 	private static final double DRIVE_TO_AIRSHIP_TIMEOUT = 3.0;
 	private Robot.AutoPosition autoPosition;
 	public boolean moveAfterGear;
@@ -204,6 +206,7 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 
 			addSequential(new ResetSensors());
+			addSequential(new SetInitPoz(CENTER_STARTING_X, ROBOT_LENGTH / 2));
 			addSequential(new ShiftGears(false));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());

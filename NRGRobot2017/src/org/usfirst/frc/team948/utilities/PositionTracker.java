@@ -1,8 +1,5 @@
 package org.usfirst.frc.team948.utilities;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 
@@ -14,7 +11,7 @@ public class PositionTracker {
 	private double prevLeftEncoder, prevRightEncoder;
 	private double[] ultraSonicReadouts = new double[updatesBack];
 	private int index = 0;
-	private Timer timer;
+
 	public static final double BLUE_BOILER_X = 6.045;
 	public static final double BLUE_BOILER_Y = 6.3;
 
@@ -25,7 +22,7 @@ public class PositionTracker {
 		prevRightEncoder = RobotMap.rightEncoder.get();
 	}
 
-	public synchronized void updatePosition() {
+	public void updatePosition() {
 		double leftEncoder = RobotMap.leftEncoder.get();
 		double rightEncoder = RobotMap.rightEncoder.get();
 		double leftDelta = leftEncoder - prevLeftEncoder;
@@ -42,6 +39,11 @@ public class PositionTracker {
 		ultraSonicReadouts[index] = RobotMap.ultraSound.getVoltage();
 		index++;
 		index %= updatesBack;
+	}
+
+	public void setXY(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	public double getX() {
@@ -63,18 +65,6 @@ public class PositionTracker {
 			return RobotMap.ultraSound
 					.getDistanceInches(ultraSonicReadouts[updatesBack - 1]) <= objectDetectionDistance;
 		}
-	}
-
-	public void start() {
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				updatePosition();
-			}
-
-		}, 0, 50);
 	}
 
 	@Override
