@@ -7,14 +7,19 @@ import org.usfirst.frc.team948.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class FeedBall extends Command {
+	private static final double DEFAULT_CONVEYOR_POWER = 0.5;
 	private boolean waitForRPM;
-	private double power;
+	private double conveyorPower;
 	private double startTime;
 
-	public FeedBall(double power, boolean waitForRPM) {
+	public FeedBall(double conveyorPower, boolean waitForRPM) {
 		this.waitForRPM = waitForRPM;
-		this.power = power;
+		this.conveyorPower = conveyorPower;
 		requires(Robot.ballFeeder);
+	}
+	
+	public FeedBall() {
+		this(DEFAULT_CONVEYOR_POWER, true);
 	}
 
 	@Override
@@ -27,7 +32,7 @@ public class FeedBall extends Command {
 	protected void execute() {
 		if (!waitForRPM || Robot.shooter.onTargetRPM()) {
 			// if (!waitForRPM || startTime <= System.currentTimeMillis()) {
-			Robot.ballFeeder.start(power);
+			Robot.ballFeeder.start(conveyorPower);
 		}
 	}
 

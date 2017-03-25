@@ -10,8 +10,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class SpinShooterToRPM extends Command {
+
+	private double targetRPM;
+	private boolean getRPMFromJoystick;
+
 	public SpinShooterToRPM() {
 		requires(Robot.shooter);
+		getRPMFromJoystick = true;
+	}
+
+	public SpinShooterToRPM(double rpm) {
+		targetRPM = rpm;
 	}
 
 	// Called just before this Command runs the first time
@@ -21,7 +30,9 @@ public class SpinShooterToRPM extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double targetRPM = getTargetRPM();
+		if (getRPMFromJoystick) {
+			targetRPM = getTargetRPM();
+		}
 		Robot.shooter.rampToRPM(targetRPM);
 	}
 

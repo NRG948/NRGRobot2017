@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -65,7 +66,7 @@ public class RobotMap {
 	
 	public static LiveWindowSendable gyroChannel;
 	//public static AnalogInput ultrasound = new AnalogInput(0);
-	public static UltrasonicSensor ultraSound = new UltrasonicSensor(0);
+	public static UltrasonicSensor ultraSound = new UltrasonicSensor(1);
 	
 	public static DigitalInput upperGearSensor = new DigitalInput(8);
 	public static DigitalInput lowerGearSensor = new DigitalInput(9);
@@ -74,7 +75,7 @@ public class RobotMap {
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
-
+	
 	public static Preferences preferences = Preferences.getInstance();
 	public static Compressor compressor = new Compressor();
 

@@ -8,15 +8,18 @@ import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
+import org.usfirst.frc.team948.robot.commands.FeedBall;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
+import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.commands.TurnToPegCenter;
 import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -158,7 +161,7 @@ public class AutonomousRoutines extends CommandGroup {
 			}
 		}
 	}
-	
+
 	private class BlueRight extends CommandGroup {
 		private double delayTime;
 
@@ -258,6 +261,51 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new ShiftGears(false));
 			}
 		}
+
+	}
+
+	public static class BlueLeftShooter extends CommandGroup {
+		private static final int SHOOTER_RPM_NEAR_PEG = 3100;
+		private double delayTime;
+
+		public BlueLeftShooter(double delayTime) {
+
+			this.delayTime = delayTime;
+
+			addSequential(new ResetSensors());
+			addSequential(new ShiftGears(false));
+			addSequential(new DriveStraightDistance(83.537, FORWARD));
+			addSequential(new TurnToHeading(60));
+			if (RobotMap.autoWithVision) {
+				addSequential(new PressToPeg());
+			} else {
+				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
+			}
+			addSequential(new WaitUntilGearDrop(this.delayTime));
+			addParallel(new SpinShooterToRPM(SHOOTER_RPM_NEAR_PEG));
+			addSequential(new DriveStraightDistance(55, BACKWARD));
+			addSequential(new TurnToHeading(165));
+			addSequential(new FeedBall());
+
+			// if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+			// addSequential(new WaitUntilGearDrop(this.delayTime));
+			// addSequential(new DriveStraightDistance(20, BACKWARD));
+			// addSequential(new TurnToHeading(0));
+			// addSequential(new ShiftGears(true));
+			// addSequential(new DelaySeconds(0.1));
+			// addSequential(new DriveStraightDistance(113, FORWARD));
+			// addSequential(new TurnToHeading(40));
+			// if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
+			// addSequential(new DriveStraightDistance(170, FORWARD));
+			// addSequential(new TurnToHeading(5));
+			// } else {
+			// // we already went pass the auto line
+			// }
+			// addSequential(new ShiftGears(false));
+			// }
+
+		}
+
 	}
 
 	private class Stay extends CommandGroup {

@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.Robot.AutoPosition;
+import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
 import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
 import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
@@ -48,6 +49,7 @@ public class OI {
 	public static JoystickButton shootSequence = new JoystickButton(rightJoystick, 9);
 	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 10);
 	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
+	public static JoystickButton ShootingAuto = new JoystickButton(rightJoystick, 2);
 
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
 	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
@@ -87,6 +89,7 @@ public class OI {
 		rpmShooter.whenPressed(new SpinShooterToRPM());
 		ejectBalls.toggleWhenActive(new BallCollect(false));
 		acquireBalls.toggleWhenActive(new BallCollect(true));
+		ShootingAuto.whenPressed(new AutonomousRoutines.BlueLeftShooter(1));
 	}
 
 	public static AutoPosition getAutoPosition() {

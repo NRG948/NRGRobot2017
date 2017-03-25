@@ -10,12 +10,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  */
 public class ShootSequence extends CommandGroup {
-	public ShootSequence(){
+	public ShootSequence() {
 		addParallel(new SpinShooterToRPM());
-		//addParallel(new Shoot());
-		addSequential(new FeedBall(.5,true));
+		// addParallel(new Shoot());
+		addSequential(new FeedBall(.5, true));
 
 	}
-	
-	
+
 }
