@@ -1,7 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.utilities.ContinuousGyro;
-import org.usfirst.frc.team948.utilities.MultichanelLED;
+import org.usfirst.frc.team948.utilities.MultiChannelLED;
 import org.usfirst.frc.team948.utilities.UltrasonicSensor;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -54,7 +54,7 @@ public class RobotMap {
 
 	public static Victor climberMotor = new Victor(8);
 	
-	public static Victor ballCollectorInOutMotor = new Victor(5);
+	public static Victor ballCollectorInOutMotor = null; // new Victor(5);, temporary fix for testing purposes
 	public static Victor ballCollectorUpDownMotor = new Victor(4);
 
 	public static Victor shooterWheelTop = new Victor(6);
@@ -80,7 +80,7 @@ public class RobotMap {
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
-	public static MultichanelLED gearLight = new MultichanelLED(1,0,2); //1,0,2 stand for Red (Top), Green (Both), Blue (Bottom)
+	public static MultiChannelLED gearLight = new MultiChannelLED(1,0,2); //1,0,2 stand for Red (Top), Green (Both), Blue (Bottom)
 	
 	public static Solenoid cameraLight = new Solenoid(5);
 
