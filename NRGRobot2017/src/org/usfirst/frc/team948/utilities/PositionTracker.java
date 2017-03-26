@@ -12,8 +12,19 @@ public class PositionTracker {
 	private double[] ultraSonicReadouts = new double[updatesBack];
 	private int index = 0;
 
-	public static final double BLUE_BOILER_X = 6.045;
-	public static final double BLUE_BOILER_Y = 6.3;
+	public static final double G = 32.2 * 12;
+	public static final double BLUE_BOILER_X = 8.75; // 6.045;
+	public static final double BLUE_BOILER_Y = 8.75; // 6.3;
+	private static final double SHOOTER_TO_CENTER_ANGLE = 38.4;// Math.toDegrees(Math.atan(10.5/13.25))
+	private static final double DISTANCE_ROBOT_CENTER_TO_SHOOTER = 16.91;// Math.sqrt((13.25^2)+(10.5^2))
+	public static final double SHOOTER_HEIGHT = 24;
+	public static final double BOILER_HEIGHT = 97;
+	public static final double SHOOTER_WHEEL_RADIUS = 2;
+	public static final double BLUE_LEFT_PEG_X = 128;
+	public static final double BLUE_LEFT_PEG_Y = 131;
+	public static final double BLUE_CENTER_PEG_X = 159;
+	public static final double BLUE_CENTER_PEG_Y = 113;
+	public static final double ROBOT_LENGTH = 39; // with bumpers
 
 	public void init(double x, double y) {
 		this.x = x;
@@ -39,6 +50,11 @@ public class PositionTracker {
 		ultraSonicReadouts[index] = RobotMap.ultraSound.getVoltage();
 		index++;
 		index %= updatesBack;
+	}
+
+	public void setAtPeg(Robot.PegPosition position) {
+		x = position.x - ROBOT_LENGTH / 2 * Math.sqrt(3) / 2;
+		y = position.y - ROBOT_LENGTH / 2 / 2;
 	}
 
 	public void setXY(double x, double y) {
@@ -67,8 +83,7 @@ public class PositionTracker {
 		}
 	}
 
-	@Override
-	public String toString() {
+	public String toStringFeetInches() {
 		int xFeet = (int) (x / 12);
 		int xInches = (int) (x - xFeet * 12);
 		int yFeet = (int) (y / 12);
@@ -77,24 +92,44 @@ public class PositionTracker {
 
 	}
 
-	public double getTurnAngleToBlueBoiler() {
-		double alpha = Math.toDegrees(Math.atan2(x - BLUE_BOILER_X, y - BLUE_BOILER_Y));
-		double turn = (270 - (RobotMap.navx.getYaw() + alpha)) % 360;
+	@Override
+	public String toString() {
+		return String.format("x=%.2f, y=%.2f", x, y);
+	}
+
+	public double getTurnAngleToBoiler() {
+		// TODO code is for Blue Boiler. Red Boiler needs to be implemented.
+		// Distance from the center of the robot to the shooter r
+		// inches
+		// Angle between the longitudinal axis on the robot and shooter
+		// theta0
+		// Correction to the turn angle to align the shooter with the boiler
+		// Correction gamma such that tan (gamma) = r sin(theta0 + gamma) /
+		// (d +
+		// r cos(theta0 + gamma))
+		double gyro = RobotMap.continuousGyro.getAngle();
+		double alpha = Math.toDegrees(Math.atan2(y - BLUE_BOILER_Y, x - BLUE_BOILER_X));
+		double turn = (270 - (gyro + alpha)) % 360;
 		if (turn > 180) {
 			turn = -(360 - turn);
 		}
-		// Distance from the center of the robot to the shooter r = 15 inches
-		// Angle between the longitudinal axis on the robot and shooter theta0 =
-		// 45.
-		// Correction to the turn angle to align the shooter with the boiler
-		// Correction gamma such that tan (gamma) = r sin(theta0 + gamma) / (d +
-		// r cos(theta0 + gamma))
-		double r = 15;
-		double theta0 = Math.PI/4;
 		double d = Math.sqrt((x - BLUE_BOILER_X) * (x - BLUE_BOILER_X) + (y - BLUE_BOILER_Y) * (y - BLUE_BOILER_Y));
-		double gamma = r / d / Math.sin(theta0);// works only if d>>15
-		gamma *= 180 / Math.PI;
+		double gamma = DISTANCE_ROBOT_CENTER_TO_SHOOTER / d * Math.sin(Math.toRadians(SHOOTER_TO_CENTER_ANGLE));
+		// only if d>>r
+		gamma = Math.toDegrees(gamma);
+
 		return turn + gamma;
+	}
+
+	public double getShooterRPM() {
+		double d = Math.sqrt((x - BLUE_BOILER_X) * (x - BLUE_BOILER_X) + (y - BLUE_BOILER_Y) * (y - BLUE_BOILER_Y));
+		double shooterAngle = Math.toRadians(16); // assumes angle is 16 (fixed
+													// angle)
+		double exitVelocity = (d / Math.sin(shooterAngle)
+				* Math.sqrt(G / 2 / (d / Math.tan(shooterAngle) + SHOOTER_HEIGHT - BOILER_HEIGHT)));
+		double rpm = 2 * Math.PI / 60 * exitVelocity / (SHOOTER_WHEEL_RADIUS / 2);
+		return rpm;
+
 	}
 
 	public synchronized void reset() {

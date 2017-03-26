@@ -14,18 +14,27 @@ public class SpinShooterToRPM extends Command {
 
 	private double targetRPM;
 	private boolean getRPMFromJoystick;
+	private boolean usePositionTracker;
 
 	public SpinShooterToRPM() {
 		requires(Robot.shooter);
 		getRPMFromJoystick = true;
 	}
+	public SpinShooterToRPM(boolean usePositionTracker){
+		requires(Robot.shooter);
+		this.usePositionTracker = usePositionTracker;
+	}
 
 	public SpinShooterToRPM(double rpm) {
+		requires(Robot.shooter);
 		targetRPM = rpm;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		if(usePositionTracker){
+			targetRPM = Robot.positionTracker.getShooterRPM();
+		}
 		Robot.shooter.rampToRPMinit();
 	}
 

@@ -77,6 +77,16 @@ public class Robot extends IterativeRobot {
 		STAY, STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
 	}
 
+	public enum PegPosition {
+		LEFT(128, 131), CENTER(158, 113), RIGHT(188, 131);
+		public double x, y;
+
+		private PegPosition(double x, double y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+
 	@Override
 	public void robotInit() {
 
@@ -230,7 +240,8 @@ public class Robot extends IterativeRobot {
 			// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
-		// SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
+		// SmartDashboard.putNumber("Shooter Encoder",
+		// RobotMap.shooterEncoder.get());
 		SmartDashboard.putNumber("Shooter servo value", (OI.rightJoystick.getZ() + 1) / 2);
 		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
 		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
@@ -241,6 +252,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("Ultrasound sensor: volts , Inches", ultraSoundData);
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
+		SmartDashboard.putNumber("Turn to boiler angle", positionTracker.getTurnAngleToBoiler());
+		SmartDashboard.putNumber("RPM from position tracker", positionTracker.getShooterRPM());
 		// try {
 		// SmartDashboard.putData("PDP", RobotMap.pdp);
 		// } catch (Exception e) {
