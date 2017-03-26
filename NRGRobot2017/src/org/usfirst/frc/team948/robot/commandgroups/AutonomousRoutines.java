@@ -12,7 +12,7 @@ import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetInitPoz;
-import org.usfirst.frc.team948.robot.commands.SetPositionTracker;
+import org.usfirst.frc.team948.robot.commands.SetPositionTrackerAndGyro;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutonomousRoutines extends CommandGroup {
 	private static final double BLUE_LEFT_STARTING_X = 74;
 	private static final double BLUE_CENTER_STARTING_X = 161.85;
-	private static final double BLUE_RIGHT_STARTING_X= 248;
+	private static final double BLUE_RIGHT_STARTING_X = 248;
 	private static final double BLUE_ROBOT_LENGTH = 39;
 	private static final double DRIVE_TO_AIRSHIP_TIMEOUT = 3.0;
 	private Robot.AutoPosition autoPosition;
@@ -273,10 +273,12 @@ public class AutonomousRoutines extends CommandGroup {
 		private double delayTime;
 
 		public BlueLeftShooter(double delayTime) {
-			addSequential(new SetPositionTracker(Robot.PegPosition.LEFT));
-			addSequential(new DriveStraightDistance(55, BACKWARD));
-			addParallel(new SpinShooterToRPM(true));//true means use position tracker.
-			addSequential(new TurnToHeading(true));//true means use position tracker.
+			addSequential(new SetPositionTrackerAndGyro(Robot.PegPosition.LEFT));
+			addSequential(new DriveStraightDistance(91, BACKWARD));
+			addParallel(new SpinShooterToRPM(true));// true means use position
+													// tracker.
+			addSequential(new TurnToHeading(true));// true means use position
+													// tracker.
 			addSequential(new FeedBalls());
 			// if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 			// addSequential(new WaitUntilGearDrop(this.delayTime));

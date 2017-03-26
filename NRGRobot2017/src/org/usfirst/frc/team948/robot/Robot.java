@@ -81,12 +81,13 @@ public class Robot extends IterativeRobot {
 	}
 
 	public enum PegPosition {
-		LEFT(128, 131), CENTER(158, 113), RIGHT(188, 131);
-		public double x, y;
+		LEFT(128, 131,60), CENTER(158, 113, 0), RIGHT(188, 131, -60);
+		public double x, y, angle;
 
-		private PegPosition(double x, double y) {
+		private PegPosition(double x, double y, double angle) {
 			this.x = x;
 			this.y = y;
+			this.angle = angle;
 		}
 	}
 
@@ -216,6 +217,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		periodicAll();
+		positionTracker.updatePosition();
 		Scheduler.getInstance().run();
 		boolean visionHasData = visionProcessor.dataExists();
 		if (visionHasData) {

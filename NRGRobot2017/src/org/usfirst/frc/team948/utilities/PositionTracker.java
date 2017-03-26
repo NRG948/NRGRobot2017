@@ -127,8 +127,8 @@ public class PositionTracker {
 													// angle)
 		double exitVelocity = (d / Math.sin(shooterAngle)
 				* Math.sqrt(G / 2 / (d / Math.tan(shooterAngle) + SHOOTER_HEIGHT - BOILER_HEIGHT)));
-		double rpm = 2 * Math.PI / 60 * exitVelocity / (SHOOTER_WHEEL_RADIUS / 2);
-		return rpm;
+		double rpm = 60 / (2 * Math.PI) * exitVelocity / (SHOOTER_WHEEL_RADIUS / 2);
+		return rpm * 1.05;//increase by 5 %
 
 	}
 

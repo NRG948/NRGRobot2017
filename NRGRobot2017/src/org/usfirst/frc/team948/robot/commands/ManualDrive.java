@@ -33,8 +33,8 @@ public class ManualDrive extends Command {
 		}else{
 			Robot.ledStrip.setGettingData(false);
 		}
-		double leftJoystick = MathUtil.deadband(-OI.leftJoystick.getY(), 0.15);
-		double rightJoystick = MathUtil.deadband(-OI.rightJoystick.getY(), 0.15);
+		double leftJoystick = MathUtil.deadband(-OI.leftJoystick.getY(), 0.18);
+		double rightJoystick = MathUtil.deadband(-OI.rightJoystick.getY(), 0.18);
 		Robot.drive.tankDrive(leftJoystick, rightJoystick);
 	}
 
