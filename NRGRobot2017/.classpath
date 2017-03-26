@@ -12,7 +12,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="var" path="navx-mxp" sourcepath="/navx_src">
 		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/NRG948/navx-mxp/java/docs/"/>
+			<attribute name="javadoc_location" value="file:/C:/Users/NRG/navx-mxp/java/docs/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>

@@ -86,6 +86,7 @@ public class OI {
 		feedShooter.whenInactive(new StopSuckingBalls());
 		// feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenReleased(new SpinShooterToRPM());
+		rpmShooter.whenPressed(new SpinShooterToRPM(0));
 		ejectBalls.toggleWhenActive(new BallCollect(false));
 		acquireBalls.toggleWhenActive(new BallCollect(true));
 		ShootingAuto.whenPressed(new AutonomousRoutines.BlueLeftShooter(1));

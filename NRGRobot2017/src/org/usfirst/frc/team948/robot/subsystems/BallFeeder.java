@@ -25,7 +25,8 @@ public class BallFeeder extends Subsystem {
 	}
 
 	public void stop() {
-		RobotMap.shooterWheelBottom.disable();
+		RobotMap.shooterWheelBottom.set(0);
+//		RobotMap.shooterWheelBottom.disable();
 		RobotMap.conveyorBelt.disable();
 	}
 }
