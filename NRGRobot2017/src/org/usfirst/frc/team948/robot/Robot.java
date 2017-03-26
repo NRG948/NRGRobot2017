@@ -22,6 +22,7 @@ import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
 import org.usfirst.frc.team948.utilities.PositionTracker;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
+import org.usfirst.frc.team948.utilities.TestGroup;
 import org.usfirst.frc.team948.utilities.VisionField;
 
 import edu.wpi.cscore.UsbCamera;
@@ -64,6 +65,8 @@ public class Robot extends IterativeRobot {
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 	public static PositionTracker positionTracker = new PositionTracker();
 
+	public static TestGroup testGroup = new TestGroup();  // testing...
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -258,6 +261,12 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putData("PDP", RobotMap.pdp);
 		// } catch (Exception e) {
 		// }
+
+		try {
+			SmartDashboard.putData("TestGroup", testGroup); // testing...
+		} catch (Exception e) {
+		}
+
 		try {
 			SmartDashboard.putData("Drive", Robot.drive);
 		} catch (Exception e) {
