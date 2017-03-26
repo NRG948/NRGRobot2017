@@ -259,20 +259,21 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
 		SmartDashboard.putNumber("Turn to boiler angle", positionTracker.getTurnAngleToBoiler());
 		SmartDashboard.putNumber("RPM from position tracker", positionTracker.getShooterRPM());
-		// try {
-		// SmartDashboard.putData("PDP", RobotMap.pdp);
-		// } catch (Exception e) {
-		// }
+		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
+		 try {
+		 SmartDashboard.putData("PDP", RobotMap.pdp);
+		 } catch (Exception e) {
+		 }
 
 		try {
 			SmartDashboard.putData("TestGroup", testGroup); // testing...
 		} catch (Exception e) {
 		}
 
-		try {
-			SmartDashboard.putData("Drive", Robot.drive);
-		} catch (Exception e) {
-		}
+//		try {
+//			SmartDashboard.putData("Drive", Robot.drive);
+//		} catch (Exception e) {
+//		}
 		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
 		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
 		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));

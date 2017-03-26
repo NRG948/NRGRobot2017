@@ -22,6 +22,7 @@ public class DriveStraightDistance extends Command {
 
 	private double power;
 	private double distance;
+	private double toleranceInInches;
 
 	private double encoderLeftStart;
 	private double encoderRightStart;
@@ -32,6 +33,7 @@ public class DriveStraightDistance extends Command {
 
 	private final double SLOW_DOWN_DISTANCE = 6.0;
 	private Direction direction;
+	private int cyclesWithinTolerance;
 
 	public DriveStraightDistance(double distance, Drive.Direction direction, double power) {
 		this.direction = direction;
@@ -50,6 +52,8 @@ public class DriveStraightDistance extends Command {
 		encoderLeftStart = RobotMap.leftEncoder.get();
 		encoderRightStart = RobotMap.rightEncoder.get();
 		desiredHeading = Robot.drive.getAutonomousHeading();
+		toleranceInInches = Robot.drive.getDistanceToleranceInTicks() / Robot.drive.getTicksPerInch();
+
 		if (power == 0.0) {
 			String key = Robot.gearbox.isHighGear() ? PreferenceKeys.AUTONOMOUS_HIGHGEAR_POWER
 					: PreferenceKeys.AUTONOMOUS_LOWGEAR_POWER;
@@ -59,27 +63,36 @@ public class DriveStraightDistance extends Command {
 			}
 		}
 		Robot.drive.driveOnHeadingInit(desiredHeading);
+		cyclesWithinTolerance = 0;
 	}
 
 	@Override
 	protected void execute() {
 		double leftTicks = Math.abs(RobotMap.leftEncoder.get() - encoderLeftStart);
 		double rightTicks = Math.abs(RobotMap.rightEncoder.get() - encoderRightStart);
-		ticksTraveled = Math.max(leftTicks, rightTicks); // we don't average the
-															// two in case one
-															// encoder dies
+		// we don't average the two in case one encoder dies
+		ticksTraveled = Math.max(leftTicks, rightTicks);
 		SmartDashboard.putNumber("DriveStraightDistance distance traveled",
 				ticksTraveled / Robot.drive.getTicksPerInch());
 		double distanceRemaining = (ticksToTravel - ticksTraveled) / Robot.drive.getTicksPerInch();
-		double currentPower = power * Math.min(1, distanceRemaining / SLOW_DOWN_DISTANCE);
+		double slowDownDistance = Robot.gearbox.isHighGear() ? 3 * SLOW_DOWN_DISTANCE : SLOW_DOWN_DISTANCE;
+		double currentPower = power * Math.min(1, distanceRemaining / slowDownDistance);
+		if (Math.abs(distanceRemaining) < toleranceInInches) {
+			cyclesWithinTolerance++;
+			currentPower = 0.0;
+		} else {
+			if (Math.abs(distanceRemaining) < 3) {
+				currentPower = 0.3 * Math.signum(distanceRemaining) * Math.signum(power);
+			}
+			cyclesWithinTolerance = 0;
+		}
+		// if we went too far reverse the motors.
 		Robot.drive.driveOnHeading(currentPower, desiredHeading);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		double ticksRemaining = Math.abs(ticksTraveled - ticksToTravel);
-		boolean isDone = ticksRemaining <= Robot.drive.getDistanceToleranceInTicks();
-		return isDone;
+		return cyclesWithinTolerance >= 5;
 	}
 
 	@Override

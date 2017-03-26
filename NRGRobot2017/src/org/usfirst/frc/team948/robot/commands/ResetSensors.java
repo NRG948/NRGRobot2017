@@ -14,10 +14,11 @@ public class ResetSensors extends Command {
 		Robot.drive.setAutonomousHeading(0);
 		RobotMap.leftEncoder.reset();
 		RobotMap.rightEncoder.reset();
+		Robot.positionTracker.reset();
 		RobotMap.navx.reset();
+		RobotMap.continuousGyro.navx.setAngleAdjustment(0);
 		RobotMap.pdp.clearStickyFaults();
 		RobotMap.shooterEncoder.reset();
-		Robot.positionTracker.reset();
 	}
 
 	protected boolean isFinished() {

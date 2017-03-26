@@ -11,6 +11,7 @@ import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
+import org.usfirst.frc.team948.robot.commands.SetAutonomousHeading;
 import org.usfirst.frc.team948.robot.commands.SetInitPoz;
 import org.usfirst.frc.team948.robot.commands.SetPositionTrackerAndGyro;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -273,8 +274,9 @@ public class AutonomousRoutines extends CommandGroup {
 		private double delayTime;
 
 		public BlueLeftShooter(double delayTime) {
+			addSequential(new SetAutonomousHeading(60));
 			addSequential(new SetPositionTrackerAndGyro(Robot.PegPosition.LEFT));
-			addSequential(new DriveStraightDistance(91, BACKWARD));
+			addSequential(new DriveStraightDistance(72, BACKWARD));
 			addParallel(new SpinShooterToRPM(true));// true means use position
 													// tracker.
 			addSequential(new TurnToHeading(true));// true means use position
