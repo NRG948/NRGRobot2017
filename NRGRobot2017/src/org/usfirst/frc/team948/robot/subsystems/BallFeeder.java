@@ -29,4 +29,13 @@ public class BallFeeder extends Subsystem {
 //		RobotMap.shooterWheelBottom.disable();
 		RobotMap.conveyorBelt.disable();
 	}
+	
+	public void openBallGate() {
+		RobotMap.shooterGate.set(.75);
+	}
+	
+	public void closeBallGate() {
+		RobotMap.shooterGate.set(0.5);
+		// TODO; watch the robot to figure out actual values
+	}
 }

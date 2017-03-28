@@ -48,56 +48,73 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	public static Victor motorFrontLeft = new Victor(0);
 	public static Victor motorBackLeft = new Victor(1);
-	
+
 	public static Victor motorFrontRight = new Victor(2);
 	public static Victor motorBackRight = new Victor(3);
 
 	public static Victor climberMotor = new Victor(8);
-	
+
 	public static Victor ballCollectorInOutMotor = new Victor(5);
 	public static Victor ballCollectorUpDownMotor = new Victor(4);
 
 	public static Victor shooterWheelTop = new Victor(6);
 	public static Victor shooterWheelBottom = new Victor(9);
 	public static Victor conveyorBelt = new Victor(7);
-	
+
 	public static Encoder leftEncoder = new Encoder(0, 1, true);
 	public static Encoder rightEncoder = new Encoder(2, 3, false);
-	
+
 	public static LiveWindowSendable gyroChannel;
-	//public static AnalogInput ultrasound = new AnalogInput(0);
+	// public static AnalogInput ultrasound = new AnalogInput(0);
 	public static UltrasonicSensor ultraSound = new UltrasonicSensor(1);
-	
+
 	public static DigitalInput upperGearSensor = new DigitalInput(8);
 	public static DigitalInput lowerGearSensor = new DigitalInput(9);
-	
+
 	public static Encoder shooterEncoder = new Encoder(5, 4);
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
-	public static Servo shooterAngleServo = new Servo(19); //Navx port 9
+	public static Servo shooterAngleServo = new Servo(19); // Navx port 9
+	public static Servo shooterGate = new Servo(18); // Navx port 8
 	public static Preferences preferences = Preferences.getInstance();
 	public static Compressor compressor = new Compressor();
 
 	public static DoubleSolenoid gearboxSolenoid = new DoubleSolenoid(6, 7);
-	public static MultiChannelLED gearLight = new MultiChannelLED(1,0,2); //1,0,2 stand for Red (Top), Green (Both), Blue (Bottom)
-	
+	public static MultiChannelLED gearLight = new MultiChannelLED(1, 0, 2); // 1,0,2
+																			// stand
+																			// for
+																			// Red
+																			// (Top),
+																			// Green
+																			// (Both),
+																			// Blue
+																			// (Bottom)
+
 	public static Solenoid cameraLight = new Solenoid(5);
 
 	public static final DoubleSolenoid.Value IN_HIGH_GEAR = DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value IN_LOW_GEAR = DoubleSolenoid.Value.kReverse;
-//	Need to set the real values
-//	public static final UltrasonicSensor rangeFinder = new UltrasonicSensor(0);
+	// Need to set the real values
+	// public static final UltrasonicSensor rangeFinder = new
+	// UltrasonicSensor(0);
 	public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 	public static boolean autoWithVision;
-	static void init() {
-		LiveWindow.addActuator("Drive Subsystem", "Front Left Victor", motorFrontLeft);
-		LiveWindow.addActuator("Drive Subsystem", "Front Right Victor", motorFrontRight);
-		LiveWindow.addActuator("Drive Subsystem", "Back Left Victor", motorBackLeft);
-		LiveWindow.addActuator("Drive Subsystem", "Back Right Victor", motorBackRight);
 
-		LiveWindow.addSensor("Drive Subsystem", "leftDriveEncoder", leftEncoder);
-		LiveWindow.addSensor("Drive Subsystem", "rightDriveEncoder", rightEncoder);
+	static void init() {
+		LiveWindow.addActuator("Drive Subsystem", "Front Left Victor",
+				motorFrontLeft);
+		LiveWindow.addActuator("Drive Subsystem", "Front Right Victor",
+				motorFrontRight);
+		LiveWindow.addActuator("Drive Subsystem", "Back Left Victor",
+				motorBackLeft);
+		LiveWindow.addActuator("Drive Subsystem", "Back Right Victor",
+				motorBackRight);
+
+		LiveWindow
+				.addSensor("Drive Subsystem", "leftDriveEncoder", leftEncoder);
+		LiveWindow.addSensor("Drive Subsystem", "rightDriveEncoder",
+				rightEncoder);
 		LiveWindow.addSensor("Drive Subsystem", "Gyro Channel", gyroChannel);
 	}
 
