@@ -54,7 +54,7 @@ public class RobotMap {
 
 	public static Victor climberMotor = new Victor(8);
 	
-	public static Victor ballCollectorInOutMotor = null; // new Victor(5);, temporary fix for testing purposes
+	public static Victor ballCollectorInOutMotor = new Victor(5);
 	public static Victor ballCollectorUpDownMotor = new Victor(4);
 
 	public static Victor shooterWheelTop = new Victor(6);
@@ -75,7 +75,7 @@ public class RobotMap {
 
 	public static AHRS navx = new AHRS(SPI.Port.kMXP);
 	public static ContinuousGyro continuousGyro = new ContinuousGyro(navx);
-	public static Servo shooterAngleServo = new Servo(5);
+	public static Servo shooterAngleServo = new Servo(19); //Navx port 9
 	public static Preferences preferences = Preferences.getInstance();
 	public static Compressor compressor = new Compressor();
 
