@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetPositionTrackerAndGyro extends Command {
 	private PegPosition position;
-
+	
 	public SetPositionTrackerAndGyro(Robot.PegPosition position) {
 		this.position = position;
 	}

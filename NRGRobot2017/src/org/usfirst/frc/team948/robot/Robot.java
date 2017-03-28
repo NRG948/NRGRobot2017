@@ -53,6 +53,9 @@ public class Robot extends IterativeRobot {
 	public static final BallCollector ballCollector = new BallCollector();
 	public static final BallFeeder ballFeeder = new BallFeeder();
 	public static GearLEDControler ledStrip;
+	public static final double ROBOT_LENGTH = 39; // with bumpers
+	public static final double ROBOT_WIDTH = 35; // with bumpers
+	public static final double FIELD_WIDTH = 323.7;
 
 	private static final double TURN_POWER = 1.0;
 
@@ -65,15 +68,23 @@ public class Robot extends IterativeRobot {
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 	public static PositionTracker positionTracker = new PositionTracker();
 
-	public static TestGroup testGroup = new TestGroup();  // testing...
-	
+	public static TestGroup testGroup = new TestGroup(); // testing...
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 
 	public enum AutoPosition {
-		RED_LEFT, RED_CENTER, RED_RIGHT, BLUE_RIGHT, BLUE_CENTER, BLUE_LEFT;
+		RED_LEFT(94 - ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), RED_CENTER(FIELD_WIDTH/2, ROBOT_LENGTH / 2), RED_RIGHT(FIELD_WIDTH-94+ROBOT_WIDTH/2,
+				ROBOT_LENGTH / 2), BLUE_RIGHT(0,
+						ROBOT_LENGTH / 2), BLUE_CENTER(FIELD_WIDTH/2, ROBOT_LENGTH / 2), BLUE_LEFT(0, ROBOT_LENGTH / 2);
+		public double x, y;
+
+		private AutoPosition(double x, double y) {
+			this.x = x;
+			this.y = y;
+		}
 	}
 
 	public enum AutoMovement {
@@ -81,7 +92,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public enum PegPosition {
-		LEFT(128, 131,60), CENTER(158, 113, 0), RIGHT(188, 131, -60);
+		LEFT(128, 131, 60), CENTER(158, 113, 0), RIGHT(188, 131, -60);
 		public double x, y, angle;
 
 		private PegPosition(double x, double y, double angle) {
@@ -260,20 +271,20 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Turn to boiler angle", positionTracker.getTurnAngleToBoiler());
 		SmartDashboard.putNumber("RPM from position tracker", positionTracker.getShooterRPM());
 		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
-		 try {
-		 SmartDashboard.putData("PDP", RobotMap.pdp);
-		 } catch (Exception e) {
-		 }
+		try {
+			SmartDashboard.putData("PDP", RobotMap.pdp);
+		} catch (Exception e) {
+		}
 
 		try {
 			SmartDashboard.putData("TestGroup", testGroup); // testing...
 		} catch (Exception e) {
 		}
 
-//		try {
-//			SmartDashboard.putData("Drive", Robot.drive);
-//		} catch (Exception e) {
-//		}
+		// try {
+		// SmartDashboard.putData("Drive", Robot.drive);
+		// } catch (Exception e) {
+		// }
 		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
 		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
 		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));

@@ -24,7 +24,7 @@ public class PositionTracker {
 	public static final double BLUE_LEFT_PEG_Y = 131;
 	public static final double BLUE_CENTER_PEG_X = 159;
 	public static final double BLUE_CENTER_PEG_Y = 113;
-	public static final double ROBOT_LENGTH = 39; // with bumpers
+	
 
 	public void init(double x, double y) {
 		this.x = x;
@@ -53,8 +53,8 @@ public class PositionTracker {
 	}
 
 	public void setAtPeg(Robot.PegPosition position) {
-		x = position.x - ROBOT_LENGTH / 2 * Math.sqrt(3) / 2;
-		y = position.y - ROBOT_LENGTH / 2 / 2;
+		x = position.x - Robot.ROBOT_LENGTH / 2 * Math.sqrt(3) / 2;
+		y = position.y - Robot.ROBOT_LENGTH / 2 / 2;
 	}
 
 	public void setXY(double x, double y) {
