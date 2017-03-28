@@ -10,9 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
  * Turns the robot to face a specific heading
  */
 public class TurnToHeading extends Command {
-	private double desiredHeading;
+	protected double desiredHeading;
 	private double power;
-	private boolean usePositionTracker;
 
 	public TurnToHeading(double desiredHeading, double power) {
 		this.requires(Robot.drive);
@@ -24,15 +23,7 @@ public class TurnToHeading extends Command {
 		this(desiredHeading, 1.0);
 	}
 	
-	public TurnToHeading(boolean usePositionTracker){
-		requires(Robot.drive);
-		this.usePositionTracker = usePositionTracker;
-	}
-
 	protected void initialize() {
-		if(usePositionTracker){
-			desiredHeading = Robot.positionTracker.getTurnAngleToBoiler() + RobotMap.continuousGyro.getAngle();
-		}
 		if (power == 0.0) {
 			power = RobotMap.preferences.getDouble(PreferenceKeys.AUTONOMOUS_TURN_POWER, 0.5);
 		}

@@ -13,7 +13,7 @@ import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetAutonomousHeading;
 import org.usfirst.frc.team948.robot.commands.SetInitPoz;
-import org.usfirst.frc.team948.robot.commands.SetPositionTrackerAndGyro;
+import org.usfirst.frc.team948.robot.commands.SetPositionTracker;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
@@ -36,10 +36,7 @@ public class AutonomousRoutines extends CommandGroup {
 	public AutonomousRoutines(Robot.AutoPosition autoPosition, Robot.AutoMovement autoMovement) {
 		this.autoPosition = autoPosition;
 		this.autoMovement = autoMovement;
-		if (autoMovement == AutoMovement.STAY) {
-			addSequential(new Stay());
-			return;
-		}
+
 		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 1);
 
 		switch (this.autoPosition) {
@@ -146,9 +143,12 @@ public class AutonomousRoutines extends CommandGroup {
 			} else {
 				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
-			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
+				if (autoMovement == Robot.AutoMovement.SHOOT) {
+					addSequential(new ShootAfterGearDropOff());
+					return;
+				}
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
@@ -241,6 +241,7 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
+			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_LEFT));
 			addSequential(new DriveStraightDistance(83.537, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
@@ -248,9 +249,12 @@ public class AutonomousRoutines extends CommandGroup {
 			} else {
 				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
-			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
+				if (autoMovement == Robot.AutoMovement.SHOOT) {
+					addSequential(new ShootAfterGearDropOff());
+					return;
+				}
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
@@ -267,43 +271,6 @@ public class AutonomousRoutines extends CommandGroup {
 			}
 		}
 
-	}
-
-	public static class BlueLeftShooter extends CommandGroup {
-		private static final int SHOOTER_RPM_NEAR_PEG = 3100;
-		private double delayTime;
-
-		public BlueLeftShooter(double delayTime) {
-			addSequential(new SetAutonomousHeading(60));
-			addSequential(new SetPositionTrackerAndGyro(Robot.PegPosition.LEFT));
-			addSequential(new DriveStraightDistance(72, BACKWARD));
-			addParallel(new SpinShooterToRPM(true));// true means use position
-													// tracker.
-			addSequential(new TurnToHeading(true));// true means use position
-													// tracker.
-			addSequential(new FeedBalls());
-			// if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
-			// addSequential(new WaitUntilGearDrop(this.delayTime));
-			// addSequential(new DriveStraightDistance(20, BACKWARD));
-			// addSequential(new TurnToHeading(0));
-			// addSequential(new ShiftGears(true));
-			// addSequential(new DelaySeconds(0.1));
-			// addSequential(new DriveStraightDistance(113, FORWARD));
-			// addSequential(new TurnToHeading(40));
-			// if (autoMovement == Robot.AutoMovement.CONTINUE_TO_END) {
-			// addSequential(new DriveStraightDistance(170, FORWARD));
-			// addSequential(new TurnToHeading(5));
-			// } else {
-			// // we already went pass the auto line
-			// }
-			// addSequential(new ShiftGears(false));
-			// }
-
-		}
-
-	}
-
-	private class Stay extends CommandGroup {
 	}
 
 }

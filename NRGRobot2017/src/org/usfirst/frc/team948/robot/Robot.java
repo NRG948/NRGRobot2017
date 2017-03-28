@@ -76,9 +76,10 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public enum AutoPosition {
-		RED_LEFT(94 - ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), RED_CENTER(FIELD_WIDTH/2, ROBOT_LENGTH / 2), RED_RIGHT(FIELD_WIDTH-94+ROBOT_WIDTH/2,
-				ROBOT_LENGTH / 2), BLUE_RIGHT(0,
-						ROBOT_LENGTH / 2), BLUE_CENTER(FIELD_WIDTH/2, ROBOT_LENGTH / 2), BLUE_LEFT(0, ROBOT_LENGTH / 2);
+		RED_LEFT(FIELD_WIDTH - 94 + ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), RED_CENTER(FIELD_WIDTH / 2,
+				ROBOT_LENGTH / 2), RED_RIGHT(94 - ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), BLUE_RIGHT(
+						FIELD_WIDTH - 94 + ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), BLUE_CENTER(FIELD_WIDTH / 2,
+								ROBOT_LENGTH / 2), BLUE_LEFT(94 - ROBOT_WIDTH / 2, ROBOT_LENGTH / 2);
 		public double x, y;
 
 		private AutoPosition(double x, double y) {
@@ -88,7 +89,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public enum AutoMovement {
-		STAY, STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
+		SHOOT, STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
 	}
 
 	public enum PegPosition {
@@ -128,7 +129,7 @@ public class Robot extends IterativeRobot {
 		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
-		autoMovementChooser.addDefault("Stay", AutoMovement.STAY);
+		autoMovementChooser.addDefault("Stay", AutoMovement.SHOOT);
 		autoMovementChooser.addObject("Continue to end", AutoMovement.CONTINUE_TO_END);
 		autoMovementChooser.addObject("Continue to auto", AutoMovement.STOP_AT_AUTOLINE);
 		autoMovementChooser.addDefault("Stop at airship", AutoMovement.STOP_AT_AIRSHIP);

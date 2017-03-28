@@ -89,8 +89,7 @@ public class OI {
 		rpmShooter.whenPressed(new SpinShooterToRPM(0));
 		ejectBalls.toggleWhenActive(new BallCollect(false));
 		acquireBalls.toggleWhenActive(new BallCollect(true));
-		ShootingAuto.whenPressed(new AutonomousRoutines.BlueLeftShooter(1));
-		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff(1));
+		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff());
 	}
 
 	public static AutoPosition getAutoPosition() {
@@ -130,7 +129,7 @@ public class OI {
 		} else if (OI.driveLong.get()) {
 			autoMovement = AutoMovement.CONTINUE_TO_END;
 		} else if (OI.stay.get()) {
-			autoMovement = AutoMovement.STAY;
+			autoMovement = AutoMovement.SHOOT;
 		}
 
 		return autoMovement;
