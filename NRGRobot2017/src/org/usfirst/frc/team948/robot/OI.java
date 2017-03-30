@@ -50,14 +50,14 @@ public class OI {
 	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
 
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
-	public static final JoystickButton driveWithVision = new JoystickButton(arduinoJoystick, 3);
+	public static final JoystickButton shootOnly = new JoystickButton(arduinoJoystick, 3);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 4);
 	public static final JoystickButton autoMiddle = new JoystickButton(arduinoJoystick, 5);
 	public static final JoystickButton autoRight = new JoystickButton(arduinoJoystick, 6);
 	public static final JoystickButton driveLong = new JoystickButton(arduinoJoystick, 7);
 	public static final JoystickButton driveShort = new JoystickButton(arduinoJoystick, 8);
 	public static final JoystickButton driveAirship = new JoystickButton(arduinoJoystick, 9);
-	public static final JoystickButton stay = new JoystickButton(arduinoJoystick, 10);
+	public static final JoystickButton shootAfterGear = new JoystickButton(arduinoJoystick, 10);
 	public static final JoystickButton acquirerForward = new JoystickButton(arduinoJoystick, 11);
 	public static final JoystickButton acquirerBackward = new JoystickButton(arduinoJoystick, 13);
 	public static final JoystickButton feedShooter = new JoystickButton(arduinoJoystick, 14);
@@ -98,15 +98,19 @@ public class OI {
 			autoPosition = Robot.autoPositionChooser.getSelected();
 		} else {
 			if (ds.getAlliance() == DriverStation.Alliance.Red) {
-				if (OI.autoLeft.get()) {
+			    if(OI.shootOnly.get()){
+			        autoPosition = AutoPosition.RED_SHOOT_ONLY;
+			    } else if (OI.autoLeft.get()) {
 					autoPosition = AutoPosition.RED_LEFT;
 				} else if (OI.autoRight.get()) {
 					autoPosition = AutoPosition.RED_RIGHT;
 				} else if (OI.autoMiddle.get()) {
 					autoPosition = AutoPosition.RED_CENTER;
 				}
-			} else {
-				if (OI.autoLeft.get()) {
+			}else {
+			    if(OI.shootOnly.get()){
+                    autoPosition = AutoPosition.BLUE_SHOOT_ONLY;
+                } else if (OI.autoLeft.get()) {
 					autoPosition = AutoPosition.BLUE_LEFT;
 				} else if (OI.autoRight.get()) {
 					autoPosition = AutoPosition.BLUE_RIGHT;
@@ -127,8 +131,8 @@ public class OI {
 			autoMovement = AutoMovement.STOP_AT_AUTOLINE;
 		} else if (OI.driveLong.get()) {
 			autoMovement = AutoMovement.CONTINUE_TO_END;
-		} else if (OI.stay.get()) {
-			autoMovement = AutoMovement.SHOOT;
+		} else if (OI.shootAfterGear.get()) {
+			autoMovement = AutoMovement.SHOOT_AFTER_GEAR_DROP;
 		}
 
 		return autoMovement;

@@ -23,9 +23,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousRoutines extends CommandGroup {
-    private static final double BLUE_LEFT_STARTING_X = 74;
     private static final double BLUE_CENTER_STARTING_X = 161.85;
-    private static final double BLUE_RIGHT_STARTING_X = 248;
     private static final double BLUE_ROBOT_LENGTH = 39;
     private static final double DRIVE_TO_AIRSHIP_TIMEOUT = 3.0;
     private Robot.AutoPosition autoPosition;
@@ -56,6 +54,12 @@ public class AutonomousRoutines extends CommandGroup {
             break;
         case BLUE_LEFT:
             addSequential(new BlueLeft(delay));
+            break;
+        case BLUE_SHOOT_ONLY:
+            addSequential(new BlueShootOnly());
+            break;
+        case RED_SHOOT_ONLY:
+            addSequential(new RedShootOnly());
             break;
         }
     }
@@ -144,7 +148,7 @@ public class AutonomousRoutines extends CommandGroup {
             }
             if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
                 addSequential(new WaitUntilGearDrop(this.delayTime));
-                if (autoMovement == Robot.AutoMovement.SHOOT) {
+                if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
                     addSequential(new ShootAfterGearDropOff());
                     return;
                 }
@@ -250,7 +254,7 @@ public class AutonomousRoutines extends CommandGroup {
             }
             if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
                 addSequential(new WaitUntilGearDrop(this.delayTime));
-                if (autoMovement == Robot.AutoMovement.SHOOT) {
+                if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
                     addSequential(new ShootAfterGearDropOff());
                     return;
                 }

@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public enum AutoMovement {
-		SHOOT, STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
+		SHOOT_ONLY , SHOOT_AFTER_GEAR_DROP, STOP_AT_AIRSHIP, STOP_AT_AUTOLINE, CONTINUE_TO_END;
 	}
 
 	public enum PegPosition {
@@ -144,9 +144,11 @@ public class Robot extends IterativeRobot {
 		autoPositionChooser.addObject("Blue left", AutoPosition.BLUE_LEFT);
 		autoPositionChooser.addObject("Blue center", AutoPosition.BLUE_CENTER);
 		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
+	    autoPositionChooser.addObject("Blue Shoot Only", AutoPosition.BLUE_SHOOT_ONLY);
+	    autoPositionChooser.addObject("Red Shoot Only", AutoPosition.RED_SHOOT_ONLY);
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
-		autoMovementChooser.addDefault("Stay", AutoMovement.SHOOT);
+		autoMovementChooser.addDefault("Shoot After Gear", AutoMovement.SHOOT_AFTER_GEAR_DROP);
 		autoMovementChooser.addObject("Continue to end",
 				AutoMovement.CONTINUE_TO_END);
 		autoMovementChooser.addObject("Continue to auto",
@@ -219,7 +221,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command
-		RobotMap.autoWithVision = OI.driveWithVision.get(); // temp change
+		RobotMap.autoWithVision = OI.shootOnly.get(); // temp change
 															// OI.driveWithVision.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(),
 				OI.getAutoMovement());
