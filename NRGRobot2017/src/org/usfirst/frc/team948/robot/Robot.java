@@ -1,8 +1,6 @@
-
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
-import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.DriveToXY;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -56,9 +54,15 @@ public class Robot extends IterativeRobot {
 	public static final double ROBOT_LENGTH = 39; // with bumpers
 	public static final double ROBOT_WIDTH = 35; // with bumpers
 	public static final double FIELD_WIDTH = 323.7;
-
+	public static final double ROBOT_X_BOILER = ROBOT_WIDTH+35;
 	private static final double TURN_POWER = 1.0;
-
+	
+	public static final double BLUE_LEFT_X = 93 - ROBOT_WIDTH / 2;
+	public static final double RED_RIGHT_X = FIELD_WIDTH - BLUE_LEFT_X;
+	
+	public static final double RED_LEFT_X = 76 - ROBOT_WIDTH / 2;
+	public static final double BLUE_RIGHT_X = FIELD_WIDTH - RED_LEFT_X;
+	
 	public static UsbCamera camera;
 	// public static VisionProc visionProcessor;
 	public static NewVisionProc visionProcessor;
@@ -76,15 +80,28 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public enum AutoPosition {
-		RED_LEFT(FIELD_WIDTH - 94 + ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), RED_CENTER(FIELD_WIDTH / 2,
-				ROBOT_LENGTH / 2), RED_RIGHT(94 - ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), BLUE_RIGHT(
-						FIELD_WIDTH - 94 + ROBOT_WIDTH / 2, ROBOT_LENGTH / 2), BLUE_CENTER(FIELD_WIDTH / 2,
-								ROBOT_LENGTH / 2), BLUE_LEFT(94 - ROBOT_WIDTH / 2, ROBOT_LENGTH / 2);
-		public double x, y;
-
-		private AutoPosition(double x, double y) {
+		RED_CENTER(FIELD_WIDTH / 2, ROBOT_LENGTH / 2), 
+		BLUE_CENTER(FIELD_WIDTH / 2, ROBOT_LENGTH / 2), 
+		
+		RED_LEFT(RED_LEFT_X, ROBOT_LENGTH / 2), 
+		BLUE_RIGHT(BLUE_RIGHT_X, ROBOT_LENGTH / 2), 
+		
+		RED_RIGHT(RED_RIGHT_X, ROBOT_LENGTH / 2), 
+		BLUE_LEFT(BLUE_LEFT_X, ROBOT_LENGTH / 2),
+		
+		RED_SHOOT_ONLY(FIELD_WIDTH -ROBOT_X_BOILER, ROBOT_LENGTH / 2, 180),
+		BLUE_SHOOT_ONLY(ROBOT_X_BOILER, ROBOT_LENGTH / 2, 180);
+		
+		public double x, y, initialHeading;
+		
+		private AutoPosition(double x, double y, double initialHeading) {
 			this.x = x;
 			this.y = y;
+			this.initialHeading = initialHeading;
+		}
+		
+		private AutoPosition(double x, double y) {
+			this(x, y, 0);
 		}
 	}
 
@@ -130,14 +147,20 @@ public class Robot extends IterativeRobot {
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
 		autoMovementChooser.addDefault("Stay", AutoMovement.SHOOT);
-		autoMovementChooser.addObject("Continue to end", AutoMovement.CONTINUE_TO_END);
-		autoMovementChooser.addObject("Continue to auto", AutoMovement.STOP_AT_AUTOLINE);
-		autoMovementChooser.addDefault("Stop at airship", AutoMovement.STOP_AT_AIRSHIP);
+		autoMovementChooser.addObject("Continue to end",
+				AutoMovement.CONTINUE_TO_END);
+		autoMovementChooser.addObject("Continue to auto",
+				AutoMovement.STOP_AT_AUTOLINE);
+		autoMovementChooser.addDefault("Stop at airship",
+				AutoMovement.STOP_AT_AIRSHIP);
 
 		// SmartDashboard for Drive SubSystem Commands
-		SmartDashboard.putData("Choose autonomous position", autoPositionChooser);
-		if (RobotMap.preferences.getBoolean(PreferenceKeys.USE_POSITION_CHOOSER, true)) {
-			SmartDashboard.putData("Choose autonomous movement", autoMovementChooser);
+		SmartDashboard.putData("Choose autonomous position",
+				autoPositionChooser);
+		if (RobotMap.preferences.getBoolean(
+				PreferenceKeys.USE_POSITION_CHOOSER, true)) {
+			SmartDashboard.putData("Choose autonomous movement",
+					autoMovementChooser);
 		}
 		SmartDashboard.putData(drive);
 		// SmartDashboard.putData("Turn to -90", new TurnToHeading(-90,
@@ -149,13 +172,16 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Turn to 0", new TurnToHeading(0, TURN_POWER));
 		SmartDashboard.putData("Turn -90", new Turn(-90, TURN_POWER));
 		SmartDashboard.putData("Turn +90", new Turn(90, TURN_POWER));
-		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(15 * 12.0, Drive.Direction.FORWARD, 1.0));
-		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(5 * 12.0, Drive.Direction.FORWARD, 1.0));
+		SmartDashboard.putData("Drive 15 Feet", new DriveStraightDistance(
+				15 * 12.0, Drive.Direction.FORWARD, 1.0));
+		SmartDashboard.putData("Drive 5 Feet", new DriveStraightDistance(
+				5 * 12.0, Drive.Direction.FORWARD, 1.0));
 		SmartDashboard.putData("Switch High Gear", new ShiftGears(true));
 		SmartDashboard.putData("Switch Low Gear", new ShiftGears(false));
 		// SmartDashboard.putData("Activate simple vision", new
 		// SimpleVisionRoutine(visionProcessor));
-		SmartDashboard.putData("Test wait until gear drop", new WaitUntilGearDrop(2));
+		SmartDashboard.putData("Test wait until gear drop",
+				new WaitUntilGearDrop(2));
 		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg());
 		// To test Drive to XY command
 		SmartDashboard.putData("Test DriveToXY", new DriveToXY());
@@ -195,7 +221,8 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command
 		RobotMap.autoWithVision = OI.driveWithVision.get(); // temp change
 															// OI.driveWithVision.get();
-		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(), OI.getAutoMovement());
+		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(),
+				OI.getAutoMovement());
 		System.out.println("Vision = " + RobotMap.autoWithVision);
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
@@ -236,7 +263,8 @@ public class Robot extends IterativeRobot {
 			VisionField field = visionProcessor.getData();
 			SmartDashboard.putNumber("Vision: V", field.v);
 			SmartDashboard.putNumber("Vision: Zeta", field.zeta);
-			SmartDashboard.putNumber("Vision: distance to target", field.distanceToTarget);
+			SmartDashboard.putNumber("Vision: distance to target",
+					field.distanceToTarget);
 		}
 		SmartDashboard.putBoolean("Vision has Data", visionHasData);
 		RobotMap.shooterAngleServo.set((OI.rightJoystick.getZ() + 1) / 2);
@@ -259,18 +287,24 @@ public class Robot extends IterativeRobot {
 		}
 		// SmartDashboard.putNumber("Shooter Encoder",
 		// RobotMap.shooterEncoder.get());
-		SmartDashboard.putNumber("Shooter servo value", (OI.rightJoystick.getZ() + 1) / 2);
+		SmartDashboard.putNumber("Shooter servo value",
+				(OI.rightJoystick.getZ() + 1) / 2);
 		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
 		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
 		SmartDashboard.putNumber("Right encoder", RobotMap.rightEncoder.get());
-		String ultraSoundData = String.format("%.2f, %.2f", RobotMap.ultraSound.getVoltage(),
+		String ultraSoundData = String.format("%.2f, %.2f",
+				RobotMap.ultraSound.getVoltage(),
 				RobotMap.ultraSound.getDistanceInches());
-		SmartDashboard.putString("Ultrasound sensor: volts , Inches", ultraSoundData);
+		SmartDashboard.putString("Ultrasound sensor: volts , Inches",
+				ultraSoundData);
 		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
-		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
-		SmartDashboard.putNumber("Turn to boiler angle", positionTracker.getTurnAngleToBoiler());
-		SmartDashboard.putNumber("RPM from position tracker", positionTracker.getShooterRPM());
+		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid
+				.get().toString());
+		SmartDashboard.putNumber("Turn to boiler angle",
+				positionTracker.getTurnAngleToBoiler());
+		SmartDashboard.putNumber("RPM from position tracker",
+				positionTracker.getShooterRPM());
 		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
 		try {
 			SmartDashboard.putData("PDP", RobotMap.pdp);
@@ -296,17 +330,22 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());
 		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
 		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
-		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
+		SmartDashboard.putBoolean("Upper gear sensor",
+				!RobotMap.upperGearSensor.get());
 		boolean haveGearLow = !RobotMap.lowerGearSensor.get();
 		boolean haveGearHigh = !RobotMap.upperGearSensor.get();
-		SmartDashboard.putNumber("Test Target RPM", SpinShooterToRPM.getTargetRPM());
+		SmartDashboard.putNumber("Test Target RPM",
+				SpinShooterToRPM.getTargetRPM());
 		// boolean visionOnTarget = !RobotMap.visionOnTarget.get();
 
 		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
 		SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
-		SmartDashboard.putString("Position Tracker", positionTracker.toString());
-		SmartDashboard.putNumber("Blocked via averaging", positionTracker.objectInfront(true) ? 1.0 : 0.0);
-		SmartDashboard.putNumber("Blocked via raw data", positionTracker.objectInfront(false) ? 1.0 : 0.0);
+		SmartDashboard
+				.putString("Position Tracker", positionTracker.toString());
+		SmartDashboard.putNumber("Blocked via averaging",
+				positionTracker.objectInfront(true) ? 1.0 : 0.0);
+		SmartDashboard.putNumber("Blocked via raw data",
+				positionTracker.objectInfront(false) ? 1.0 : 0.0);
 		// SmartDashboard.putBoolean("Vision on target", visionOnTarget);
 
 		// if (visionOnTarget){
