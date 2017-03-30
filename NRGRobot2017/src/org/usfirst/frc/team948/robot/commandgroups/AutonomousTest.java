@@ -1,10 +1,5 @@
 package org.usfirst.frc.team948.robot.commandgroups;
 
-import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
-import org.usfirst.frc.team948.robot.commands.ResetSensors;
-import org.usfirst.frc.team948.robot.commands.ShiftGears;
-import org.usfirst.frc.team948.robot.commands.TurnToHeading;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousTest extends CommandGroup {

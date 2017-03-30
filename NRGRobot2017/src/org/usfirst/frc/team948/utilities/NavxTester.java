@@ -2,8 +2,6 @@ package org.usfirst.frc.team948.utilities;
 
 import org.usfirst.frc.team948.robot.RobotMap;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NavxTester {

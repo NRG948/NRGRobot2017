@@ -1,11 +1,11 @@
 package org.usfirst.frc.team948.robot.commandgroups;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.VisionDriveToPeg;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class PressToPeg extends CommandGroup {
 	public PressToPeg(){

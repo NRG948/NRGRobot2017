@@ -2,7 +2,6 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.Robot.AutoPosition;
-import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
 import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
 import org.usfirst.frc.team948.robot.commandgroups.ShootAfterGearDropOff;
 import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;

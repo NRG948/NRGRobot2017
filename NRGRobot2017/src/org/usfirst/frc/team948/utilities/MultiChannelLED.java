@@ -1,7 +1,5 @@
 package org.usfirst.frc.team948.utilities;
 
-import org.usfirst.frc.team948.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class MultiChannelLED {
