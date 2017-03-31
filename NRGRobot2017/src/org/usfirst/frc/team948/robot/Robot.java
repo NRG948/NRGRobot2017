@@ -20,6 +20,7 @@ import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
 import org.usfirst.frc.team948.utilities.PositionTracker;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
+import org.usfirst.frc.team948.utilities.ShooterCalculator;
 import org.usfirst.frc.team948.utilities.TestGroup;
 import org.usfirst.frc.team948.utilities.VisionField;
 
@@ -71,6 +72,7 @@ public class Robot extends IterativeRobot {
 	public static SendableChooser<AutoPosition> autoPositionChooser;
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 	public static PositionTracker positionTracker = new PositionTracker();
+	public static ShooterCalculator shooterCalculator = new ShooterCalculator();
 
 	public static TestGroup testGroup = new TestGroup(); // testing...
 
@@ -304,9 +306,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid
 				.get().toString());
 		SmartDashboard.putNumber("Turn to boiler angle",
-				positionTracker.getTurnAngleToBoiler());
+				shooterCalculator.getTurnAngleToBoiler());
 		SmartDashboard.putNumber("RPM from position tracker",
-				positionTracker.getShooterRPM());
+				shooterCalculator.getShooterRPM());
 		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
 //		try {
 			SmartDashboard.putData("PDP", RobotMap.pdp);

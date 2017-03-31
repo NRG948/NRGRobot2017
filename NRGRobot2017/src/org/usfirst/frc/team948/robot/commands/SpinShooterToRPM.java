@@ -6,23 +6,19 @@ import org.usfirst.frc.team948.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Spins up the top shooter wheel to a given RPM setpoint (either fixed, or from joystick).
+ * Spins up the top shooter wheel to a given RPM setpoint (either fixed, or from
+ * joystick).
  * 
  * Command only ends when interrupted.
  */
 public class SpinShooterToRPM extends Command {
 
-	private double targetRPM;
+	protected double targetRPM;
 	private boolean getRPMFromJoystick;
-	private boolean usePositionTracker;
 
 	public SpinShooterToRPM() {
 		requires(Robot.shooter);
 		getRPMFromJoystick = true;
-	}
-	public SpinShooterToRPM(boolean usePositionTracker){
-		requires(Robot.shooter);
-		this.usePositionTracker = usePositionTracker;
 	}
 
 	public SpinShooterToRPM(double rpm) {
@@ -32,9 +28,6 @@ public class SpinShooterToRPM extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		if(usePositionTracker){
-			targetRPM = Robot.positionTracker.getShooterRPM();
-		}
 		Robot.shooter.rampToRPMinit();
 	}
 

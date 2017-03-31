@@ -14,7 +14,7 @@ public class TurnToBoiler extends TurnToHeading {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		desiredHeading = Robot.positionTracker.getTurnAngleToBoiler() + RobotMap.continuousGyro.getAngle();
+		desiredHeading = Robot.shooterCalculator.getTurnAngleToBoiler() + RobotMap.continuousGyro.getAngle();
 		Robot.drive.turnToHeadingInitNoPID(desiredHeading);
 	}
 }

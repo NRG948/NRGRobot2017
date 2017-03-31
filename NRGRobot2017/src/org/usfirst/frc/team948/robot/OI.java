@@ -2,6 +2,7 @@ package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
 import org.usfirst.frc.team948.robot.Robot.AutoPosition;
+import org.usfirst.frc.team948.robot.Robot.PegPosition;
 import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
 import org.usfirst.frc.team948.robot.commandgroups.ShootAfterGearDropOff;
 import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
@@ -38,13 +39,14 @@ public class OI {
 	public static JoystickButton cameraLightSwitch = new JoystickButton(leftJoystick, 8);
 	public static JoystickButton testShooterRPM = new JoystickButton(leftJoystick, 9);
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
-	
+
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
 	public static JoystickButton ShootingAuto = new JoystickButton(rightJoystick, 2);
 	public static JoystickButton shoot = new JoystickButton(rightJoystick, 3);
 	public static JoystickButton ejectBalls = new JoystickButton(rightJoystick, 6);
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
-	public static JoystickButton testShootAfterGearDrop = new JoystickButton(rightJoystick, 8); // test button
+	public static JoystickButton testShootAfterGearDrop = new JoystickButton(rightJoystick, 8); // test
+																								// button
 	public static JoystickButton shootSequence = new JoystickButton(rightJoystick, 9);
 	public static JoystickButton switchLowGear = new JoystickButton(rightJoystick, 10);
 	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
@@ -88,7 +90,21 @@ public class OI {
 		rpmShooter.whenPressed(new SpinShooterToRPM(0));
 		ejectBalls.toggleWhenActive(new BallCollect(false));
 		acquireBalls.toggleWhenActive(new BallCollect(true));
-		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff());
+		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff(getPegPosition()));
+	}
+
+	private static PegPosition getPegPosition() {
+
+		PegPosition pegPosition = null;
+		if (autoLeft.get()) {
+			pegPosition = PegPosition.LEFT;
+		} else if (autoMiddle.get()) {
+			pegPosition = PegPosition.CENTER;
+		} else if (autoRight.get()) {
+			pegPosition = PegPosition.RIGHT;
+		}
+
+		return pegPosition;
 	}
 
 	public static AutoPosition getAutoPosition() {
@@ -98,19 +114,19 @@ public class OI {
 			autoPosition = Robot.autoPositionChooser.getSelected();
 		} else {
 			if (ds.getAlliance() == DriverStation.Alliance.Red) {
-			    if(OI.shootOnly.get()){
-			        autoPosition = AutoPosition.RED_SHOOT_ONLY;
-			    } else if (OI.autoLeft.get()) {
+				if (OI.shootOnly.get()) {
+					autoPosition = AutoPosition.RED_SHOOT_ONLY;
+				} else if (OI.autoLeft.get()) {
 					autoPosition = AutoPosition.RED_LEFT;
 				} else if (OI.autoRight.get()) {
 					autoPosition = AutoPosition.RED_RIGHT;
 				} else if (OI.autoMiddle.get()) {
 					autoPosition = AutoPosition.RED_CENTER;
 				}
-			}else {
-			    if(OI.shootOnly.get()){
-                    autoPosition = AutoPosition.BLUE_SHOOT_ONLY;
-                } else if (OI.autoLeft.get()) {
+			} else {
+				if (OI.shootOnly.get()) {
+					autoPosition = AutoPosition.BLUE_SHOOT_ONLY;
+				} else if (OI.autoLeft.get()) {
 					autoPosition = AutoPosition.BLUE_LEFT;
 				} else if (OI.autoRight.get()) {
 					autoPosition = AutoPosition.BLUE_RIGHT;
