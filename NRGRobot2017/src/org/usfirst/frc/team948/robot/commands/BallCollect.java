@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class BallCollect extends Command {
-	public static final double BALL_COLLECT_POWER = 0.4;
+	public static final double BALL_COLLECT_POWER = 0.6;
 	private boolean in;
 
 	public BallCollect(boolean in) {

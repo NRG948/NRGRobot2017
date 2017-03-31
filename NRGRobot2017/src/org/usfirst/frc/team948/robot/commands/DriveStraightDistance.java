@@ -92,7 +92,7 @@ public class DriveStraightDistance extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return cyclesWithinTolerance >= 5;
+		return cyclesWithinTolerance >= 1;
 	}
 
 	@Override
