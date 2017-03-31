@@ -26,7 +26,7 @@ public class ShootAfterGearDropOff extends CommandGroup {
 			break;
 		}
 		addParallel(new SpinShooterToRPM(3000));
-		addSequential(new DriveStraightDistance(distance, BACKWARD));
+		addSequential(new DriveStraightDistance(72, BACKWARD));
 		
 		addParallel(new SpinShooterToCalculatedRPM());
 		addSequential(new TurnToBoilerAndFeedBalls());

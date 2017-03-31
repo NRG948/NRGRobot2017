@@ -52,7 +52,7 @@ public class OI {
 	public static JoystickButton switchHighGear = new JoystickButton(rightJoystick, 11);
 
 	public static final JoystickButton climberButton = new JoystickButton(arduinoJoystick, 1);
-	public static final JoystickButton shootOnly = new JoystickButton(arduinoJoystick, 3);
+	public static final JoystickButton shootOnly = new JoystickButton(arduinoJoystick, 2);
 	public static final JoystickButton autoLeft = new JoystickButton(arduinoJoystick, 4);
 	public static final JoystickButton autoMiddle = new JoystickButton(arduinoJoystick, 5);
 	public static final JoystickButton autoRight = new JoystickButton(arduinoJoystick, 6);
@@ -102,9 +102,9 @@ public class OI {
 			pegPosition = PegPosition.CENTER;
 		} else if (autoRight.get()) {
 			pegPosition = PegPosition.RIGHT;
-		}
+		}					
 
-		return pegPosition;
+		return PegPosition.LEFT;
 	}
 
 	public static AutoPosition getAutoPosition() {

@@ -223,7 +223,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command
-		RobotMap.autoWithVision = OI.shootOnly.get(); // temp change
+		RobotMap.autoWithVision = true; // temp change
 															// OI.driveWithVision.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(),
 				OI.getAutoMovement());
@@ -289,8 +289,7 @@ public class Robot extends IterativeRobot {
 			// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
-		// SmartDashboard.putNumber("Shooter Encoder",
-		// RobotMap.shooterEncoder.get());
+		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putNumber("Shooter servo value",
 				(OI.rightJoystick.getZ() + 1) / 2);
 		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
