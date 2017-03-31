@@ -19,7 +19,7 @@ public class GearLEDControler {
 		if (!RobotMap.lowerGearSensor.get()) {
 			gearLEDs.turnBlueOn();
 			
-			if (onTarget) {
+			if (gettingData && onTarget) {
 				gearLEDs.turnRedOn();
 			} else {
 				gearLEDs.turnRedOff(); // not on target OR not getting data
@@ -29,7 +29,7 @@ public class GearLEDControler {
 		} else if (!RobotMap.upperGearSensor.get()) {
 			gearLEDs.turnRedOn();
 			
-			if (onTarget) {
+			if (gettingData && onTarget) {
 				gearLEDs.turnGreenOn();
 			} else {
 				gearLEDs.turnGreenOff();
@@ -40,7 +40,7 @@ public class GearLEDControler {
 			gearLEDs.turnBlueOff();
 			gearLEDs.turnRedOff();
 			
-			if (onTarget) {
+			if (gettingData && onTarget) {
 				gearLEDs.turnGreenOn();
 			} else {
 				gearLEDs.turnGreenOff();
