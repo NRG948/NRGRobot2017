@@ -308,10 +308,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("RPM from position tracker",
 				positionTracker.getShooterRPM());
 		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
-		try {
+//		try {
 			SmartDashboard.putData("PDP", RobotMap.pdp);
-		} catch (Exception e) {
-		}
+//		} catch (Exception e) {
+//		}
 
 		try {
 			SmartDashboard.putData("TestGroup", testGroup); // testing...
