@@ -16,7 +16,7 @@ public class ShootAfterGearDropOff extends CommandGroup {
 
 	public ShootAfterGearDropOff(PegPosition position) {
 		double distance = 0;
-		switch (position){
+		switch (position) {
 		case LEFT:
 		case RIGHT:
 			distance = 72;

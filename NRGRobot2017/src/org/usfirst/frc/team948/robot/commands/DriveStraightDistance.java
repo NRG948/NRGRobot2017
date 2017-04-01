@@ -21,7 +21,7 @@ public class DriveStraightDistance extends Command {
 	private final double DEFAULT_AUTONOMOUS_POWER = 0.5;
 
 	private double power;
-	private double distance;
+	protected double distance;
 	private double toleranceInInches;
 
 	private double encoderLeftStart;

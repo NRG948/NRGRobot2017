@@ -9,11 +9,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class BallCollect extends Command {
 	public static final double BALL_COLLECT_POWER = 0.6;
-	private boolean in;
-
-	public BallCollect(boolean in) {
+	private BallCollectDirection direction;
+	
+	public enum BallCollectDirection
+	{
+		IN, OUT, OFF;
+	}
+	
+	public BallCollect(BallCollectDirection direction) {
 		requires(Robot.ballCollector);
-		this.in = in;
+		this.direction = direction;
 	}
 
 	// Called just before this Command runs the first time
@@ -22,7 +27,7 @@ public class BallCollect extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.ballCollector.rawCollect(BALL_COLLECT_POWER, in);
+		Robot.ballCollector.rawCollect(BALL_COLLECT_POWER, direction);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

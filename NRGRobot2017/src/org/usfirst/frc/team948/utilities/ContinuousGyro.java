@@ -1,5 +1,7 @@
 package org.usfirst.frc.team948.utilities;
 
+import org.usfirst.frc.team948.robot.Robot.PegPosition;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -34,5 +36,10 @@ public class ContinuousGyro implements PIDSource {
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		return PIDSourceType.kDisplacement;
+	}
+
+	public void setAtPeg(PegPosition pegPosition) {
+		navx.reset();
+		headingOffset = pegPosition.angle;
 	}
 }

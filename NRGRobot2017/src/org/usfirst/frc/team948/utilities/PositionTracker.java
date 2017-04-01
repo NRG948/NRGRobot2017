@@ -14,7 +14,6 @@ public class PositionTracker {
 	private double[] ultraSonicReadouts = new double[updatesBack];
 	private int index = 0;
 
-	
 	// public static final double BLUE_LEFT_PEG_X = 128;
 	// public static final double BLUE_LEFT_PEG_Y = 131;
 	// public static final double BLUE_CENTER_PEG_X = 159;
@@ -47,8 +46,8 @@ public class PositionTracker {
 	}
 
 	public void setAtPeg(Robot.PegPosition position) {
-		x = position.x - Robot.ROBOT_LENGTH / 2 * Math.sqrt(3) / 2;
-		y = position.y - Robot.ROBOT_LENGTH / 2 / 2;
+		x = position.x - Robot.ROBOT_LENGTH / 2 * Math.sin(Math.toRadians(position.angle));
+		y = position.y - Robot.ROBOT_LENGTH / 2 * Math.cos(Math.toRadians(position.angle));
 	}
 
 	public void setXY(double x, double y) {
@@ -90,6 +89,7 @@ public class PositionTracker {
 	public String toString() {
 		return String.format("x=%.2f, y=%.2f", x, y);
 	}
+
 	public synchronized void reset() {
 		prevLeftEncoder = 0;
 		prevRightEncoder = 0;

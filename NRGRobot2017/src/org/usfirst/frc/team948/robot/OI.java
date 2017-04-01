@@ -7,6 +7,7 @@ import org.usfirst.frc.team948.robot.commandgroups.PressToPeg;
 import org.usfirst.frc.team948.robot.commandgroups.ShootAfterGearDropOff;
 import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
+import org.usfirst.frc.team948.robot.commands.BallCollect.BallCollectDirection;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
 import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
@@ -41,7 +42,7 @@ public class OI {
 	public static JoystickButton resetSensorsButton = new JoystickButton(leftJoystick, 11);
 
 	public static JoystickButton rightTrigger = new JoystickButton(rightJoystick, 1);
-	public static JoystickButton ShootingAuto = new JoystickButton(rightJoystick, 2);
+//	public static JoystickButton ShootingAuto = new JoystickButton(rightJoystick, 2);
 	public static JoystickButton shoot = new JoystickButton(rightJoystick, 3);
 	public static JoystickButton ejectBalls = new JoystickButton(rightJoystick, 6);
 	public static JoystickButton acquireBalls = new JoystickButton(rightJoystick, 7);
@@ -60,8 +61,8 @@ public class OI {
 	public static final JoystickButton driveShort = new JoystickButton(arduinoJoystick, 8);
 	public static final JoystickButton driveAirship = new JoystickButton(arduinoJoystick, 9);
 	public static final JoystickButton shootAfterGear = new JoystickButton(arduinoJoystick, 10);
-	public static final JoystickButton acquirerForward = new JoystickButton(arduinoJoystick, 11);
-	public static final JoystickButton acquirerBackward = new JoystickButton(arduinoJoystick, 13);
+	public static final JoystickButton acquirerForward = new JoystickButton(arduinoJoystick, 13);
+	public static final JoystickButton acquirerBackward = new JoystickButton(arduinoJoystick, 11);
 	public static final JoystickButton feedShooter = new JoystickButton(arduinoJoystick, 14);
 	public static final JoystickButton rpmShooter = new JoystickButton(arduinoJoystick, 15);
 
@@ -81,30 +82,29 @@ public class OI {
 		shoot.whileHeld(new Shoot());
 		testShooterRPM.toggleWhenActive(new SpinShooterToRPM());
 		shootSequence.whenPressed(new ShootSequence());
-		acquirerForward.whenPressed(new BallCollect(true));
-		acquirerBackward.whenPressed(new BallCollect(false));
+		acquirerForward.whenPressed(new BallCollect(BallCollectDirection.IN));
+		acquirerForward.whenReleased(new BallCollect(BallCollectDirection.OFF));
+		acquirerBackward.whenPressed(new BallCollect(BallCollectDirection.OUT));
+		acquirerBackward.whenReleased(new BallCollect(BallCollectDirection.OFF));
 		feedShooter.whenActive(new FeedBalls());
 		feedShooter.whenInactive(new StopSuckingBalls());
 		// feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenReleased(new SpinShooterToRPM());
 		rpmShooter.whenPressed(new SpinShooterToRPM(0));
-		ejectBalls.toggleWhenActive(new BallCollect(false));
-		acquireBalls.toggleWhenActive(new BallCollect(true));
+		acquireBalls.toggleWhenActive(new BallCollect(BallCollectDirection.IN));
+		ejectBalls.toggleWhenActive(new BallCollect(BallCollectDirection.OUT));
 		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff(getPegPosition()));
 	}
 
-	private static PegPosition getPegPosition() {
-
-		PegPosition pegPosition = null;
-		if (autoLeft.get()) {
-			pegPosition = PegPosition.LEFT;
-		} else if (autoMiddle.get()) {
+	public static PegPosition getPegPosition() {
+		PegPosition pegPosition = PegPosition.LEFT;
+		
+		if (autoMiddle.get()) {
 			pegPosition = PegPosition.CENTER;
 		} else if (autoRight.get()) {
 			pegPosition = PegPosition.RIGHT;
 		}					
-
-		return PegPosition.LEFT;
+		return pegPosition;
 	}
 
 	public static AutoPosition getAutoPosition() {

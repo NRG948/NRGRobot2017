@@ -18,6 +18,7 @@ import org.usfirst.frc.team948.robot.subsystems.GearLEDControler;
 import org.usfirst.frc.team948.robot.subsystems.Gearbox;
 import org.usfirst.frc.team948.robot.subsystems.Shooter;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
+import org.usfirst.frc.team948.utilities.PegLocator;
 import org.usfirst.frc.team948.utilities.PositionTracker;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 import org.usfirst.frc.team948.utilities.ShooterCalculator;
@@ -73,6 +74,7 @@ public class Robot extends IterativeRobot {
 	public static SendableChooser<AutoMovement> autoMovementChooser;
 	public static PositionTracker positionTracker = new PositionTracker();
 	public static ShooterCalculator shooterCalculator = new ShooterCalculator();
+	public static PegLocator pegLocator = new PegLocator();
 
 	public static TestGroup testGroup = new TestGroup(); // testing...
 
