@@ -312,7 +312,7 @@ public class Robot extends IterativeRobot {
 				shooterCalculator.getShooterRPM());
 		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
 //		try {
-			SmartDashboard.putData("PDP", RobotMap.pdp);
+//			SmartDashboard.putData("PDP", RobotMap.pdp);
 //		} catch (Exception e) {
 //		}
 

@@ -40,7 +40,7 @@ public class SpinShooterToRPM extends Command {
 	}
 
 	public static double getTargetRPM() {
-		return (OI.leftJoystick.getZ() + 1) * 500 + 2400; // 2400 - 3400 RPM.
+		return (OI.leftJoystick.getZ() + 1) * 50 + 2900; // 2900 - 2950 RPM
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
