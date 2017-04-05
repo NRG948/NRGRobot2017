@@ -93,7 +93,7 @@ public class OI {
 		rpmShooter.whenPressed(new SpinShooterToRPM(0));
 		acquireBalls.toggleWhenActive(new BallCollect(BallCollectDirection.IN));
 		ejectBalls.toggleWhenActive(new BallCollect(BallCollectDirection.OUT));
-		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff(getPegPosition()));
+		testShootAfterGearDrop.whenPressed(new ShootAfterGearDropOff());
 	}
 
 	public static PegPosition getPegPosition() {

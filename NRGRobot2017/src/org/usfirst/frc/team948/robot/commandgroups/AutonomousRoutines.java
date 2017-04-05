@@ -150,7 +150,7 @@ public class AutonomousRoutines extends CommandGroup {
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
-					addSequential(new ShootAfterGearDropOff(PegPosition.RIGHT));
+					addSequential(new ShootAfterGearDropOff());
 					return;
 				}
 				addSequential(new DriveStraightDistance(20, BACKWARD));
@@ -256,7 +256,7 @@ public class AutonomousRoutines extends CommandGroup {
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
-					addSequential(new ShootAfterGearDropOff(PegPosition.LEFT));
+					addSequential(new ShootAfterGearDropOff());
 					return;
 				}
 				addSequential(new DriveStraightDistance(20, BACKWARD));
