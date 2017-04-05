@@ -85,7 +85,7 @@ public class NewVisionProc {
 					MatOfPoint matrix = cameraIn.get(i);
 					Contour contour = new Contour(matrix);
 					if (contour.area > AREA_THRESHOLD) {
-						if (contour.boundingRect.br().y < mat.height() - 25) {
+						if (contour.boundingRect.br().y < mat.height() - 5) {
 							image.contours.add(contour);
 						}
 					}
