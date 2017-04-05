@@ -39,6 +39,7 @@ public class NewVisionProc {
 	private static final double AREA_THRESHOLD = 20;
 	private ProcessedImage lastGoodImage;
 	private VisionField lastField;
+	private boolean isProcessingEnabled = true;
 
 	private Timer processingTimer;
 	private CvSink cvSink;
@@ -66,6 +67,10 @@ public class NewVisionProc {
 		processingTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
+				if (!isProcessingEnabled) {
+					return;
+				}
+
 				long start = System.nanoTime();
 				if (cvSink.grabFrame(mat) == 0) {
 					vidOut.notifyError(cvSink.getError());
@@ -231,6 +236,10 @@ public class NewVisionProc {
 
 	public synchronized ProcessedImage getFrameData() {
 		return threadObjectData;
+	}
+
+	public synchronized void disableProcessing() {
+		isProcessingEnabled = false;
 	}
 
 	private class ProcessedImage {

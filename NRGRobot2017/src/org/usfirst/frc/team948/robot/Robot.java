@@ -254,6 +254,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		visionProcessor.disableProcessing(); // disable vision processing in teleop to prevent memory faults
 	}
 
 	/**
