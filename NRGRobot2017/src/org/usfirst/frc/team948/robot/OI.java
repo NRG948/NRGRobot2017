@@ -115,7 +115,7 @@ public class OI {
 		} else {
 			if (ds.getAlliance() == DriverStation.Alliance.Red) {
 				if (OI.shootOnly.get()) {
-					autoPosition = AutoPosition.RED_SHOOT_ONLY;
+					autoPosition = AutoPosition.RED_SHOOT_THEN_GEAR;
 				} else if (OI.autoLeft.get()) {
 					autoPosition = AutoPosition.RED_LEFT;
 				} else if (OI.autoRight.get()) {
@@ -125,7 +125,7 @@ public class OI {
 				}
 			} else {
 				if (OI.shootOnly.get()) {
-					autoPosition = AutoPosition.BLUE_SHOOT_ONLY;
+					autoPosition = AutoPosition.BLUE_SHOOT_THEN_GEAR;
 				} else if (OI.autoLeft.get()) {
 					autoPosition = AutoPosition.BLUE_LEFT;
 				} else if (OI.autoRight.get()) {

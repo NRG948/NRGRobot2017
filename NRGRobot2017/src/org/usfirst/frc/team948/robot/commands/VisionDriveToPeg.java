@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class VisionDriveToPeg extends Command {
-	private static final double SLOW_DOWN_DISTANCE = 29;
+	private static final double SLOW_DOWN_DISTANCE = 27;
 	private static final double KZETA = 20;
 	private final NewVisionProc proc;
 	private double targetDistance = Double.MAX_VALUE;

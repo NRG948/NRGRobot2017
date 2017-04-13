@@ -9,13 +9,18 @@ import org.usfirst.frc.team948.robot.Robot.PegPosition;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
+import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.SetInitPoz;
 import org.usfirst.frc.team948.robot.commands.SetPositionTracker;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
+import org.usfirst.frc.team948.robot.commands.ShootAfterGearDrop2;
 import org.usfirst.frc.team948.robot.commands.SpinShooterGivenRawPower;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToCalculatedRPM;
+import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
+import org.usfirst.frc.team948.robot.commands.StopShooterAndBallFeed;
+import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
@@ -27,6 +32,7 @@ public class AutonomousRoutines extends CommandGroup {
 	private static final double BLUE_CENTER_STARTING_X = 161.85;
 	private static final double BLUE_ROBOT_LENGTH = 39;
 	private static final double DRIVE_TO_AIRSHIP_TIMEOUT = 3.0;
+	private static final int RPM_TOUCHING_BOILER = 2900;
 	private Robot.AutoPosition autoPosition;
 	public boolean moveAfterGear;
 	private AutoMovement autoMovement;
@@ -35,7 +41,7 @@ public class AutonomousRoutines extends CommandGroup {
 		this.autoPosition = autoPosition;
 		this.autoMovement = autoMovement;
 
-		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 1);
+		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 0.75);
 
 		switch (this.autoPosition) {
 		case RED_LEFT:
@@ -56,12 +62,13 @@ public class AutonomousRoutines extends CommandGroup {
 		case BLUE_LEFT:
 			addSequential(new BlueLeft(delay));
 			break;
-		case BLUE_SHOOT_ONLY:
-			addSequential(new BlueShootOnly());
+		case BLUE_SHOOT_THEN_GEAR:
+			addSequential(new BlueShootThenGear(delay));
 			break;
-		case RED_SHOOT_ONLY:
-			addSequential(new RedShootOnly());
+		case RED_SHOOT_THEN_GEAR:
+			addSequential(new RedShootThenGear(delay));
 			break;
+			
 		}
 	}
 
@@ -76,7 +83,7 @@ public class AutonomousRoutines extends CommandGroup {
 			this.delayTime = delayTime;
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(69, FORWARD));
+			addSequential(new DriveStraightDistance(79, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
@@ -114,8 +121,12 @@ public class AutonomousRoutines extends CommandGroup {
 			} else {
 				addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
-			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new WaitUntilGearDrop(this.delayTime));
+				if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
+					addSequential(new ShootAfterGearDrop2());
+					return;
+				}
 				addSequential(new DriveStraightDistance(60, BACKWARD));
 				addSequential(new TurnToHeading(-65));
 				addSequential(new DriveStraightDistance(125, FORWARD));
@@ -140,7 +151,7 @@ public class AutonomousRoutines extends CommandGroup {
 
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(83.537, FORWARD));
+			addSequential(new DriveStraightDistance(80, FORWARD));
 			addSequential(new TurnToHeading(-61));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
@@ -150,7 +161,7 @@ public class AutonomousRoutines extends CommandGroup {
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
 				addSequential(new WaitUntilGearDrop(this.delayTime));
 				if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
-					addSequential(new ShootAfterGearDropOff());
+					addSequential(new ShootAfterGearDrop2());
 					return;
 				}
 				addSequential(new DriveStraightDistance(20, BACKWARD));
@@ -178,7 +189,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new FlipCameraLight(true));
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new DriveStraightDistance(69, FORWARD));
+			addSequential(new DriveStraightDistance(79, FORWARD));
 			addSequential(new TurnToHeading(-60));
 			// Turn to peg center
 			if (RobotMap.autoWithVision) {
@@ -219,8 +230,12 @@ public class AutonomousRoutines extends CommandGroup {
 			} else {
 				addSequential(new DriveStraightDistance(76, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
-			addSequential(new WaitUntilGearDrop(this.delayTime));
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
+				addSequential(new WaitUntilGearDrop(this.delayTime));
+				if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
+					addSequential(new ShootAfterGearDrop2());
+					return;
+				}
 				addSequential(new DriveStraightDistance(60, BACKWARD));
 				addSequential(new TurnToHeading(65));
 				addSequential(new DriveStraightDistance(125, FORWARD));
@@ -246,7 +261,7 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
 			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_LEFT));
-			addSequential(new DriveStraightDistance(83.537, FORWARD));
+			addSequential(new DriveStraightDistance(80, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
@@ -254,11 +269,11 @@ public class AutonomousRoutines extends CommandGroup {
 				addSequential(new DriveStraightDistance(82.4, FORWARD), DRIVE_TO_AIRSHIP_TIMEOUT);
 			}
 			if (autoMovement != Robot.AutoMovement.STOP_AT_AIRSHIP) {
-				addSequential(new WaitUntilGearDrop(this.delayTime));
 				if (autoMovement == Robot.AutoMovement.SHOOT_AFTER_GEAR_DROP) {
-					addSequential(new ShootAfterGearDropOff());
+					addSequential(new ShootAfterGearDrop2());
 					return;
 				}
+				addSequential(new WaitUntilGearDrop(this.delayTime));
 				addSequential(new DriveStraightDistance(20, BACKWARD));
 				addSequential(new TurnToHeading(0));
 				addSequential(new ShiftGears(true));
@@ -276,11 +291,11 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 	}
 
-	private class BlueShootOnly extends CommandGroup {
-		public BlueShootOnly() {
+	private class OldBlueShootOnly extends CommandGroup {
+		public OldBlueShootOnly() {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_SHOOT_ONLY));
+			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_SHOOT_THEN_GEAR));
 			addParallel(new SpinShooterGivenRawPower(0.85));
 			addSequential(new DriveStraightDistance(74, BACKWARD, 1));
 			addParallel(new SpinShooterToCalculatedRPM());
@@ -288,15 +303,63 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 	}
 
-	private class RedShootOnly extends CommandGroup {
-		public RedShootOnly() {
+	private class OldRedShootOnly extends CommandGroup {
+		public OldRedShootOnly() {
 			addSequential(new ResetSensors());
 			addSequential(new ShiftGears(false));
-			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_SHOOT_ONLY));
+			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_SHOOT_THEN_GEAR));
 			addParallel(new SpinShooterGivenRawPower(0.85));
 			addSequential(new DriveStraightDistance(74, BACKWARD, 1));
 			addParallel(new SpinShooterToCalculatedRPM());
 			addSequential(new TurnToBoilerAndFeedBalls());
+		}
+	}
+	
+	private class RedShootThenGear extends CommandGroup {
+
+		public RedShootThenGear(double delayTime){
+			double shootTimeOut = RobotMap.preferences.getDouble(PreferenceKeys.AUTO_SHOOT_TIMEOUT, 7.0);
+			addSequential(new SpinShooterToRPM(RPM_TOUCHING_BOILER));
+			addSequential(new FeedBalls(true), shootTimeOut);
+			//addSequential(new DriveStraightDistance(8.0, BACKWARD, 1), shootTimeOut);
+			addSequential(new StopShooterAndBallFeed());
+			addSequential(new DriveStraightDistance(18.0, BACKWARD, 1));
+			addSequential(new Turn(-142));
+			addSequential(new DriveStraightDistance(20, FORWARD));
+			addSequential(new Turn(-45));
+			addSequential(new PressToPeg());
+			addSequential(new WaitUntilGearDrop(delayTime));
+			addSequential(new DriveStraightDistance(20, BACKWARD));
+			addSequential(new TurnToHeading(0));
+			addSequential(new ShiftGears(true));
+			addSequential(new DelaySeconds(0.1));
+			addSequential(new DriveStraightDistance(113, FORWARD));
+			addSequential(new TurnToHeading(-40));
+			addSequential(new DriveStraightDistance(170, FORWARD));
+			addSequential(new TurnToHeading(-5));
+		}
+	}
+	private class BlueShootThenGear extends CommandGroup {
+		public BlueShootThenGear(double delayTime){
+			double shootTimeOut = RobotMap.preferences.getDouble(PreferenceKeys.AUTO_SHOOT_TIMEOUT, 7.0);
+			addSequential(new SpinShooterToRPM(RPM_TOUCHING_BOILER));
+			addSequential(new Turn(20, shootTimeOut));
+			addSequential(new FeedBalls(true), shootTimeOut);
+			addSequential(new DriveStraightDistance(18.0, BACKWARD, 1));
+			addSequential(new StopShooterAndBallFeed());
+			addSequential(new Turn(135));
+			addSequential(new DriveStraightDistance(52, FORWARD));
+			addSequential(new Turn(45));
+			addSequential(new PressToPeg());
+			addSequential(new WaitUntilGearDrop(delayTime));
+			addSequential(new DriveStraightDistance(20, BACKWARD));
+			addSequential(new TurnToHeading(0));
+			addSequential(new ShiftGears(true));
+			addSequential(new DelaySeconds(0.1));
+			addSequential(new DriveStraightDistance(113, FORWARD));
+			addSequential(new TurnToHeading(40));
+			addSequential(new DriveStraightDistance(170, FORWARD));
+			addSequential(new TurnToHeading(5));
 		}
 	}
 }

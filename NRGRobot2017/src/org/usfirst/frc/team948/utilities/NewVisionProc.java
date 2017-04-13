@@ -67,13 +67,14 @@ public class NewVisionProc {
 		processingTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				if (!isProcessingEnabled) {
-					return;
-				}
-
 				long start = System.nanoTime();
 				if (cvSink.grabFrame(mat) == 0) {
 					vidOut.notifyError(cvSink.getError());
+					return;
+				}
+				
+				if (!isProcessingEnabled) {
+					vidOut.putFrame(mat);
 					return;
 				}
 				pipeLine.process(mat);
@@ -240,6 +241,10 @@ public class NewVisionProc {
 
 	public synchronized void disableProcessing() {
 		isProcessingEnabled = false;
+	}
+	
+	public synchronized void enableProcessing() {
+		isProcessingEnabled = true;
 	}
 
 	private class ProcessedImage {

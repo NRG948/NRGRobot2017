@@ -76,8 +76,6 @@ public class Robot extends IterativeRobot {
 	public static ShooterCalculator shooterCalculator = new ShooterCalculator();
 	public static PegLocator pegLocator = new PegLocator();
 
-	public static TestGroup testGroup = new TestGroup(); // testing...
-
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -93,8 +91,9 @@ public class Robot extends IterativeRobot {
 		RED_RIGHT(RED_RIGHT_X, ROBOT_LENGTH / 2), 
 		BLUE_LEFT(BLUE_LEFT_X, ROBOT_LENGTH / 2),
 		
-		RED_SHOOT_ONLY(FIELD_WIDTH -ROBOT_X_BOILER, ROBOT_LENGTH / 2, 180),
-		BLUE_SHOOT_ONLY(ROBOT_X_BOILER, ROBOT_LENGTH / 2, 180);
+		//X and y coordinates are no longer accurate and not used.
+		RED_SHOOT_THEN_GEAR(FIELD_WIDTH -ROBOT_X_BOILER, ROBOT_LENGTH / 2, 140),
+		BLUE_SHOOT_THEN_GEAR(ROBOT_X_BOILER, ROBOT_LENGTH / 2, -135);
 		
 		public double x, y, initialHeading;
 		
@@ -126,7 +125,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-
+		System.out.println("\nRobot init\n");
 		ledStrip = new GearLEDControler(RobotMap.gearLight);
 
 		// Vision Tracking
@@ -148,8 +147,8 @@ public class Robot extends IterativeRobot {
 		autoPositionChooser.addObject("Blue left", AutoPosition.BLUE_LEFT);
 		autoPositionChooser.addObject("Blue center", AutoPosition.BLUE_CENTER);
 		autoPositionChooser.addObject("Blue right", AutoPosition.BLUE_RIGHT);
-	    autoPositionChooser.addObject("Blue Shoot Only", AutoPosition.BLUE_SHOOT_ONLY);
-	    autoPositionChooser.addObject("Red Shoot Only", AutoPosition.RED_SHOOT_ONLY);
+	    autoPositionChooser.addObject("Blue Shoot Only", AutoPosition.BLUE_SHOOT_THEN_GEAR);
+	    autoPositionChooser.addObject("Red Shoot Only", AutoPosition.RED_SHOOT_THEN_GEAR);
 
 		autoMovementChooser = new SendableChooser<AutoMovement>();
 		autoMovementChooser.addDefault("Shoot After Gear", AutoMovement.SHOOT_AFTER_GEAR_DROP);
@@ -202,7 +201,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		System.out.println("Disabled init\n");
+		visionProcessor.disableProcessing();
 	}
 
 	@Override
@@ -224,12 +224,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		System.out.println("Auto init\n");
 		// schedule the autonomous command
+		visionProcessor.enableProcessing();
 		RobotMap.autoWithVision = true; // temp change
 															// OI.driveWithVision.get();
 		autonomousCommand = new AutonomousRoutines(OI.getAutoPosition(),
 				OI.getAutoMovement());
-		System.out.println("Vision = " + RobotMap.autoWithVision);
+		System.out.println("Vision = " + RobotMap.autoWithVision + "\n");
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
@@ -251,9 +253,11 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		System.out.println("Teleop init\n");
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+//		visionProcessor.enableProcessing(); // for calibration
 		visionProcessor.disableProcessing(); // disable vision processing in teleop to prevent memory faults
 	}
 
@@ -292,6 +296,7 @@ public class Robot extends IterativeRobot {
 			// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
+		SmartDashboard.putString("Peg position", pegLocator.getPegPosition().toString()); // testing peg position of robot
 		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
 		SmartDashboard.putNumber("Shooter servo value",
 				(OI.rightJoystick.getZ() + 1) / 2);
@@ -312,20 +317,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("RPM from position tracker",
 				shooterCalculator.getShooterRPM());
 		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
-//		try {
-//			SmartDashboard.putData("PDP", RobotMap.pdp);
-//		} catch (Exception e) {
-//		}
 
-		try {
-			SmartDashboard.putData("TestGroup", testGroup); // testing...
-		} catch (Exception e) {
-		}
-
-		// try {
-		// SmartDashboard.putData("Drive", Robot.drive);
-		// } catch (Exception e) {
-		// }
 		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
 		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
 		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));
