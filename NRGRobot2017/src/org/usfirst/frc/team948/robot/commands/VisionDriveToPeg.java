@@ -4,6 +4,7 @@ import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.NewVisionProc;
+import org.usfirst.frc.team948.utilities.SmartDashboardGroups;
 import org.usfirst.frc.team948.utilities.VisionField;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,11 +39,13 @@ public class VisionDriveToPeg extends Command {
 		}
 		VisionField field = proc.getData();
 		targetDistance = field.v;
-		SmartDashboard.putNumber("Vision: Theta", field.theta);
-		SmartDashboard.putNumber("Vision: V", field.v);
-		SmartDashboard.putNumber("Vision: Zeta", field.zeta);
-		SmartDashboard.putNumber("Vision: Omega", field.omega);
-		SmartDashboard.putNumber("Vision: Gamma", field.gamma);
+		if (SmartDashboardGroups.VISION_DATA) {
+			SmartDashboard.putNumber("Vision: Theta", field.theta);
+			SmartDashboard.putNumber("Vision: V", field.v);
+			SmartDashboard.putNumber("Vision: Zeta", field.zeta);
+			SmartDashboard.putNumber("Vision: Omega", field.omega);
+			SmartDashboard.putNumber("Vision: Gamma", field.gamma);
+		}
 		double updatedHeading;
 		if (targetDistance > 18 || Math.abs(field.zeta) > 0.1) {
 			updatedHeading = RobotMap.continuousGyro.getAngle() + KZETA * field.zeta;

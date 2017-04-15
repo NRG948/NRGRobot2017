@@ -114,7 +114,7 @@ public class NewVisionProc {
 			Contour c1 = image.contours.get(0);
 			Contour c2 = image.contours.get(1);
 			double pixelDistance = Math.min(Math.abs(c1.leftX - c2.rightX), Math.abs(c1.rightX - c2.leftX));
-			SmartDashboard.putNumber("Pixel Seperation", pixelDistance);
+			if (SmartDashboardGroups.VISION_DATA) SmartDashboard.putNumber("Pixel Seperation", pixelDistance);
 			return TAPE_SEPERATION_PIXELS * SEPERATION_DISTANCE_INCHES / pixelDistance;
 		}
 		return TAPE_DISTANCE_INCHES * TAPE_HEIGHT_PIXELS / image.contours.get(0).height;
@@ -194,15 +194,17 @@ public class NewVisionProc {
 		if (image.contours.size() > 0) {
 			lastGoodImage = image;
 			Contour c1 = image.contours.get(0);
-			SmartDashboard.putNumber("visionArea", c1.area);
-			SmartDashboard.putNumber("visionRectHeight", c1.height);
-			SmartDashboard.putNumber("visionRectWidth", c1.width);
-			SmartDashboard.putNumber("visionX", c1.centerX);
-			SmartDashboard.putNumber("visionY", c1.centerX);
-			SmartDashboard.putNumber("visionFrameWidth", image.frameWidth);
-			SmartDashboard.putNumber("visionProcessTime", image.processTime);
-			SmartDashboard.putNumber("Distance to target", rectDistance(image));
-			SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta * 180 / Math.PI);
+			if (SmartDashboardGroups.VISION_DATA) {
+				SmartDashboard.putNumber("visionArea", c1.area);
+				SmartDashboard.putNumber("visionRectHeight", c1.height);
+				SmartDashboard.putNumber("visionRectWidth", c1.width);
+				SmartDashboard.putNumber("visionX", c1.centerX);
+				SmartDashboard.putNumber("visionY", c1.centerX);
+				SmartDashboard.putNumber("visionFrameWidth", image.frameWidth);
+				SmartDashboard.putNumber("visionProcessTime", image.processTime);
+				SmartDashboard.putNumber("Distance to target", rectDistance(image));
+				SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta * 180 / Math.PI);
+			}
 			return true;
 		}
 		return false;

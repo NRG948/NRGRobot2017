@@ -5,6 +5,7 @@ import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.ManualDrive;
 import org.usfirst.frc.team948.utilities.MathUtil;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
+import org.usfirst.frc.team948.utilities.SmartDashboardGroups;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
@@ -80,9 +81,11 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 		drivePID.setSetpoint(setPoint);
 		PIDOutput = 0;
 		drivePID.enable();
-		SmartDashboard.putString("Current PID kp, ki, kd, kf",
-				drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD() + ", " + drivePID.getF());
-		SmartDashboard.putNumber("Current PID setpoint", drivePID.getSetpoint());
+		if (SmartDashboardGroups.PID) {
+			SmartDashboard.putString("Current PID kp, ki, kd, kf",
+					drivePID.getP() + ", " + drivePID.getI() + ", " + drivePID.getD() + ", " + drivePID.getF());
+			SmartDashboard.putNumber("Current PID setpoint", drivePID.getSetpoint());
+		}
 	}
 
 	public void driveOnHeadingInit(double desiredHeading) {
@@ -111,11 +114,13 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 
 		double currentPIDOutput = MathUtil.clamp(PIDOutput + kf, -PID_MAX_OUTPUT, PID_MAX_OUTPUT);
 
-		SmartDashboard.putNumber("driveOnHeading PID error", drivePID.getError());
-		SmartDashboard.putNumber("driveOnHeading PID output", currentPIDOutput);
-		SmartDashboard.putNumber("driveOnHeading rawPower", power);
-		SmartDashboard.putNumber("desired heading", desiredHeading);
-
+		if (SmartDashboardGroups.PID) {
+			SmartDashboard.putNumber("driveOnHeading PID error", drivePID.getError());
+			SmartDashboard.putNumber("driveOnHeading PID output", currentPIDOutput);
+			SmartDashboard.putNumber("driveOnHeading rawPower", power);
+			SmartDashboard.putNumber("desired heading", desiredHeading);
+		}
+		
 		double pL = power;
 		double pR = power;
 
@@ -143,8 +148,11 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 			}
 		}
 
-		SmartDashboard.putNumber("Left driveOnHeading power", pL);
-		SmartDashboard.putNumber("Right driveOnHeading power", pR);
+		if (SmartDashboardGroups.PID) {
+			SmartDashboard.putNumber("Left driveOnHeading power", pL);
+			SmartDashboard.putNumber("Right driveOnHeading power", pR);
+		}
+		
 		tankDrive(pL, pR);
 	}
 
@@ -231,8 +239,10 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 		double angularVel = prevTurnError - turnError;
 		double predictedErrorNextCycle = turnError - angularVel;
 		double adjustedPower = MathUtil.clamp(Math.abs(predictedErrorNextCycle * kp), MIN_POWER_TURN, maxPower);
-		SmartDashboard.putNumber("turnToHeadingNoPID turnError", turnError);
-		SmartDashboard.putNumber("turnToHeadingNoPID scaledPower", adjustedPower);
+		if (SmartDashboardGroups.PID) {
+			SmartDashboard.putNumber("turnToHeadingNoPID turnError", turnError);
+			SmartDashboard.putNumber("turnToHeadingNoPID scaledPower", adjustedPower);
+		}
 		adjustedPower = Math.copySign(adjustedPower, predictedErrorNextCycle);
 
 		// shut power off if current or predicted error within tolerance
