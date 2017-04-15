@@ -1,6 +1,7 @@
 package org.usfirst.frc.team948.robot;
 
 import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines;
+import org.usfirst.frc.team948.robot.commandgroups.AutonomousRoutines.TestPath;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.DriveToXY;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
@@ -22,7 +23,6 @@ import org.usfirst.frc.team948.utilities.PegLocator;
 import org.usfirst.frc.team948.utilities.PositionTracker;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 import org.usfirst.frc.team948.utilities.ShooterCalculator;
-import org.usfirst.frc.team948.utilities.TestGroup;
 import org.usfirst.frc.team948.utilities.VisionField;
 
 import edu.wpi.cscore.UsbCamera;
@@ -55,14 +55,14 @@ public class Robot extends IterativeRobot {
 	public static GearLEDControler ledStrip;
 	public static final double ROBOT_LENGTH = 39; // with bumpers
 	public static final double ROBOT_WIDTH = 35; // with bumpers
-	public static final double FIELD_WIDTH = 323.7;
+	public static final double FIELD_WIDTH = 324; // 27ft
 	public static final double ROBOT_X_BOILER = ROBOT_WIDTH + 35;
 	private static final double TURN_POWER = 1.0;
 
 	public static final double BLUE_LEFT_X = 75; // 93 - ROBOT_WIDTH / 2;
 	public static final double RED_RIGHT_X = FIELD_WIDTH - BLUE_LEFT_X;
 
-	public static final double RED_LEFT_X = 71;  //76 - ROBOT_WIDTH / 2;
+	public static final double RED_LEFT_X = 74;  //76 - ROBOT_WIDTH / 2;
 	public static final double BLUE_RIGHT_X = FIELD_WIDTH - RED_LEFT_X;
 
 	public static UsbCamera camera;
@@ -178,6 +178,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Drive to Peg", new VisionDriveToPeg());
 		// To test Drive to XY command
 		SmartDashboard.putData("Test DriveToXY", new DriveToXY());
+		SmartDashboard.putData("Test path", new AutonomousRoutines.TestPathRedRight());
 		// Start in Low gear
 		gearbox.setLowGear();
 	}

@@ -3,16 +3,16 @@ package org.usfirst.frc.team948.robot.commandgroups;
 import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.BACKWARD;
 import static org.usfirst.frc.team948.robot.subsystems.Drive.Direction.FORWARD;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.robot.Robot.AutoMovement;
-import org.usfirst.frc.team948.robot.Robot.PegPosition;
 import org.usfirst.frc.team948.robot.RobotMap;
 import org.usfirst.frc.team948.robot.commands.DelaySeconds;
 import org.usfirst.frc.team948.robot.commands.DriveStraightDistance;
 import org.usfirst.frc.team948.robot.commands.FeedBalls;
-import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
+import org.usfirst.frc.team948.robot.commands.FollowWaypoints;
 import org.usfirst.frc.team948.robot.commands.ResetSensors;
-import org.usfirst.frc.team948.robot.commands.SetInitPoz;
 import org.usfirst.frc.team948.robot.commands.SetPositionTracker;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.ShootAfterGearDrop2;
@@ -24,6 +24,8 @@ import org.usfirst.frc.team948.robot.commands.Turn;
 import org.usfirst.frc.team948.robot.commands.TurnToHeading;
 import org.usfirst.frc.team948.robot.commands.WaitUntilGearDrop;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
+import org.usfirst.frc.team948.utilities.Waypoint;
+import org.usfirst.frc.team948.utilities.Waypoint.WithinInches;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,12 +40,16 @@ public class AutonomousRoutines extends CommandGroup {
 	private AutoMovement autoMovement;
 
 	public AutonomousRoutines(Robot.AutoPosition autoPosition, Robot.AutoMovement autoMovement) {
-		this.autoPosition = autoPosition;
-		this.autoMovement = autoMovement;
+//		this.autoPosition = autoPosition;
+//		this.autoMovement = autoMovement;
 
 		double delay = RobotMap.preferences.getDouble(PreferenceKeys.GEAR_DROP_TIME, 0.75);
 
-		switch (this.autoPosition) {
+		addSequential(new ResetSensors());
+		addSequential(new ShiftGears(false));
+		addSequential(new SetPositionTracker(autoPosition));
+		
+		switch (autoPosition) {
 		case RED_LEFT:
 			addSequential(new RedLeft(delay));
 			break;
@@ -72,17 +78,18 @@ public class AutonomousRoutines extends CommandGroup {
 		}
 	}
 
-	public Robot.AutoPosition returnPosition() {
-		return this.autoPosition;
-	}
+//	public Robot.AutoPosition returnPosition() {
+//		return this.autoPosition;
+//	}
 
 	private class RedLeft extends CommandGroup {
 		private double delayTime;
 
 		public RedLeft(double delayTime) {
 			this.delayTime = delayTime;
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_LEFT));
 			addSequential(new DriveStraightDistance(79, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
@@ -114,8 +121,9 @@ public class AutonomousRoutines extends CommandGroup {
 			SmartDashboard.putBoolean("move after gear (blue center)", moveAfterGear);
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_CENTER));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
 			} else {
@@ -149,8 +157,9 @@ public class AutonomousRoutines extends CommandGroup {
 		public RedRight(double delayTime) {
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_RIGHT));
 			addSequential(new DriveStraightDistance(80, FORWARD));
 			addSequential(new TurnToHeading(-61));
 			if (RobotMap.autoWithVision) {
@@ -186,9 +195,9 @@ public class AutonomousRoutines extends CommandGroup {
 
 		public BlueRight(double delayTime) {
 			this.delayTime = delayTime;
-			addSequential(new FlipCameraLight(true));
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_RIGHT));
 			addSequential(new DriveStraightDistance(79, FORWARD));
 			addSequential(new TurnToHeading(-60));
 			// Turn to peg center
@@ -211,7 +220,6 @@ public class AutonomousRoutines extends CommandGroup {
 				}
 				addSequential(new ShiftGears(false));
 			}
-			addSequential(new FlipCameraLight(true));
 		}
 	}
 
@@ -222,9 +230,9 @@ public class AutonomousRoutines extends CommandGroup {
 			SmartDashboard.putBoolean("move after gear (blue center)", moveAfterGear);
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
-			addSequential(new SetInitPoz(BLUE_CENTER_STARTING_X, BLUE_ROBOT_LENGTH / 2));
-			addSequential(new ShiftGears(false));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_CENTER));
 			if (RobotMap.autoWithVision) {
 				addSequential(new PressToPeg());
 			} else {
@@ -258,9 +266,9 @@ public class AutonomousRoutines extends CommandGroup {
 		public BlueLeft(double delayTime) {
 			this.delayTime = delayTime;
 
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
-			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_LEFT));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_LEFT));
 			addSequential(new DriveStraightDistance(80, FORWARD));
 			addSequential(new TurnToHeading(60));
 			if (RobotMap.autoWithVision) {
@@ -293,9 +301,9 @@ public class AutonomousRoutines extends CommandGroup {
 
 	private class OldBlueShootOnly extends CommandGroup {
 		public OldBlueShootOnly() {
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
-			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_SHOOT_THEN_GEAR));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.BLUE_SHOOT_THEN_GEAR));
 			addParallel(new SpinShooterGivenRawPower(0.85));
 			addSequential(new DriveStraightDistance(74, BACKWARD, 1));
 			addParallel(new SpinShooterToCalculatedRPM());
@@ -305,9 +313,9 @@ public class AutonomousRoutines extends CommandGroup {
 
 	private class OldRedShootOnly extends CommandGroup {
 		public OldRedShootOnly() {
-			addSequential(new ResetSensors());
-			addSequential(new ShiftGears(false));
-			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_SHOOT_THEN_GEAR));
+//			addSequential(new ResetSensors());
+//			addSequential(new ShiftGears(false));
+//			addSequential(new SetPositionTracker(Robot.AutoPosition.RED_SHOOT_THEN_GEAR));
 			addParallel(new SpinShooterGivenRawPower(0.85));
 			addSequential(new DriveStraightDistance(74, BACKWARD, 1));
 			addParallel(new SpinShooterToCalculatedRPM());
@@ -316,7 +324,6 @@ public class AutonomousRoutines extends CommandGroup {
 	}
 	
 	private class RedShootThenGear extends CommandGroup {
-
 		public RedShootThenGear(double delayTime){
 			double shootTimeOut = RobotMap.preferences.getDouble(PreferenceKeys.AUTO_SHOOT_TIMEOUT, 7.0);
 			addSequential(new SpinShooterToRPM(RPM_TOUCHING_BOILER));
@@ -360,6 +367,37 @@ public class AutonomousRoutines extends CommandGroup {
 			addSequential(new TurnToHeading(40));
 			addSequential(new DriveStraightDistance(170, FORWARD));
 			addSequential(new TurnToHeading(5));
+		}
+	}
+	
+	public static class TestPath extends CommandGroup {
+		final double WAYPOINT_SPEED = 0.5;
+		WithinInches sixInches = new WithinInches(6);
+		ArrayList<Waypoint> testPath = new ArrayList<Waypoint>();
+		
+		public TestPath()
+		{
+			testPath.add(new Waypoint(-24, 24, WAYPOINT_SPEED, sixInches));
+			testPath.add(new Waypoint(-48, 24, WAYPOINT_SPEED, sixInches));
+			testPath.add(new Waypoint(-60, 36, WAYPOINT_SPEED, sixInches));
+			testPath.add(new Waypoint(-54, 60, WAYPOINT_SPEED, sixInches));
+			testPath.add(new Waypoint(-24, 72, WAYPOINT_SPEED, sixInches));
+			addSequential(new FollowWaypoints(testPath));
+		}
+	}
+	
+	public static class TestPathRedRight extends CommandGroup {
+		final double WAYPOINT_SPEED = 0.5;
+		WithinInches sixInches = new WithinInches(6);
+		ArrayList<Waypoint> testPath = new ArrayList<Waypoint>();
+		
+		public TestPathRedRight()
+		{
+			testPath.add(new Waypoint(0, 40, WAYPOINT_SPEED, sixInches));
+			testPath.add(new Waypoint(-110, 155, WAYPOINT_SPEED, sixInches));
+			testPath.add(new Waypoint(-26, 109, WAYPOINT_SPEED, sixInches));
+			addSequential(new DriveStraightDistance(20, BACKWARD));
+			addSequential(new FollowWaypoints(testPath));
 		}
 	}
 }

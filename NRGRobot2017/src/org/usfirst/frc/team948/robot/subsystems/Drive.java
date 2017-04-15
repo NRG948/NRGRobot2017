@@ -98,7 +98,10 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 			kf = RobotMap.preferences.getDouble(PreferenceKeys.DRIVE_ON_HEADING_LOW_GEAR_F, DEFAULT_DRIVE_LOWGEAR_F);
 		}
 		drivePIDInit(kp, ki, kd, desiredHeading, 0, 0);
-
+	}
+	
+	public void driveOnHeadingInit() {
+		driveOnHeadingInit(0);
 	}
 
 	public void driveOnHeading(double power, double desiredHeading) {
