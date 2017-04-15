@@ -23,6 +23,9 @@ import org.usfirst.frc.team948.utilities.PegLocator;
 import org.usfirst.frc.team948.utilities.PositionTracker;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 import org.usfirst.frc.team948.utilities.ShooterCalculator;
+
+import org.usfirst.frc.team948.utilities.SmartDashboardGroups;
+import org.usfirst.frc.team948.utilities.TestGroup;
 import org.usfirst.frc.team948.utilities.VisionField;
 
 import edu.wpi.cscore.UsbCamera;
@@ -262,11 +265,14 @@ public class Robot extends IterativeRobot {
 		boolean visionHasData = visionProcessor.dataExists();
 		if (visionHasData) {
 			VisionField field = visionProcessor.getData();
-			SmartDashboard.putNumber("Vision: V", field.v);
-			SmartDashboard.putNumber("Vision: Zeta", field.zeta);
-			SmartDashboard.putNumber("Vision: distance to target", field.distanceToTarget);
+			if (SmartDashboardGroups.VISION_DATA) {
+				SmartDashboard.putNumber("Vision: V", field.v);
+				SmartDashboard.putNumber("Vision: Zeta", field.zeta);
+				SmartDashboard.putNumber("Vision: distance to target", field.distanceToTarget);
+			}
 		}
-		SmartDashboard.putBoolean("Vision has Data", visionHasData);
+		if (SmartDashboardGroups.VISION_DATA)
+			SmartDashboard.putBoolean("Vision has Data", visionHasData);
 		RobotMap.shooterAngleServo.set((OI.rightJoystick.getZ() + 1) / 2);
 	}
 
@@ -281,63 +287,52 @@ public class Robot extends IterativeRobot {
 
 	public void periodicAll() {
 		AutoPosition position = OI.getAutoPosition();
-		if (position != null) {// if smart dashboard is not open it gives a null
+		if (position != null) { // if smart dashboard is not open it gives a null
 			// pointer exception.
 			SmartDashboard.putString("Auto position", position.toString());
 		}
-		SmartDashboard.putString("Peg position", pegLocator.getPegPosition().toString()); // testing
-																							// peg
-																							// position
-																							// of
-																							// robot
-		SmartDashboard.putNumber("Shooter Encoder", RobotMap.shooterEncoder.get());
-		SmartDashboard.putNumber("Shooter servo value", (OI.rightJoystick.getZ() + 1) / 2);
-		SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
-		SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
-		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.get());
-		SmartDashboard.putNumber("Right encoder", RobotMap.rightEncoder.get());
-		String ultraSoundData = String.format("%.2f, %.2f", RobotMap.ultraSound.getVoltage(),
-				RobotMap.ultraSound.getDistanceInches());
-		SmartDashboard.putString("Ultrasound sensor: volts , Inches", ultraSoundData);
-		SmartDashboard.putBoolean("High gear?", gearbox.isHighGear());
-		SmartDashboard.putString("Solenoid value", RobotMap.gearboxSolenoid.get().toString());
-		SmartDashboard.putNumber("Turn to boiler angle", shooterCalculator.getTurnAngleToBoiler());
-		SmartDashboard.putNumber("RPM from position tracker", shooterCalculator.getShooterRPM());
-		SmartDashboard.putNumber("gyro", RobotMap.continuousGyro.getAngle());
+		SmartDashboard.putString("Peg position", pegLocator.getPegPosition().toString()); // testing peg position
 
-		SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
-		SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
-		SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));
-		SmartDashboard.putNumber("Channel 0", RobotMap.pdp.getCurrent(0));
+		if (SmartDashboardGroups.OUTPUTS) {
+			SmartDashboard.putNumber("Shooter servo value", (OI.rightJoystick.getZ() + 1) / 2);
+			SmartDashboard.putBoolean("High gear", gearbox.isHighGear());
+			SmartDashboard.putString("Gearbox solenoid value", RobotMap.gearboxSolenoid.get().toString());
+			SmartDashboard.putNumber("FrontLeft motor power", RobotMap.motorFrontLeft.get());
+			SmartDashboard.putNumber("BackLeft motor power", RobotMap.motorBackLeft.get());
+			SmartDashboard.putNumber("FrontRight motor power", RobotMap.motorFrontRight.get());
+			SmartDashboard.putNumber("BackRight motor power", RobotMap.motorBackRight.get());
+		}
+		
+		if (SmartDashboardGroups.JOYSTICKS_AND_BUTTONS) {
+			SmartDashboard.putNumber("Left joystick y", OI.leftJoystick.getY());
+			SmartDashboard.putNumber("Right joystick y", OI.rightJoystick.getY());
+			SmartDashboard.putNumber("Right joystick z", OI.rightJoystick.getZ());
+			SmartDashboard.putNumber("Test Target RPM", SpinShooterToRPM.getTargetRPM());
+		}
+		
+		if (SmartDashboardGroups.INPUTS)
+		{
+			SmartDashboard.putNumber("Shooter encoder", RobotMap.shooterEncoder.get());
+			SmartDashboard.putNumber("Left drive encoder", RobotMap.leftEncoder.get());
+			SmartDashboard.putNumber("Right drive encoder", RobotMap.rightEncoder.get());
+			SmartDashboard.putNumber("Gyro", RobotMap.continuousGyro.getAngle());
+			boolean haveGearLow = !RobotMap.lowerGearSensor.get();
+			boolean haveGearHigh = !RobotMap.upperGearSensor.get();
+			SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
+			SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
+			SmartDashboard.putNumber("Calculated RPM from position tracker", shooterCalculator.getShooterRPM());
+			SmartDashboard.putNumber("Calculated angle to turn to boiler", shooterCalculator.getTurnAngleToBoiler());
+			SmartDashboard.putString("PositionTracker", positionTracker.toString());
+		}
 
-		SmartDashboard.putNumber("Right joystick z", OI.rightJoystick.getZ());
-		SmartDashboard.putNumber("FrontLeft", RobotMap.motorFrontLeft.get());
-		SmartDashboard.putNumber("BackLeft", RobotMap.motorBackLeft.get());
-		SmartDashboard.putNumber("FrontRight", RobotMap.motorFrontRight.get());
-		SmartDashboard.putNumber("BackRight", RobotMap.motorBackRight.get());
-		SmartDashboard.putBoolean("Upper gear sensor", !RobotMap.upperGearSensor.get());
-		boolean haveGearLow = !RobotMap.lowerGearSensor.get();
-		boolean haveGearHigh = !RobotMap.upperGearSensor.get();
-		SmartDashboard.putNumber("Test Target RPM", SpinShooterToRPM.getTargetRPM());
-		// boolean visionOnTarget = !RobotMap.visionOnTarget.get();
-
-		SmartDashboard.putBoolean("Lower gear sensor", haveGearLow);
-		SmartDashboard.putBoolean("Upper gear sensor", haveGearHigh);
-		SmartDashboard.putString("Position Tracker", positionTracker.toString());
-		SmartDashboard.putNumber("Blocked via averaging", positionTracker.objectInfront(true) ? 1.0 : 0.0);
-		SmartDashboard.putNumber("Blocked via raw data", positionTracker.objectInfront(false) ? 1.0 : 0.0);
-		// SmartDashboard.putBoolean("Vision on target", visionOnTarget);
-
-		// if (visionOnTarget){
-		// RobotMap.gearLight.turnGreenOn();
-		// }
-		// else{
-		// RobotMap.gearLight.turnGreenOff();
-		// }
+		if (SmartDashboardGroups.PDP) {
+			SmartDashboard.putNumber("Channel 13", RobotMap.pdp.getCurrent(13));
+			SmartDashboard.putNumber("Channel 14", RobotMap.pdp.getCurrent(14));
+			SmartDashboard.putNumber("Channel 3", RobotMap.pdp.getCurrent(3));
+			SmartDashboard.putNumber("Channel 0", RobotMap.pdp.getCurrent(0));			
+		}
 
 		ledStrip.updateLights();
-
-		// SmartDashboard.putNumber("Camera", targetCam.getBrightness());
 		visionProcessor.dataExists();
 	}
 }
