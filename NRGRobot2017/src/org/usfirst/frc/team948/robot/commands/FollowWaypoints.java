@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team948.robot.Robot;
 import org.usfirst.frc.team948.utilities.Waypoint;
+import org.usfirst.frc.team948.utilities.Waypoint.CoordinateType;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -23,8 +24,13 @@ public class FollowWaypoints extends Command {
 		waypointIndex++;
 		if (waypointIndex < waypoints.size()) {
 			currentWaypoint = waypoints.get(waypointIndex);
-			targetX += currentWaypoint.getX();
-			targetY += currentWaypoint.getY();
+			if (currentWaypoint.getType() == CoordinateType.RELATIVE) {
+				targetX += currentWaypoint.getX();
+				targetY += currentWaypoint.getY();
+			} else {
+				targetX = currentWaypoint.getX();
+				targetY = currentWaypoint.getY();
+			}
 		}
 	}
 	

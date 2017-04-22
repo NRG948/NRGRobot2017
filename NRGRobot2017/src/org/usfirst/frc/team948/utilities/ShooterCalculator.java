@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class ShooterCalculator {
 	public static final double G = 32.2 * 12;
-	public static final double BLUE_BOILER_X = 8.75; // 6.045;
-	public static final double BLUE_BOILER_Y = 8.75; // 6.3;
+	public static final double BLUE_BOILER_X = 8.75 - 0; // 6.045;
+	public static final double BLUE_BOILER_Y = 8.75 + 0; // 6.3;
 	public static final double RED_BOILER_X = Robot.FIELD_WIDTH - 8.75; // 6.045;
 	public static final double RED_BOILER_Y = 8.75; // 6.3;
 

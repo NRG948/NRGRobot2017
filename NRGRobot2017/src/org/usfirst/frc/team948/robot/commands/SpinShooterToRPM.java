@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SpinShooterToRPM extends Command {
 
 	protected double targetRPM;
-	private boolean getRPMFromJoystick;
+	private boolean getRPMFromJoystick = false;
 
 	public SpinShooterToRPM() {
 		requires(Robot.shooter);
@@ -26,6 +26,10 @@ public class SpinShooterToRPM extends Command {
 		targetRPM = rpm;
 	}
 
+	public static double getTargetRPM() {
+		return (OI.leftJoystick.getZ() + 1) * 50 + 2900; // 2900 - 2950 RPM
+	}
+	
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.shooter.rampToRPMinit();
@@ -39,9 +43,6 @@ public class SpinShooterToRPM extends Command {
 		Robot.shooter.rampToRPM(targetRPM);
 	}
 
-	public static double getTargetRPM() {
-		return (OI.leftJoystick.getZ() + 1) * 50 + 2900; // 2900 - 2950 RPM
-	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {

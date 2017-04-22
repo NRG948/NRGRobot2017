@@ -30,6 +30,7 @@ public class Turn extends Command {
 		Robot.drive.turnToHeadingInitNoPID(desiredHeading);
 		SmartDashboard.putString("Turn command: degrees to turn, desired heading = ",
 				degreesToTurn + ", " + desiredHeading);
+		System.out.println("Relative turn to " + (int) desiredHeading + "\n");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -45,6 +46,7 @@ public class Turn extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drive.turnToHeadingEndNoPID(desiredHeading);
+		System.out.println("Turn has ended with error " + Robot.drive.getTurnError() + "\n");
 	}
 
 	// Called when another command which requires one or more of the same

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * continuousGyro.getHeading()
  */
 public class DriveStraightDistance extends Command {
-	private final double DEFAULT_AUTONOMOUS_POWER = 0.5;
+	private final double DEFAULT_AUTONOMOUS_POWER = 0.75;
 
 	private double power;
 	protected double distance;
@@ -63,6 +63,7 @@ public class DriveStraightDistance extends Command {
 			}
 		}
 		Robot.drive.driveOnHeadingInit(desiredHeading);
+		System.out.println("Driving " + distance + " inches\n");
 		cyclesWithinTolerance = 0;
 	}
 
@@ -98,6 +99,7 @@ public class DriveStraightDistance extends Command {
 	@Override
 	protected void end() {
 		Robot.drive.driveOnHeadingEnd();
+		System.out.println("DriveStraightDistance command has ended\n");
 	}
 
 	@Override

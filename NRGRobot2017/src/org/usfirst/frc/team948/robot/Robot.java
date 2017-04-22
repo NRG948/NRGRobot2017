@@ -85,15 +85,17 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public enum AutoPosition {
-		RED_CENTER(FIELD_WIDTH / 2, ROBOT_LENGTH / 2), BLUE_CENTER(FIELD_WIDTH / 2, ROBOT_LENGTH / 2),
+		RED_CENTER(FIELD_WIDTH / 2, ROBOT_LENGTH / 2),
+		BLUE_CENTER(FIELD_WIDTH / 2, ROBOT_LENGTH / 2),
+		
+		RED_LEFT(RED_LEFT_X, ROBOT_LENGTH / 2),
+		BLUE_LEFT(BLUE_LEFT_X, ROBOT_LENGTH / 2),
 
-		RED_LEFT(RED_LEFT_X, ROBOT_LENGTH / 2), BLUE_RIGHT(BLUE_RIGHT_X, ROBOT_LENGTH / 2),
-
-		RED_RIGHT(RED_RIGHT_X, ROBOT_LENGTH / 2), BLUE_LEFT(BLUE_LEFT_X, ROBOT_LENGTH / 2),
-
-		// X and y coordinates are no longer accurate and not used.
-		RED_SHOOT_THEN_GEAR(FIELD_WIDTH - ROBOT_X_BOILER, ROBOT_LENGTH / 2, 140), BLUE_SHOOT_THEN_GEAR(ROBOT_X_BOILER,
-				ROBOT_LENGTH / 2, -135);
+		RED_RIGHT(RED_RIGHT_X, ROBOT_LENGTH / 2),
+		BLUE_RIGHT(BLUE_RIGHT_X, ROBOT_LENGTH / 2),
+		
+		RED_SHOOT_THEN_GEAR(FIELD_WIDTH - 41, ROBOT_LENGTH / 2, 142),
+		BLUE_SHOOT_THEN_GEAR(38, 26, -135);
 
 		public double x, y, initialHeading;
 
@@ -244,6 +246,8 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		RobotMap.shooterGate.setDisabled();
+		
 		System.out.println("Teleop init\n");
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
@@ -273,7 +277,7 @@ public class Robot extends IterativeRobot {
 		}
 		if (SmartDashboardGroups.VISION_DATA)
 			SmartDashboard.putBoolean("Vision has Data", visionHasData);
-		RobotMap.shooterAngleServo.set((OI.rightJoystick.getZ() + 1) / 2);
+//		RobotMap.shooterGate.set((OI.rightJoystick.getZ() + 1) / 2);
 	}
 
 	/**

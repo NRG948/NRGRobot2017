@@ -9,6 +9,7 @@ import org.usfirst.frc.team948.robot.commandgroups.ShootSequence;
 import org.usfirst.frc.team948.robot.commands.BallCollect;
 import org.usfirst.frc.team948.robot.commands.BallCollect.BallCollectDirection;
 import org.usfirst.frc.team948.robot.commands.ClimbPower;
+import org.usfirst.frc.team948.robot.commands.CloseBallGate;
 import org.usfirst.frc.team948.robot.commands.FeedBalls;
 import org.usfirst.frc.team948.robot.commands.FlipCameraLight;
 import org.usfirst.frc.team948.robot.commands.Interrupt;
@@ -17,7 +18,6 @@ import org.usfirst.frc.team948.robot.commands.ResetSensors;
 import org.usfirst.frc.team948.robot.commands.ShiftGears;
 import org.usfirst.frc.team948.robot.commands.Shoot;
 import org.usfirst.frc.team948.robot.commands.SpinShooterToRPM;
-import org.usfirst.frc.team948.robot.commands.StopSuckingBalls;
 import org.usfirst.frc.team948.utilities.PreferenceKeys;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -87,7 +87,7 @@ public class OI {
 		acquirerBackward.whenPressed(new BallCollect(BallCollectDirection.OUT));
 		acquirerBackward.whenReleased(new BallCollect(BallCollectDirection.OFF));
 		feedShooter.whenActive(new FeedBalls());
-		feedShooter.whenInactive(new StopSuckingBalls());
+		feedShooter.whenInactive(new CloseBallGate());
 		// feeder.toggleWhenActive(new FeedBall(0.5, false));
 		rpmShooter.whenReleased(new SpinShooterToRPM());
 		rpmShooter.whenPressed(new SpinShooterToRPM(0));
@@ -122,6 +122,9 @@ public class OI {
 					autoPosition = AutoPosition.RED_RIGHT;
 				} else if (OI.autoMiddle.get()) {
 					autoPosition = AutoPosition.RED_CENTER;
+				}else{
+					//Safe default if the arduino is broken.
+					autoPosition = AutoPosition.RED_LEFT;
 				}
 			} else {
 				if (OI.shootOnly.get()) {
@@ -132,6 +135,9 @@ public class OI {
 					autoPosition = AutoPosition.BLUE_RIGHT;
 				} else if (OI.autoMiddle.get()) {
 					autoPosition = AutoPosition.BLUE_CENTER;
+				}else{
+					//Safe default if the arduino is broken.
+					autoPosition = AutoPosition.BLUE_RIGHT;
 				}
 			}
 		}
@@ -140,7 +146,7 @@ public class OI {
 	}
 
 	public static AutoMovement getAutoMovement() {
-		AutoMovement autoMovement = null;
+		AutoMovement autoMovement = AutoMovement.CONTINUE_TO_END;
 		if (OI.driveAirship.get()) {
 			autoMovement = AutoMovement.STOP_AT_AIRSHIP;
 		} else if (OI.driveShort.get()) {

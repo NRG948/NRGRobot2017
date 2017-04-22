@@ -28,6 +28,7 @@ public class TurnToHeading extends Command {
 			power = RobotMap.preferences.getDouble(PreferenceKeys.AUTONOMOUS_TURN_POWER, 0.5);
 		}
 		Robot.drive.turnToHeadingInitNoPID(desiredHeading);
+		System.out.println("Turning to " + (int) desiredHeading + "\n");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -43,6 +44,7 @@ public class TurnToHeading extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drive.turnToHeadingEndNoPID(desiredHeading);
+		System.out.println("Turn has ended with error " + Robot.drive.getTurnError() + "\n");
 	}
 
 	// Called when another command which requires one or more of the same

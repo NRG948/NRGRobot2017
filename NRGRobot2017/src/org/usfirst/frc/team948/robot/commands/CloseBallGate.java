@@ -1,22 +1,19 @@
 package org.usfirst.frc.team948.robot.commands;
 
 import org.usfirst.frc.team948.robot.Robot;
-import org.usfirst.frc.team948.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class StopShooterAndBallFeed extends Command {
-	public StopShooterAndBallFeed() {
-        requires(Robot.shooter);
+public class CloseBallGate extends Command {
+    public CloseBallGate() {
         requires(Robot.ballFeeder);
     }
 
     protected boolean isFinished() {
-    	Robot.shooter.stop();
-    	Robot.ballFeeder.stop();
+    	Robot.ballFeeder.closeBallGate();
         return true;
     }
 }

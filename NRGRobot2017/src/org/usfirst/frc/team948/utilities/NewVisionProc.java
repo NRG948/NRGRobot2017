@@ -203,8 +203,8 @@ public class NewVisionProc {
 				SmartDashboard.putNumber("visionFrameWidth", image.frameWidth);
 				SmartDashboard.putNumber("visionProcessTime", image.processTime);
 				SmartDashboard.putNumber("Distance to target", rectDistance(image));
-				SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta * 180 / Math.PI);
 			}
+			SmartDashboard.putNumber("Angle to peg center", Robot.visionProcessor.getData().theta * 180 / Math.PI);
 			return true;
 		}
 		return false;

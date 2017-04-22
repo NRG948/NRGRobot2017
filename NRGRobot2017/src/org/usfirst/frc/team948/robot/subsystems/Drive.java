@@ -61,6 +61,10 @@ public class Drive extends Subsystem implements PIDOutput, Sendable {
 	private int requiredCyclesOnTarget;
 	private double driveScaleFactor = 1.0;
 
+	public double getTurnError() {
+		return turnError;
+	}
+
 	public void initDefaultCommand() {
 		setDefaultCommand(new ManualDrive());
 	}

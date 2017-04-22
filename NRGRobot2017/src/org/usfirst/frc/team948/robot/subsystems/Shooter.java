@@ -30,7 +30,7 @@ public class Shooter extends Subsystem {
 	private double h0;
 	private double kp;
 	private int onTargetCount;
-	
+
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
@@ -40,10 +40,13 @@ public class Shooter extends Subsystem {
 	public void setPower(double power) {
 		// Ejecting balls requires negative power values.
 		RobotMap.shooterWheelTop.set(-power);
+		// Always run the bottom wheel at full power
+		RobotMap.shooterWheelBottom.set(-1);
 	}
 
 	public void stop() {
 		RobotMap.shooterWheelTop.disable();
+		RobotMap.shooterWheelBottom.disable();
 	}
 
 	private void addRPMValueToArray() {
@@ -53,7 +56,7 @@ public class Shooter extends Subsystem {
 		currentCount = Math.min(currentCount + 1, MAX_RPM_SAMPLES);
 	}
 
-	public double getAverageRPM(int numberOfValues){
+	public double getAverageRPM(int numberOfValues) {
 		if (currentCount == 0)
 			return 0;
 		if (numberOfValues <= 0) {
@@ -93,15 +96,15 @@ public class Shooter extends Subsystem {
 		if (!passedThreshold) {
 			if (currentRPM > targetRPM) {
 				passedThreshold = true;
-				wheelPower = 0.85;
+				wheelPower = 0.623;
 			}
 		} else {
 			// Turn_Half_Back_P
 			double diff = targetRPM - currentRPM;
 			boolean onTargetRPM = (Math.abs(diff) <= RPM_TOLERANCE);
-			if(onTargetRPM){
+			if (onTargetRPM) {
 				onTargetCount++;
-			}else{
+			} else {
 				onTargetCount = 0;
 			}
 			wheelPower += diff * kp;
@@ -117,12 +120,12 @@ public class Shooter extends Subsystem {
 		}
 		setPower(wheelPower);
 		SmartDashboard.putNumber("Shooter output", wheelPower);
-		
 	}
-	public boolean onTargetRPM(){
+
+	public boolean onTargetRPM() {
 		return onTargetCount >= REQUIRED_ON_TARGET_COUNT;
 	}
-	
+
 	public void rampToRPMEnd() {
 		setPower(0);
 	}
