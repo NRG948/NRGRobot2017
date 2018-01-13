@@ -112,7 +112,8 @@ public class OI {
 		DriverStation ds = DriverStation.getInstance();
 		if (RobotMap.preferences.getBoolean(PreferenceKeys.USE_POSITION_CHOOSER, true)) {
 			autoPosition = Robot.autoPositionChooser.getSelected();
-		} else {
+		} else 
+		{
 			if (ds.getAlliance() == DriverStation.Alliance.Red) {
 				if (OI.shootOnly.get()) {
 					autoPosition = AutoPosition.RED_SHOOT_THEN_GEAR;
